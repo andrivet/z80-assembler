@@ -29,6 +29,10 @@
       "options": {
         "lintFilePatterns": ["libs/z80-assembler/**/*.ts"]
       }
+    },
+    "compile grammar": {
+      "command": "tspeg --regex-flags=i ./packages/z80-assembler/src/grammar/z80.peg ./packages/z80-assembler/src/grammar/z80.ts",
+      "outputs": ["./packages/z80-assembler/src/grammar/z80.ts"]
     }
   },
   "tags": []
