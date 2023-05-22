@@ -6,6 +6,10 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/z80-assembler-app',
 
+  build: {
+    chunkSizeWarningLimit: 1024
+  },
+
   server: {
     port: 4200,
     host: 'localhost',
