@@ -20,7 +20,7 @@
         }
       }
     },
-    "serve": {
+    "dev": {
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
