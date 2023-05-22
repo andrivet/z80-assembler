@@ -1,12 +1,13 @@
 {
   "name": "@z80-assembler/source",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "1.0.0",
+  "license": "GPLv3",
   "scripts": {},
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@swc/helpers": "~0.5.0",
+    "codemirror": "^6.0.1",
     "daisyui": "^2.51.6",
     "react": "18.2.0",
     "react-daisyui": "^3.1.2",
@@ -45,6 +46,7 @@
     "postcss": "8.4.21",
     "prettier": "^2.6.2",
     "tailwindcss": "3.2.7",
+    "tspeg": "^3.2.2",
     "typescript": "~5.0.2",
     "vite": "^4.3.4",
     "vite-plugin-dts": "~1.7.1",

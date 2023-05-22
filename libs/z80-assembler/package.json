@@ -1,5 +1,7 @@
 {
   "name": "@andrivet/z80-assembler",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "author": "Sebastien Andrivet",
+  "license": "GPLv3",
   "type": "commonjs"
 }
