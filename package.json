@@ -6,7 +6,9 @@
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.0",
+    "daisyui": "^2.51.6",
     "react": "18.2.0",
+    "react-daisyui": "^3.1.2",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "@vitest/coverage-c8": "^0.31.0",
     "@vitest/ui": "^0.31.0",
+    "autoprefixer": "10.4.13",
     "cypress": "^12.11.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
@@ -38,7 +41,9 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jsdom": "~20.0.3",
     "nx": "16.2.1",
+    "postcss": "8.4.21",
     "prettier": "^2.6.2",
+    "tailwindcss": "3.2.7",
     "typescript": "~5.0.2",
     "vite": "^4.3.4",
     "vite-plugin-dts": "~1.7.1",
