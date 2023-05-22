@@ -8,7 +8,7 @@ import {FolderOpenIcon, CogIcon, ChevronDownIcon, XMarkIcon} from '@heroicons/re
 import CodeMirror from '@uiw/react-codemirror';
 import { fileOpen, directoryOpen, fileSave, supported, FileWithDirectoryAndFileHandle } from "browser-fs-access";
 import { AppZ80Opcodes } from "./z80-opcodes";
-import { compile } from "@andrivet/z80-assembler";
+import {Chunk, CompilationError, compile, formatBytes} from "@andrivet/z80-assembler";
 
 
 type CodeFile = {
@@ -44,6 +44,7 @@ export function App() {
   const [code, setCode] = useState('');
   const [errors, setErrors] = useState<CompilationError[] | undefined>();
   const [bytes, setBytes] = useState<number[] | undefined>();
+  const [chunks, setChunks] = useState<Chunk[] | undefined>();
 
   async function onOpenCode() {
     const blob = await fileOpen({
@@ -99,8 +100,16 @@ export function App() {
   function onCompile() {
     const code = codeFiles[currentFile].code;
     const info = compile(code);
-    setBytes(info.bytes);
-    setErrors(info.errs);
+    if(info.errs.length > 0) {
+      setBytes([]);
+      setChunks([]);
+      setErrors(info.errs);
+    }
+    else {
+      setBytes(info.bytes);
+      setChunks(formatBytes(info.bytes, 16));
+      setErrors(undefined);
+    }
   }
 
   async function onSaveCode() {

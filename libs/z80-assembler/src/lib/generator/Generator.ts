@@ -1,21 +1,21 @@
 import {ASTKinds, MatchAttempt, ParseResult, Program, Statement, SyntaxErr} from "../grammar/z80";
 import {addLabel, addLabelExpression, getUnknownLabels, resetLabels} from "../compiler/Labels";
 import {Byte, Bytes, bytes, getByteSize, isAbstract} from "../compiler/Ast";
-import {AssemblerError} from "../compiler/Error";
+import {CompilationError} from "../compiler/Error";
 
-export type Chunk = {
+type Chunk = {
   address: string;
   bytes: string;
 }
 
-export type ProgramInfo = {
+type ProgramInfo = {
   bytes: bytes;
   outputName: string;
   outputSldName: string;
   address: number;
 };
 
-export function generate(result: ParseResult) {
+function generate(result: ParseResult) {
   const prg = result.ast?.program;
   if(!prg) return [];
 
@@ -25,7 +25,7 @@ export function generate(result: ParseResult) {
 
   const unknowns = getUnknownLabels().join(', ');
   if(unknowns.length > 0)
-    throw new AssemblerError({line: 1, offset: 0, overallPos: 0}, `Unknown value for labels: ${unknowns}`);
+    throw new CompilationError({line: 1, offset: 0, overallPos: 0}, `Unknown value for labels: ${unknowns}`);
 
   return generateProgramBytes(prg);
 }
@@ -72,7 +72,7 @@ function generateBytes(address: number, bytes: Bytes): bytes {
     return bytes.reduce((r: bytes, c: Byte) => r.concat(isAbstract(c) ? c.generate(address) : [c]), [] as bytes)
 }
 
-export function format(bytes: number[], perLine: number): Chunk[] {
+function formatBytes(bytes: number[], perLine: number): Chunk[] {
   let data: Chunk[] = [];
   let address = 0;
   while(address < bytes.length) {
@@ -86,24 +86,15 @@ export function format(bytes: number[], perLine: number): Chunk[] {
   return data;
 }
 
-export function exportBytes(data: number[] | undefined) {
-  if(!data) return;
-  const bytes = Uint8Array.from(data);
-  const blob = new Blob([bytes]);
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = "bytes.dat";
-  link.click();
-}
-
 function formatMatch(match: MatchAttempt) {
   if(match.kind === 'EOF') return " end of code";
   const not = match.negated ? 'not ' : '';
   return ` ${not}${match.literal}`;
 }
 
-export function formatError(err: SyntaxErr | string): string {
+function formatError(err: SyntaxErr | string): string {
   if(!(err instanceof SyntaxErr)) return err;
   return `Expected one of${err.expmatches.map(m => formatMatch(m))}`
 }
+
+export {formatError, formatBytes, generate, Chunk, ProgramInfo};

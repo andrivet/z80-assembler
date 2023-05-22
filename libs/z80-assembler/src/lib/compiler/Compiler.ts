@@ -1,9 +1,7 @@
-import {Parser, SyntaxErr} from "../grammar/z80";
+import {Parser} from "../grammar/z80";
 import {Bytes, bytes} from "./Ast";
-import {AssemblerError} from "./Error";
-import {generate} from "../generator/Generator";
-
-type CompilationError = SyntaxErr | AssemblerError;
+import {CompilationError} from "./Error";
+import {formatError, generate} from "../generator/Generator";
 
 type CompilationInfo = {
   outputName: string;
@@ -45,7 +43,7 @@ function compile(code: string): CompilationInfo {
         outputName: parseData.outputName,
         outputSld: parseData.outputSld,
         bytes: [],
-        errs: result.errs
+        errs: result.errs.map(e => new CompilationError(e.pos, formatError(e)))
       };
 
     const bytes = generate(result);
@@ -57,8 +55,8 @@ function compile(code: string): CompilationInfo {
     };
   }
   catch(ex: any) {
-    const error = (ex instanceof AssemblerError) ? ex :
-      new AssemblerError({line: 1, offset: 0, overallPos: 0}, ex.toString());
+    const error = (ex instanceof CompilationError) ? ex :
+      new CompilationError({line: 1, offset: 0, overallPos: 0}, formatError(ex));
 
     return {
       outputName: parseData.outputName,
@@ -74,6 +72,5 @@ export {
   includeFile,
   setOutputName,
   setDeviceName,
-  CompilationInfo,
-  CompilationError
+  CompilationInfo
 };
