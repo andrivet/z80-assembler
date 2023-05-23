@@ -86,15 +86,4 @@ function formatBytes(bytes: number[], perLine: number): Chunk[] {
   return data;
 }
 
-function formatMatch(match: MatchAttempt) {
-  if(match.kind === 'EOF') return " end of code";
-  const not = match.negated ? 'not ' : '';
-  return ` ${not}${match.literal}`;
-}
-
-function formatError(err: SyntaxErr | string): string {
-  if(!(err instanceof SyntaxErr)) return err;
-  return `Expected one of${err.expmatches.map(m => formatMatch(m))}`
-}
-
-export {formatError, formatBytes, generate, Chunk, ProgramInfo};
+export {formatBytes, generate, Chunk, ProgramInfo};
