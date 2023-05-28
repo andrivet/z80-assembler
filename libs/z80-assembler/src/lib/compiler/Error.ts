@@ -1,12 +1,12 @@
 import {MatchAttempt, PosInfo, SyntaxErr} from "../grammar/z80";
 
 class CompilationError extends Error {
-  constructor(public readonly pos: PosInfo, message: string) {
+  constructor(public readonly filename: string, public readonly pos: PosInfo, message: string) {
     super(message);
   }
 
   override toString() {
-    return `Line ${this.pos.line}:${this.pos.offset+1} - Syntax Error - ${this.message}`;
+    return `File '${this.filename}', Line ${this.pos.line}:${this.pos.offset+1} - ${this.message}`;
   }
 
   static formatMatch(match: MatchAttempt) {
@@ -21,17 +21,26 @@ class CompilationError extends Error {
       const literal = match.kind === 'EOF' ? 'the end of the code' : match.literal;
       return `${match.negated ? 'Does not expect ' : 'Expect '}${literal}`;
     }
-    return `Expected one of: ${err.expmatches.map(m => CompilationError.formatMatch(m))}`
+    return `Syntax error, expected one of: ${err.expmatches.map(m => CompilationError.formatMatch(m))}`
   }
 
-  static fromSyntaxErr(e: SyntaxErr): CompilationError {
-    return new CompilationError(e.pos, this.formatError(e));
+  static fromSyntaxErr(filename: string, e: SyntaxErr): CompilationError {
+    return new CompilationError(filename, e.pos, this.formatError(e));
   }
 
-  static fromAny(e: any) {
+  static fromAny(filename: string, e: any) {
     if(e instanceof CompilationError) return e;
-    if(e instanceof SyntaxErr) return this.fromSyntaxErr(e);
-    return new CompilationError({line: 1, offset: 0, overallPos: 0}, e.toString());
+    if(e instanceof SyntaxErr) return this.fromSyntaxErr(filename, e);
+    return new CompilationError(filename, {line: 1, offset: 0, overallPos: 0}, e.toString());
+  }
+
+  static is(err: any): err is CompilationError {
+    return (err as CompilationError).filename !== undefined;
+  }
+
+  static isArray(err: any): err is CompilationError[] {
+    const errs = err as CompilationError[];
+    return errs.length !== undefined && (errs.length === 0 || errs[0].filename !== undefined);
   }
 }
 
