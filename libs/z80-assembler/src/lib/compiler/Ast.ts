@@ -1,6 +1,7 @@
 import {ByteValue, Expression, PosInfo, WordValue} from "../grammar/z80";
 import {addLabel, getLabelValue} from "./Labels";
 import {CompilationError} from "./Error";
+import {parseData} from "../compiler/Compiler";
 
 export type byte = number;
 export type bytes = byte[];
@@ -14,19 +15,26 @@ export interface AbstractByte {
 }
 
 class ByteBlock implements AbstractByte {
-  constructor(private pos0: PosInfo, private length: Expression, private pos1: PosInfo | undefined, private value: Expression | undefined) { }
+  private readonly filename = parseData.fileName;
+
+  constructor(
+    private pos0: PosInfo,
+    private length: Expression,
+    private pos1: PosInfo | undefined,
+    private value: Expression | undefined) { }
+
   get size(): number {
     const size = this.length.eval();
-    if(size == null) throw new CompilationError(this.pos0, "Unknown size for the data block");
-    if(size < 0) throw new CompilationError(this.pos0, `Invalid size size for the data block: ${size}`);
+    if(size == null) throw new CompilationError(this.filename, this.pos0, "Unknown size for the data block");
+    if(size < 0) throw new CompilationError(this.filename, this.pos0, `Invalid size size for the data block: ${size}`);
     return size;
   }
 
   private getValue() {
     if(this.value == null || this.pos1 == null) return 0;
     let v =  this.value.eval();
-    if(v == null) throw new CompilationError(this.pos1, `Not able to determine a value`);
-    if(v < -256 || v > 255) throw new CompilationError(this.pos1, `Invalid 8-bits value: ${v}`);
+    if(v == null) throw new CompilationError(this.filename, this.pos1, `Not able to determine a value`);
+    if(v < -256 || v > 255) throw new CompilationError(this.filename, this.pos1, `Invalid 8-bits value: ${v}`);
     if(v < 0) v = 256 + v;
     return v;
   }
@@ -39,49 +47,53 @@ class ByteBlock implements AbstractByte {
 }
 
 class Byte16 implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private expression: Expression) { }
   get size(): number { return 2; }
   generate(_: number): bytes {
     let v = this.expression.eval();
-    if(v == null) throw new CompilationError(this.pos, `Not able to determine the 16-bits value`);
-    if(v < -65536 || v > 65535) throw new CompilationError(this.pos, `Invalid 16-bits value: ${v}`);
+    if(v == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the 16-bits value`);
+    if(v < -65536 || v > 65535) throw new CompilationError(this.filename, this.pos, `Invalid 16-bits value: ${v}`);
     if(v < 0) v = 65536 + v;
     return [v & 0x00FF, (v & 0xFF00) >> 8];
   }
 }
 
 class Byte8 implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private expression: Expression) {}
   get size(): number { return 1; }
   generate(_: number): bytes {
     let v = this.expression.eval();
-    if(v == null) throw new CompilationError(this.pos, `Not able to determine the 8-bits value`);
-    if(v < -256 || v > 255) throw new CompilationError(this.pos, `Invalid 8-bits value: ${v}`);
+    if(v == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the 8-bits value`);
+    if(v < -256 || v > 255) throw new CompilationError(this.filename, this.pos, `Invalid 8-bits value: ${v}`);
     if(v < 0) v = 256 + v;
     return [v];
   }
 }
 
 class ByteNeg8 implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private expression: Expression) {}
   get size(): number { return 1; }
   generate(_: number): bytes {
     let v = this.expression.eval();
-    if(v == null) throw new CompilationError(this.pos, `Not able to determine the 8-bits value`);
+    if(v == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the 8-bits value`);
     v = -v;
-    if(v < -256 || v > 255) throw new CompilationError(this.pos, `Invalid 8-bits value: ${v}`);
+    if(v < -256 || v > 255) throw new CompilationError(this.filename, this.pos, `Invalid 8-bits value: ${v}`);
     if(v < 0) v = 256 + v;
     return [v];
   }
 }
 
 class ByteJr implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private expression: Expression) {}
   get size(): number { return 1; }
   generate(_: number): bytes {
     let offset = this.expression.eval();
-    if(offset == null) throw new CompilationError(this.pos, `Not able to determine the offset value`);
-    if(offset < -126 || offset > 129) throw new CompilationError(this.pos,`Invalid offset for JR instruction: ${offset}`);
+    if(offset == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the offset value`);
+    if(offset < -126 || offset > 129) throw new CompilationError(this.filename, this.pos,`Invalid offset for JR instruction: ${offset}`);
     offset -= 2;
     if(offset < 0) offset = 256 + offset;
     return [offset];
@@ -89,13 +101,14 @@ class ByteJr implements AbstractByte {
 }
 
 class ByteJrRelative implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private label: string) {}
   get size(): number { return 1; }
   generate(instructionAddress: number): bytes {
     const targetAddress = getLabelValue(this.label);
-    if(targetAddress == null) throw new CompilationError(this.pos, `Not able to determine the value of label '${this.label}'`);
+    if(targetAddress == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the value of label '${this.label}'`);
     let offset = targetAddress - instructionAddress;
-    if(offset < -126 || offset > 129) throw new CompilationError(this.pos,`Label ${this.label} is to far from JR instruction: ${offset} bytes`);
+    if(offset < -126 || offset > 129) throw new CompilationError(this.filename, this.pos,`Label ${this.label} is to far from JR instruction: ${offset} bytes`);
     offset -= 2;
     if(offset < 0) offset = 256 + offset;
     return [offset];
@@ -103,11 +116,12 @@ class ByteJrRelative implements AbstractByte {
 }
 
 class ByteLabel implements AbstractByte {
+  private readonly filename = parseData.fileName;
   constructor(private pos: PosInfo, private name: string, private expression: Expression) {}
   get size(): number { return 0; }
   generate(_: number): bytes {
     const target = this.expression.eval();
-    if(target == null) throw new CompilationError(this.pos, `Not able to determine the address of label '${this.name}'`);
+    if(target == null) throw new CompilationError(this.filename, this.pos, `Not able to determine the address of label '${this.name}'`);
     addLabel(this.pos, this.name, target);
     return []; }
 }
@@ -240,20 +254,24 @@ export function dataBlock(pos0: PosInfo, length: Expression, pos1: PosInfo | und
 
 export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: number): number {
   let v = parseInt(str, base);
-  if(isNaN(v)) throw new CompilationError(pos,`Number '${str}' is invalid in base ${base}.`)
+  if(isNaN(v)) throw new CompilationError(parseData.fileName, pos,
+    `Number '${str}' is invalid in base ${base}.`)
   switch(nbBytes) {
     case 1:
-      if(v > 255 || v < -256) throw new CompilationError(pos,`Number '${str}' does not fit into a byte.`);
+      if(v > 255 || v < -256) throw new CompilationError(parseData.fileName, pos,
+        `Number '${str}' does not fit into a byte.`);
       if(v < 0) v = 256 + v;
       break;
 
     case 2:
-      if(v > 65535 || v < -65536) throw new CompilationError(pos,`Number '${str}' does not fit into a word.`);
+      if(v > 65535 || v < -65536) throw new CompilationError(parseData.fileName, pos,
+        `Number '${str}' does not fit into a word.`);
       if(v < 0) v = 65536 + v;
       break;
 
     default:
-      throw new CompilationError(pos,`Invalid number of bytes (${nbBytes})`);
+      throw new CompilationError(parseData.fileName, pos,
+        `Invalid number of bytes (${nbBytes})`);
   }
 
   return v;
@@ -261,7 +279,8 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
 
 export function parseSimpleChar(pos: PosInfo, raw: string): number[] {
   const code = raw.charCodeAt(0);
-  if(code > 127) throw new CompilationError(pos, "Only ASCII characters are supported, use escape for other values.")
+  if(code > 127) throw new CompilationError(parseData.fileName, pos,
+    "Only ASCII characters are supported, use escape for other values.")
   return [code];
 }
 
@@ -287,13 +306,15 @@ export function parseSimpleEscape(value: string): number[] {
 
 export function parseOctalEscape(pos: PosInfo, value: string): number[] {
   const v = parseInt(value, 8);
-  if(v > 255) throw new CompilationError(pos, `Number '${value}' in octal escape sequence does not fit into a byte.`);
+  if(v > 255) throw new CompilationError(parseData.fileName, pos,
+    `Number '${value}' in octal escape sequence does not fit into a byte.`);
   return [v];
 }
 
 export function parseHexadecimalEscape(pos: PosInfo, value: string): number[] {
   const v = parseInt(value, 16);
-  if(v > 255) throw new CompilationError(pos, `Number '${value}' in hexadecimal escape sequence does not fit into a byte.`);
+  if(v > 255) throw new CompilationError(parseData.fileName, pos,
+    `Number '${value}' in hexadecimal escape sequence does not fit into a byte.`);
   return [v];
 }
 
@@ -308,7 +329,8 @@ function parseZX81Char(pos: PosInfo, c: string): number {
   if(c >= 'A' && c < 'Z') return c.charCodeAt(0) - 0x41 + 0x26;
   if(c >= 'a' && c < 'z') return  c.charCodeAt(0) - 0x61 + 0xA6;
   if(c >= '0' && c < '9') return c.charCodeAt(0) - 0x30 + 0x1C;
-  if(!zx81chars.has(c)) throw new CompilationError(pos, `Invalid ZX81 character: ${c}`);
+  if(!zx81chars.has(c)) throw new CompilationError(parseData.fileName, pos,
+    `Invalid ZX81 character: ${c}`);
   return zx81chars.get(c)!;
 }
 
