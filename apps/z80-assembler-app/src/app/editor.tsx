@@ -10,14 +10,10 @@ import {CompilationError} from "@andrivet/z80-assembler";
 const validExt = ['.asm', '.zx81'];
 
 type CodeFile = {
-  name: string,
-  code: string,
-  saved: boolean
+  filepath: string,
+  name: string | undefined,
+  code: string
 };
-
-function isFile(file: FileWithDirectoryAndFileHandle | FileSystemDirectoryHandle): file is FileWithDirectoryAndFileHandle {
-  return (file as FileWithDirectoryAndFileHandle).handle !== undefined;
-}
 
 function getExt(name: string) {
   return /(?:\.([^.]+))?$/.exec(name);
@@ -31,54 +27,67 @@ function isValidExt(name: string){
 
 interface AppEditorProps {
   code: string,
-  setCode: React.Dispatch<React.SetStateAction<string>>;
-  errors: CompilationError[] | undefined;
-  setErrors: React.Dispatch<React.SetStateAction<CompilationError[] | undefined>>;
+  setFilePath: React.Dispatch<React.SetStateAction<string>>,
+  setCode: React.Dispatch<React.SetStateAction<string>>,
+  errors: CompilationError[] | undefined,
+  setErrors: React.Dispatch<React.SetStateAction<CompilationError[] | undefined>>
 }
 
 interface AppEditorHandle {
   openCode: () => void;
   openCodeDirectory: () => void;
   saveCode: () => void;
+  getCode: (filename: string) => string;
 }
 
 function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandle>) {
-  const [codeFiles, setCodeFiles] = useState([{name: 'untitled.asm', code: '', saved: false}]);
-  const [currentFile, setCurrentFile] = useState(0);
+  const [codeFiles, setCodeFiles] = useState<CodeFile[]>([{filepath: '', name: undefined, code: ''}]);
+  const [currentFile, setCurrentFile] = useState<number>(0);
 
   useImperativeHandle(ref, () => {
     return {
       async openCode() {
         const blob = await fileOpen({extensions: validExt});
         closeDropdown();
-        if (!blob.handle) return;
-        const file = await blob.handle.getFile();
-        const content = await file.text();
-        const code: CodeFile = {name: file.name, code: content, saved: true};
-        const files = codeFiles.concat(code);
+        const content = await blob.text();
+
+        let files: CodeFile[] = [];
+        let current = codeFiles[currentFile];
+        if(current.name == null && current.code.length <= 0) {
+          files = [...codeFiles]; // Have to be a copy
+          current = files[currentFile];
+          current.filepath = blob.webkitRelativePath;
+          current.name = blob.name;
+          current.code = content;
+        }
+        else
+          files = [...codeFiles, {filepath: blob.webkitRelativePath, name: blob.name, code: content}]; // Must be a copy
+
         setCodeFiles(files);
         setCurrentFile(files.length - 1);
-        props.setCode(code.code);
+        props.setCode(content);
+        props.setFilePath(blob.webkitRelativePath);
         props.setErrors(undefined);
       },
 
       async openCodeDirectory() {
         const blobs = await directoryOpen({
-          recursive: false
+          recursive: true
         });
         closeDropdown();
 
-        const files = codeFiles;
+        const files = [...codeFiles]; // Have to be a copy
         for (const blob of blobs) {
-          if (!isFile(blob) || !blob.handle || !isValidExt(blob.name)) continue;
-          const file = await blob.handle.getFile();
+          if (!isValidExt(blob.name)) continue;
+          const file = blob as FileWithDirectoryAndFileHandle;
           const content = await file.text();
-          files.push({name: file.name, code: content, saved: true});
+          files.push({filepath: file.webkitRelativePath, name: blob.name, code: content});
         }
         const index = files.length - 1;
         setCodeFiles(files);
         setCurrentFile(index);
-        props.setCode(codeFiles[index].code);
+        props.setCode(files[index].code);
+        props.setFilePath(files[index].filepath);
         props.setErrors(undefined);
       },
 
@@ -88,9 +97,15 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
         if (!file) return;
         const blob = new Blob([file.code]);
         await fileSave(blob, {
-          fileName: file.name,
+          fileName: file.name ?? 'untitled.asm',
           extensions: validExt
         });
+      },
+
+      getCode(filename: string): string {
+        const file = codeFiles.find(f => f.filepath.endsWith(filename));
+        if(file == null) throw new Error(`File ${filename} not found`);
+        return file.code;
       }
     }
   });
@@ -98,18 +113,34 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
   function onChangeTab(index: number) {
     if (index >= codeFiles.length) index = codeFiles.length > 0 ? codeFiles.length - 1 : 0;
     setCurrentFile(index);
-    props.setCode(codeFiles.length > 0 ? codeFiles[index].code : '');
+    if(codeFiles.length > 0) {
+      const file = codeFiles[index];
+      props.setCode(file.code);
+      props.setFilePath(file.filepath);
+    }
+    else {
+      props.setCode('');
+      props.setFilePath('');
+    }
     props.setErrors(undefined);
   }
 
   function onCloseTab(index: number) {
-    let files = codeFiles.slice(0, index).concat(codeFiles.slice(index + 1));
-    if(files.length <= 0) files = [{name: 'untitled.asm', code: '', saved: false}];
-    setCodeFiles(files);
-    if(currentFile === index) {
+    const files = codeFiles.slice(0, index).concat(codeFiles.slice(index + 1));
+    if(files.length <= 0) {
+      setCodeFiles([{filepath: '', name: undefined, code: ''}]);
+      setCurrentFile(0);
+      props.setCode('');
+      props.setFilePath('');
+      props.setErrors(undefined);
+    }
+    else {
+      setCodeFiles(files);
       if (index >= files.length) index = files.length - 1;
       setCurrentFile(index);
-      props.setCode(codeFiles[index].code);
+      const file = files[index];
+      props.setCode(file.code);
+      props.setFilePath(file.filepath);
       props.setErrors(undefined);
     }
   }
@@ -139,7 +170,7 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
               <XMarkIcon
                 className="border rounded h-4 w-4 mr-2 border-slate-500 hover:bg-neutral-600"
                 onClick={() => onCloseTab(index)} />
-              <p onClick={() => onChangeTab(index)}>{file.name}</p>
+              <p onClick={() => onChangeTab(index)}>{file.name ?? 'untitled.asm'}</p>
             </Tabs.Tab>
           ))}
         </Tabs>
