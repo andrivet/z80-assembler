@@ -55,7 +55,7 @@ import {getLabelValue} from '../compiler/Labels';
 import {setOutputName, setDeviceName, includeFile} from '../compiler/Compiler';
 ---
 
-start := program=Program $
+start := lines=Lines $
 
 r := 'a' | 'b' | 'c' | 'd' | 'e' | 'h' | 'l'
 dd := 'bc' | 'de' | 'hl' | 'sp'
@@ -104,7 +104,7 @@ __   := '[ \t]+'                 // Mandatory space
 _    := '[ \t]*'                 // Optional space
 _eos := '[ \t]*(;|\r\n|\n|//)'   // End of statement
 
-Program :=
+Lines :=
     Line*
 
 Line :=
