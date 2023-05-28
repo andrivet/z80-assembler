@@ -1149,8 +1149,8 @@ OriginDirective :=
     '\.?org' __ address=nn &_eos
 
 Filename :=
-    '"' raw='[^"/\\:\*\?<>\|%#\$,]+' '"' |
-    raw='[^ \t\r\n"/\\:\*\?<>\|%#\$,]+'
+    '"' raw='[^"\\:\*\?<>\|%#\$,]+' '"' |
+    raw='[^ \t\r\n"\\:\*\?<>\|%#\$,]+'
 
 IncludeDirective :=
     '\.?include' __ name=Filename &_eos
