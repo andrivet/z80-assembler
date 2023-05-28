@@ -6,11 +6,6 @@ export type Label = {
   known: boolean;
 };
 
-export type LabelInfo = {
-  name: string;
-  value: number;
-};
-
 export type Labels = Map<string, Label>;
 
 const labels: Labels = new Map<string, Label>();
@@ -65,9 +60,8 @@ export function getLabelValue(name: string): number | null {
   return value;
 }
 
-export function getUnknownLabels(): LabelInfo[] {
+export function getUnknownLabels(): string[] {
   return [...labels.entries()]
     .filter(([name, label]) => !label.known && getLabelValue(name) == null)
-    .map(([name, label]) =>
-      ({name: name, value: label.value}));
+    .map(([name]) => name);
 }
