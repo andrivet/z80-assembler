@@ -115,9 +115,11 @@ Equal :=
 
 LineEqual :=
     label=LabelDeclaration _ Equal __ e=Expression _ comment=Comment? '\r\n|\n'
+    .bytes = Bytes { return []; }
 
 LineStatement :=
     label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
+    .bytes = Bytes { return statement ? statement.bytes : []; }
 
 Statement :=
     instruction=Instruction

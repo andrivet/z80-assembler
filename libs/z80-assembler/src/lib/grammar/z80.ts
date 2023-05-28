@@ -54,7 +54,7 @@
 * import {getLabelValue} from '../compiler/Labels';
 * import {setOutputName, setDeviceName, includeFile} from '../compiler/Compiler';
 * ---
-* start := program=Program $
+* start := lines=Lines $
 * r := 'a' | 'b' | 'c' | 'd' | 'e' | 'h' | 'l'
 * dd := 'bc' | 'de' | 'hl' | 'sp'
 * ss := dd
@@ -91,7 +91,7 @@
 * __   := '[ \t]+'                 // Mandatory space
 * _    := '[ \t]*'                 // Optional space
 * _eos := '[ \t]*(;|\r\n|\n|//)'   // End of statement
-* Program :=
+* Lines :=
 *     Line*
 * Line :=
 *     LineEqual | LineStatement
@@ -99,8 +99,10 @@
 *     '\.?equ|eq'
 * LineEqual :=
 *     label=LabelDeclaration _ Equal __ e=Expression _ comment=Comment? '\r\n|\n'
+*     .bytes = Bytes { return []; }
 * LineStatement :=
 *     label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
+*     .bytes = Bytes { return statement ? statement.bytes : []; }
 * Statement :=
 *     instruction=Instruction
 *     .bytes = Bytes { return instruction.bytes; }
@@ -878,8 +880,8 @@
 * OriginDirective :=
 *     '\.?org' __ address=nn &_eos
 * Filename :=
-*     '"' raw='[^"/\\:\*\?<>\|%#\$,]+' '"' |
-*     raw='[^ \t\r\n"/\\:\*\?<>\|%#\$,]+'
+*     '"' raw='[^"\\:\*\?<>\|%#\$,]+' '"' |
+*     raw='[^ \t\r\n"\\:\*\?<>\|%#\$,]+'
 * IncludeDirective :=
 *     '\.?include' __ name=Filename &_eos
 *     .bytes = Bytes { return includeFile(name.raw); }
@@ -1020,7 +1022,7 @@ export enum ASTKinds {
     __ = "__",
     _ = "_",
     _eos = "_eos",
-    Program = "Program",
+    Lines = "Lines",
     Line_1 = "Line_1",
     Line_2 = "Line_2",
     Equal = "Equal",
@@ -1483,7 +1485,7 @@ export enum ASTKinds {
 }
 export interface start {
     kind: ASTKinds.start;
-    program: Program;
+    lines: Lines;
 }
 export type r = r_1 | r_2 | r_3 | r_4 | r_5 | r_6 | r_7;
 export type r_1 = string;
@@ -1691,22 +1693,40 @@ export type jj_4 = string;
 export type __ = string;
 export type _ = string;
 export type _eos = string;
-export type Program = Line[];
+export type Lines = Line[];
 export type Line = Line_1 | Line_2;
 export type Line_1 = LineEqual;
 export type Line_2 = LineStatement;
 export type Equal = string;
-export interface LineEqual {
-    kind: ASTKinds.LineEqual;
-    label: LabelDeclaration;
-    e: Expression;
-    comment: Nullable<Comment>;
+export class LineEqual {
+    public kind: ASTKinds.LineEqual = ASTKinds.LineEqual;
+    public label: LabelDeclaration;
+    public e: Expression;
+    public comment: Nullable<Comment>;
+    public bytes: Bytes;
+    constructor(label: LabelDeclaration, e: Expression, comment: Nullable<Comment>){
+        this.label = label;
+        this.e = e;
+        this.comment = comment;
+        this.bytes = ((): Bytes => {
+        return [];
+        })();
+    }
 }
-export interface LineStatement {
-    kind: ASTKinds.LineStatement;
-    label: Nullable<LabelDeclaration>;
-    statement: Nullable<Statement>;
-    comment: Nullable<Comment>;
+export class LineStatement {
+    public kind: ASTKinds.LineStatement = ASTKinds.LineStatement;
+    public label: Nullable<LabelDeclaration>;
+    public statement: Nullable<Statement>;
+    public comment: Nullable<Comment>;
+    public bytes: Bytes;
+    constructor(label: Nullable<LabelDeclaration>, statement: Nullable<Statement>, comment: Nullable<Comment>){
+        this.label = label;
+        this.statement = statement;
+        this.comment = comment;
+        this.bytes = ((): Bytes => {
+        return statement ? statement.bytes : [];
+        })();
+    }
 }
 export type Statement = Statement_1 | Statement_2;
 export class Statement_1 {
@@ -5038,13 +5058,13 @@ export class Parser {
     public matchstart($$dpth: number, $$cr?: ErrorTracker): Nullable<start> {
         return this.run<start>($$dpth,
             () => {
-                let $scope$program: Nullable<Program>;
+                let $scope$lines: Nullable<Lines>;
                 let $$res: Nullable<start> = null;
                 if (true
-                    && ($scope$program = this.matchProgram($$dpth + 1, $$cr)) !== null
+                    && ($scope$lines = this.matchLines($$dpth + 1, $$cr)) !== null
                     && this.match$EOF($$cr) !== null
                 ) {
-                    $$res = {kind: ASTKinds.start, program: $scope$program};
+                    $$res = {kind: ASTKinds.start, lines: $scope$lines};
                 }
                 return $$res;
             });
@@ -5539,7 +5559,7 @@ export class Parser {
     public match_eos($$dpth: number, $$cr?: ErrorTracker): Nullable<_eos> {
         return this.regexAccept(String.raw`(?:[ \t]*(;|\r\n|\n|//))`, $$dpth + 1, $$cr);
     }
-    public matchProgram($$dpth: number, $$cr?: ErrorTracker): Nullable<Program> {
+    public matchLines($$dpth: number, $$cr?: ErrorTracker): Nullable<Lines> {
         return this.loop<Line>(() => this.matchLine($$dpth + 1, $$cr), true);
     }
     public matchLine($$dpth: number, $$cr?: ErrorTracker): Nullable<Line> {
@@ -5574,7 +5594,7 @@ export class Parser {
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
                 ) {
-                    $$res = {kind: ASTKinds.LineEqual, label: $scope$label, e: $scope$e, comment: $scope$comment};
+                    $$res = new LineEqual($scope$label, $scope$e, $scope$comment);
                 }
                 return $$res;
             });
@@ -5594,7 +5614,7 @@ export class Parser {
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
                 ) {
-                    $$res = {kind: ASTKinds.LineStatement, label: $scope$label, statement: $scope$statement, comment: $scope$comment};
+                    $$res = new LineStatement($scope$label, $scope$statement, $scope$comment);
                 }
                 return $$res;
             });
@@ -12314,7 +12334,7 @@ export class Parser {
                 let $$res: Nullable<Filename_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^"/\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^"\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
                     && this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.Filename_1, raw: $scope$raw};
@@ -12328,7 +12348,7 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<Filename_2> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^ \t\r\n"/\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^ \t\r\n"\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.Filename_2, raw: $scope$raw};
                 }
