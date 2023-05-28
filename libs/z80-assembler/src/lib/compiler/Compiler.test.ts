@@ -1,14 +1,14 @@
-import {compile as rawCompile} from "../compiler/Compiler.ts"
+import {compile as rawCompile} from "../compiler/Compiler"
 import {expect} from "vitest";
 
 function compile(code: string) {
-  const info = rawCompile(code);
+  const info = rawCompile('test.asm', code, () => '');
   expect(info.errs[0]?.toString()).toBeUndefined();
   return info.bytes;
 }
 
 function compileWithError(code: string) {
-  const info = rawCompile(code);
+  const info = rawCompile('test.asm', code, () => '');
   expect(info.errs[0]?.toString()).toBeDefined();
 }
 
