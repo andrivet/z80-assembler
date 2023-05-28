@@ -22,7 +22,8 @@ function BinaryOrOpCodes({showOpCodes, chunks}: BinaryOrOpCodesProps) {
 }
 
 export function App() {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState<string>('');
+  const [filepath, setFilepath] = useState<string>('');
   const [errors, setErrors] = useState<CompilationError[] | undefined>();
   const [bytes, setBytes] = useState<number[] | undefined>();
   const [chunks, setChunks] = useState<Chunk[] | undefined>();
@@ -30,8 +31,13 @@ export function App() {
   const [outputName, setOutputName] = useState<string | undefined>(undefined);
   const ref = useRef<AppEditorHandle>(null);
 
+  function handleGetFileCode(filename: string): string {
+    if(ref.current == null) throw new Error(`Invalid reference to the editor`);
+    return ref.current.getCode(filename);
+  }
+
   function handleCompile() {
-    const info = compile(code);
+    const info = compile(filepath, code, handleGetFileCode);
     if(info.errs.length > 0) {
       setBytes([]);
       setChunks([]);
@@ -69,7 +75,13 @@ export function App() {
       />
       <div className="flex-1 flex m-4 gap-4">
         <div className="flex flex-col w-2/3">
-          <AppEditor ref={ref} code={code} setCode={setCode} errors={errors} setErrors={setErrors} />
+          <AppEditor
+            ref={ref}
+            code={code}
+            setFilePath={setFilepath}
+            setCode={setCode}
+            errors={errors}
+            setErrors={setErrors} />
         </div>
         <div className="flex flex-col w-1/3 z-0">
           <BinaryOrOpCodes showOpCodes={showOpCodes} chunks={chunks}/>
