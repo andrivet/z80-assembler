@@ -16,9 +16,9 @@ export default function AppBinary({chunks}: AppBinaryProps) {
             <Table.Head>{['Address', 'Bytes']}</Table.Head>
             <Table.Body>
               {chunks?.map((data, index) => (
-                <Table.Row key={data.address} className="font-mono">{[
-                  <strong className="text-orange-400">{data.address}</strong>,
-                  <span>{data.bytes}</span>
+                <Table.Row key={data.address}  className="font-mono">{[
+                  <strong key={`addr-${data.address}`} className="text-orange-400">{data.address}</strong>,
+                  <span key={`data-${data.address}`} >{data.bytes}</span>
                 ]}</Table.Row>
               ))}
             </Table.Body>
