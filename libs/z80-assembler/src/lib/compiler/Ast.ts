@@ -1,4 +1,4 @@
-import {ByteValue, Expression, PosInfo, WordValue} from "../grammar/z80";
+import {ByteValue, Expression, Line, PosInfo, WordValue} from "../grammar/z80";
 import {addLabel, getLabelValue} from "./Labels";
 import {CompilationError} from "./Error";
 import {parseData} from "../compiler/Compiler";
@@ -6,6 +6,11 @@ import {parseData} from "../compiler/Compiler";
 export type byte = number;
 export type bytes = byte[];
 export type Address = number | null;
+
+export interface LinesInfo {
+  lines: Line[];
+  filename: string;
+}
 
 export type EvalFunc = () => number | null;
 
@@ -152,15 +157,21 @@ interface UnaryOperation { (a: number): number }
 
 export function binaryOperation<
   Operation extends BinaryOperation,
-  Left extends Evaluable,
   Inner extends Evaluable,
-  Right extends InnerExpression<Inner>>(left: Left, right: Right[], op: Operation): EvalFunc {
+  Left extends InnerExpression<Inner>,
+  Right extends Evaluable>(left: Left[], right: Right, op: Operation): EvalFunc {
   return () => {
-    const value = left.eval();
-    return (value == null) ? null : right.reduce((r: number | null, c: Right) => {
+    const rightValue = right.eval();
+    // If the right value is null, the result is null
+    if(rightValue == null) return null;
+    // If the left side is empty, we return the right side
+    if(left.length <= 0) return rightValue;
+    const leftmostValue = left[0].e.eval();
+    const partial = left.slice(1).reduce((r: number | null, c: Left) => {
       const currentValue = c.e.eval();
       return (r == null || currentValue == null) ? null : op(r, currentValue);
-    }, value);
+    }, leftmostValue);
+    return partial == null ? null : op(partial, rightValue);
   }
 }
 
@@ -169,15 +180,21 @@ type UnaryOperationsMap = { [key: string]: UnaryOperation };
 interface InnerOp<E extends Evaluable> extends InnerExpression<E>{ op: string; }
 
 export function binaryOperations<
-  Left extends Evaluable,
   Inner extends Evaluable,
-  Right extends InnerOp<Inner>>(left: Left, right: Right[], map: BinaryOperationsMap): EvalFunc {
+  Left extends InnerOp<Inner>,
+  Right extends Evaluable>(left: Left[], right: Right, map: BinaryOperationsMap): EvalFunc {
   return () => {
-    const value = left.eval();
-    return (value == null) ? null : right.reduce((r: number | null, c: Right) => {
+    const rightValue = right.eval();
+    // If the right value is null, the result is null
+    if(rightValue == null) return null;
+    // If the left side is empty, we return the right side
+    if(left.length <= 0) return rightValue;
+    const leftmost = left[0];
+    const partial = left.slice(1).reduce((r: number | null, c: Left) => {
       const currentValue = c.e.eval();
       return (r == null || currentValue == null) ? null : map[c.op](r, currentValue);
-    }, value);
+    }, leftmost.e.eval());
+    return partial == null ? null : map[leftmost.op](partial, rightValue);
   }
 }
 

@@ -1,18 +1,31 @@
-import {Parser} from "../grammar/z80";
-import {Bytes, bytes} from "./Ast";
+import {Line, Parser, PosInfo} from "../grammar/z80";
+import {bytes, LinesInfo} from "./Ast";
 import {CompilationError} from "./Error";
-import {generate} from "../generator/Generator";
+import {computeLabels, generateBytes, generateSld} from "../generator/Generator";
+import {getUnknownLabels, resetLabels} from "./Labels";
 
-type CompilationInfo = {
+interface CompilationInfo {
   outputName: string;
   outputSld: boolean;
   bytes: bytes;
+  sld: string; // Source Level Debugging data
   errs: CompilationError[];
-};
+}
 
-const parseData= {
+interface ParseDate {
+  outputName: string,
+  outputSld: boolean,
+  basePath: string,
+  fileName: string,
+  getFileCode: (filename: string) => string
+}
+
+const parseData: ParseDate = {
   outputName: "",
-  outputSld: false
+  outputSld: false,
+  basePath: '',
+  fileName: '',
+  getFileCode: () => ''
 };
 
 function setOutputName(filename: string, sld: boolean) {
@@ -24,33 +37,71 @@ function setDeviceName(_: string) {
   // For the moment, do nothing
 }
 
-function includeFile(_: string): Bytes {
-  // For the moment, do nothing
-  return [];
+function includeFile(pos: PosInfo, filename: string): LinesInfo {
+  const code = parseData.getFileCode(parseData.basePath + filename);
+
+  // It is not possible to attach a context to the parsing, so use this dirty trick
+  const oldFileName = parseData.fileName;
+  parseData.fileName = filename;
+  const parsed = parseCode(code);
+  parseData.fileName = oldFileName;
+
+  return {lines: parsed, filename: filename};
+}
+
+function parseCode(code: string): Line[] {
+  if(!code.endsWith('\n')) code += '\n';
+  const parser = new Parser(code);
+
+  const result = parser.parse();
+  if(result.errs.length > 0)
+    throw CompilationError.fromSyntaxErr(parseData.fileName, result.errs[0])
+
+  return result.ast?.lines ?? [];
+}
+
+function getBasePath(filepath: string): string {
+  let index = filepath.lastIndexOf('/');
+  if(index === -1)
+    index = filepath.lastIndexOf('\\');
+  if(index === -1)
+    return '';
+  return filepath.substring(0, index + 1);
+}
+
+function getBaseName(filepath: string): string {
+  let index = filepath.lastIndexOf('/');
+  if(index === -1)
+    index = filepath.lastIndexOf('\\');
+  if(index === -1)
+    return filepath;
+  return filepath.substring(index + 1);
 }
 
 
-function compile(code: string): CompilationInfo {
-  parseData.outputName = "program.P";
-  parseData.outputSld = false;
+function compile(filepath: string, code: string, getFileCode: (filename: string) => string): CompilationInfo {
+  const filename =  getBaseName(filepath);
 
-  const p = new Parser(code + '\n');
+  parseData.outputName = "program.P";
+  parseData.outputSld = true;
+  parseData.basePath = getBasePath(filepath);
+  parseData.fileName = filename;
+  parseData.getFileCode = getFileCode;
 
   try {
-    const result = p.parse();
-    if(result.errs.length > 0)
-      return {
-        outputName: parseData.outputName,
-        outputSld: parseData.outputSld,
-        bytes: [],
-        errs: result.errs.map(e => CompilationError.fromSyntaxErr(e))
-      };
+    resetLabels();
+    const parsed = parseCode(code);
+    computeLabels(0, parsed);
+    const unknowns = getUnknownLabels().join(', ');
+    if(unknowns.length > 0)
+      throw new CompilationError(parseData.fileName, {line: 1, offset: 0, overallPos: 0},
+        `Unknown value for labels: ${unknowns}`);
 
-    const bytes = generate(result);
     return {
       outputName: parseData.outputName,
       outputSld: parseData.outputSld,
-      bytes: bytes,
+      bytes: generateBytes(parsed),
+      sld: generateSld({lines: parsed, filename: filename}),
       errs: []
     };
   }
@@ -59,12 +110,14 @@ function compile(code: string): CompilationInfo {
       outputName: parseData.outputName,
       outputSld: parseData.outputSld,
       bytes: [],
-      errs: [CompilationError.fromAny(ex)]
+      sld: '',
+      errs: [CompilationError.fromAny(parseData.fileName, ex)]
     };
   }
 }
 
 export {
+  parseData,
   compile,
   includeFile,
   setOutputName,

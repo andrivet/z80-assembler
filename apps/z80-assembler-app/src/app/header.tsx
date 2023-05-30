@@ -9,6 +9,7 @@ interface AppHeaderProps {
   onOpenCodeDirectory: () => void;
   onSaveCode: () => void;
   onSaveBinary: () => void;
+  onSaveSld: () => void;
   onCompile: () => void;
   onShowOpCodes: () => void;
 }
@@ -34,6 +35,7 @@ export default function AppHeader(props: AppHeaderProps) {
                 <Menu.Item onClick={props.onOpenCodeDirectory}><p>Open Code Directory...</p></Menu.Item>
                 <Menu.Item><p onClick={props.onSaveCode}>Save Code...</p></Menu.Item>
                 <Menu.Item><p onClick={props.onSaveBinary}>Save Binary...</p></Menu.Item>
+                <Menu.Item><p onClick={props.onSaveSld}>Save SLD File...</p></Menu.Item>
               </Menu>
             </Menu.Item>
             <Menu.Item>

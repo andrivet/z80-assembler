@@ -26,6 +26,7 @@ export function App() {
   const [filepath, setFilepath] = useState<string>('');
   const [errors, setErrors] = useState<CompilationError[] | undefined>();
   const [bytes, setBytes] = useState<number[] | undefined>();
+  const [sld, setSld] = useState<string>('');
   const [chunks, setChunks] = useState<Chunk[] | undefined>();
   const [showOpCodes, setShowOpCodes] = useState<boolean>(false);
   const [outputName, setOutputName] = useState<string | undefined>(undefined);
@@ -40,6 +41,7 @@ export function App() {
     const info = compile(filepath, code, handleGetFileCode);
     if(info.errs.length > 0) {
       setBytes([]);
+      setSld('');
       setChunks([]);
       setErrors(info.errs);
     }
@@ -47,6 +49,7 @@ export function App() {
       setShowOpCodes(false);
       setOutputName(info.outputName);
       setBytes(info.bytes);
+      setSld(info.sld);
       setChunks(formatBytes(info.bytes, 16));
       setErrors([]);
     }
@@ -63,6 +66,16 @@ export function App() {
     });
   }
 
+  async function handleSaveSld() {
+    closeDropdown();
+    if (sld.length <= 0 || !outputName) return;
+    const blob = new Blob([sld]);
+    await fileSave(blob, {
+      fileName: outputName.replace(/\.P$/, ''),
+      extensions: ['.sld']
+    });
+  }
+
   return (
     <div className="flex flex-col h-screen bg-neutral-600">
       <AppHeader
@@ -70,6 +83,7 @@ export function App() {
         onOpenCodeDirectory={() => ref.current?.openCodeDirectory()}
         onSaveCode={() => ref.current?.saveCode()}
         onSaveBinary={handleSaveBinary}
+        onSaveSld={handleSaveSld}
         onCompile={handleCompile}
         onShowOpCodes={() => setShowOpCodes(true)}
       />

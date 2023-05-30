@@ -14,6 +14,7 @@
 *     imode
 * } from "./LowLevel";
 * import {
+*     LinesInfo,
 *     EvalFunc,
 *     Address,
 *     Bytes,
@@ -94,22 +95,21 @@
 * Lines :=
 *     Line*
 * Line :=
-*     LineEqual | LineStatement
-* Equal :=
-*     '\.?equ|eq'
+*   LineEqual | LineStatement
 * LineEqual :=
-*     label=LabelDeclaration _ Equal __ e=Expression _ comment=Comment? '\r\n|\n'
-*     .bytes = Bytes { return []; }
+*   label=LabelDeclaration _ equal=EqualDirective _ comment=Comment? '\r\n|\n'
 * LineStatement :=
-*     label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
-*     .bytes = Bytes { return statement ? statement.bytes : []; }
+*   label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
 * Statement :=
-*     instruction=Instruction
-*     .bytes = Bytes { return instruction.bytes; }
-*     .address = Address { return null; } |
-*     directive=Directive
-*     .bytes = Bytes { return directive.bytes; }
-*     .address = Address { return directive.address; }
+*     inc=IncludeDirective
+*     .linesinfo = LinesInfo { return inc.lines; } |
+*     ins=Instruction
+*     .bytes = Bytes { return ins.bytes; } |
+*     dir=Directive
+*     .bytes = Bytes { return dir.bytes; }
+*     .address = Address { return dir.address; }
+* EqualDirective :=
+*     '\.?equ|eq' __ e=Expression
 * Directive :=
 *     data=DataDirective
 *     .bytes = Bytes { return data.bytes; }
@@ -117,9 +117,6 @@
 *     origin=OriginDirective
 *     .bytes = Bytes { return []; }
 *     .address = Address { return origin.address.value; } |
-*     directive=IncludeDirective
-*     .bytes = Bytes { return directive.bytes; }
-*     .address = Address { return null; } |
 *     directive=OutputDirective
 *     .bytes = Bytes { return []; }
 *     .address = Address { return null; } |
@@ -145,22 +142,22 @@
 *     .eval = EvalFunc { return e1.eval; }
 * // Precedences: unary, multiplicative, additive, shift, and, xor, or
 * BitwiseOrExpression :=
-*     left=BitwiseXOrExpression right={_ '\|' _ e=BitwiseOrExpression}*
+*     left={e=BitwiseOrExpression _ '\|'}* _ right=BitwiseXOrExpression
 *     .eval = EvalFunc { return binaryOperation(left, right, operatorOr); }
 * BitwiseXOrExpression :=
-*     left=BitwiseAndExpression right={_ '\^' _ e=BitwiseXOrExpression}*
+*     left={e=BitwiseXOrExpression _ '\^'}* _ right=BitwiseAndExpression
 *     .eval = EvalFunc { return binaryOperation(left, right, operatorXor); }
 * BitwiseAndExpression :=
-*     left=ShiftExpression right={_ '\&' _ e=BitwiseAndExpression}*
+*     left={e=BitwiseAndExpression _ '\&'}* _ right=ShiftExpression
 *     .eval = EvalFunc { return binaryOperation(left, right, operatorAnd); }
 * ShiftExpression :=
-*     left=AdditiveExpression right={_ op={'<<' | '>>'} _ e=ShiftExpression}*
+*     left={e=ShiftExpression _ op={'<<' | '>>'}}* _ right=AdditiveExpression
 *     .eval = EvalFunc { return binaryOperations(left, right, {'<<': operatorLeftShift, '>>': operatorRightShift}); }
 * AdditiveExpression :=
-*     left=MultiplicativeExpression right={_ op={'\+' | '\-'} _ e=AdditiveExpression}*
+*     left={e=AdditiveExpression _ op={'\+' | '\-'}}* _ right=MultiplicativeExpression
 *     .eval = EvalFunc { return binaryOperations(left, right, {'+': operatorAdd, '-': operatorSub}); }
 * MultiplicativeExpression :=
-*     left=UnaryExpression right={_ op={'\*' | '%' | '/'} _ e=MultiplicativeExpression}*
+*     left={e=MultiplicativeExpression _ op={'\*' | '%' | '/'}}* _ right=UnaryExpression
 *     .eval = EvalFunc { return binaryOperations(left, right, {'*': operatorMul, '/': operatorDiv, '%': operatorModulo} ); }
 * UnaryExpression :=
 *     op={'~' | '\+' | '\-'} _ e=PrimaryExpression
@@ -883,8 +880,8 @@
 *     '"' raw='[^"\\:\*\?<>\|%#\$,]+' '"' |
 *     raw='[^ \t\r\n"\\:\*\?<>\|%#\$,]+'
 * IncludeDirective :=
-*     '\.?include' __ name=Filename &_eos
-*     .bytes = Bytes { return includeFile(name.raw); }
+*     pos=@ '\.?include' __ name=Filename &_eos
+*     .lines = LinesInfo { return includeFile(pos, name.raw); }
 * OutputDirective :=
 *     '\.?output' __ name=Filename sld={_ ',' _ 'sld'}? &_eos
 *     .void = void { setOutputName(name.raw, sld != null); }
@@ -907,6 +904,7 @@ import {
 } from "./LowLevel";
 
 import {
+    LinesInfo,
     EvalFunc,
     Address,
     Bytes,
@@ -1025,16 +1023,16 @@ export enum ASTKinds {
     Lines = "Lines",
     Line_1 = "Line_1",
     Line_2 = "Line_2",
-    Equal = "Equal",
     LineEqual = "LineEqual",
     LineStatement = "LineStatement",
     Statement_1 = "Statement_1",
     Statement_2 = "Statement_2",
+    Statement_3 = "Statement_3",
+    EqualDirective = "EqualDirective",
     Directive_1 = "Directive_1",
     Directive_2 = "Directive_2",
     Directive_3 = "Directive_3",
     Directive_4 = "Directive_4",
-    Directive_5 = "Directive_5",
     ForbiddenNames_1 = "ForbiddenNames_1",
     ForbiddenNames_2 = "ForbiddenNames_2",
     ForbiddenNames_3 = "ForbiddenNames_3",
@@ -1697,69 +1695,61 @@ export type Lines = Line[];
 export type Line = Line_1 | Line_2;
 export type Line_1 = LineEqual;
 export type Line_2 = LineStatement;
-export type Equal = string;
-export class LineEqual {
-    public kind: ASTKinds.LineEqual = ASTKinds.LineEqual;
-    public label: LabelDeclaration;
-    public e: Expression;
-    public comment: Nullable<Comment>;
-    public bytes: Bytes;
-    constructor(label: LabelDeclaration, e: Expression, comment: Nullable<Comment>){
-        this.label = label;
-        this.e = e;
-        this.comment = comment;
-        this.bytes = ((): Bytes => {
-        return [];
-        })();
-    }
+export interface LineEqual {
+    kind: ASTKinds.LineEqual;
+    label: LabelDeclaration;
+    equal: EqualDirective;
+    comment: Nullable<Comment>;
 }
-export class LineStatement {
-    public kind: ASTKinds.LineStatement = ASTKinds.LineStatement;
-    public label: Nullable<LabelDeclaration>;
-    public statement: Nullable<Statement>;
-    public comment: Nullable<Comment>;
-    public bytes: Bytes;
-    constructor(label: Nullable<LabelDeclaration>, statement: Nullable<Statement>, comment: Nullable<Comment>){
-        this.label = label;
-        this.statement = statement;
-        this.comment = comment;
-        this.bytes = ((): Bytes => {
-        return statement ? statement.bytes : [];
-        })();
-    }
+export interface LineStatement {
+    kind: ASTKinds.LineStatement;
+    label: Nullable<LabelDeclaration>;
+    statement: Nullable<Statement>;
+    comment: Nullable<Comment>;
 }
-export type Statement = Statement_1 | Statement_2;
+export type Statement = Statement_1 | Statement_2 | Statement_3;
 export class Statement_1 {
     public kind: ASTKinds.Statement_1 = ASTKinds.Statement_1;
-    public instruction: Instruction;
-    public bytes: Bytes;
-    public address: Address;
-    constructor(instruction: Instruction){
-        this.instruction = instruction;
-        this.bytes = ((): Bytes => {
-        return instruction.bytes;
-        })();
-        this.address = ((): Address => {
-        return null;
+    public inc: IncludeDirective;
+    public linesinfo: LinesInfo;
+    constructor(inc: IncludeDirective){
+        this.inc = inc;
+        this.linesinfo = ((): LinesInfo => {
+        return inc.lines;
         })();
     }
 }
 export class Statement_2 {
     public kind: ASTKinds.Statement_2 = ASTKinds.Statement_2;
-    public directive: Directive;
+    public ins: Instruction;
     public bytes: Bytes;
-    public address: Address;
-    constructor(directive: Directive){
-        this.directive = directive;
+    constructor(ins: Instruction){
+        this.ins = ins;
         this.bytes = ((): Bytes => {
-        return directive.bytes;
-        })();
-        this.address = ((): Address => {
-        return directive.address;
+        return ins.bytes;
         })();
     }
 }
-export type Directive = Directive_1 | Directive_2 | Directive_3 | Directive_4 | Directive_5;
+export class Statement_3 {
+    public kind: ASTKinds.Statement_3 = ASTKinds.Statement_3;
+    public dir: Directive;
+    public bytes: Bytes;
+    public address: Address;
+    constructor(dir: Directive){
+        this.dir = dir;
+        this.bytes = ((): Bytes => {
+        return dir.bytes;
+        })();
+        this.address = ((): Address => {
+        return dir.address;
+        })();
+    }
+}
+export interface EqualDirective {
+    kind: ASTKinds.EqualDirective;
+    e: Expression;
+}
+export type Directive = Directive_1 | Directive_2 | Directive_3 | Directive_4;
 export class Directive_1 {
     public kind: ASTKinds.Directive_1 = ASTKinds.Directive_1;
     public data: DataDirective;
@@ -1792,21 +1782,6 @@ export class Directive_2 {
 }
 export class Directive_3 {
     public kind: ASTKinds.Directive_3 = ASTKinds.Directive_3;
-    public directive: IncludeDirective;
-    public bytes: Bytes;
-    public address: Address;
-    constructor(directive: IncludeDirective){
-        this.directive = directive;
-        this.bytes = ((): Bytes => {
-        return directive.bytes;
-        })();
-        this.address = ((): Address => {
-        return null;
-        })();
-    }
-}
-export class Directive_4 {
-    public kind: ASTKinds.Directive_4 = ASTKinds.Directive_4;
     public directive: OutputDirective;
     public bytes: Bytes;
     public address: Address;
@@ -1820,8 +1795,8 @@ export class Directive_4 {
         })();
     }
 }
-export class Directive_5 {
-    public kind: ASTKinds.Directive_5 = ASTKinds.Directive_5;
+export class Directive_4 {
+    public kind: ASTKinds.Directive_4 = ASTKinds.Directive_4;
     public directive: DeviceDirective;
     public bytes: Bytes;
     public address: Address;
@@ -1867,10 +1842,10 @@ export class Expression {
 }
 export class BitwiseOrExpression {
     public kind: ASTKinds.BitwiseOrExpression = ASTKinds.BitwiseOrExpression;
-    public left: BitwiseXOrExpression;
-    public right: BitwiseOrExpression_$0[];
+    public left: BitwiseOrExpression_$0[];
+    public right: BitwiseXOrExpression;
     public eval: EvalFunc;
-    constructor(left: BitwiseXOrExpression, right: BitwiseOrExpression_$0[]){
+    constructor(left: BitwiseOrExpression_$0[], right: BitwiseXOrExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1884,10 +1859,10 @@ export interface BitwiseOrExpression_$0 {
 }
 export class BitwiseXOrExpression {
     public kind: ASTKinds.BitwiseXOrExpression = ASTKinds.BitwiseXOrExpression;
-    public left: BitwiseAndExpression;
-    public right: BitwiseXOrExpression_$0[];
+    public left: BitwiseXOrExpression_$0[];
+    public right: BitwiseAndExpression;
     public eval: EvalFunc;
-    constructor(left: BitwiseAndExpression, right: BitwiseXOrExpression_$0[]){
+    constructor(left: BitwiseXOrExpression_$0[], right: BitwiseAndExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1901,10 +1876,10 @@ export interface BitwiseXOrExpression_$0 {
 }
 export class BitwiseAndExpression {
     public kind: ASTKinds.BitwiseAndExpression = ASTKinds.BitwiseAndExpression;
-    public left: ShiftExpression;
-    public right: BitwiseAndExpression_$0[];
+    public left: BitwiseAndExpression_$0[];
+    public right: ShiftExpression;
     public eval: EvalFunc;
-    constructor(left: ShiftExpression, right: BitwiseAndExpression_$0[]){
+    constructor(left: BitwiseAndExpression_$0[], right: ShiftExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1918,10 +1893,10 @@ export interface BitwiseAndExpression_$0 {
 }
 export class ShiftExpression {
     public kind: ASTKinds.ShiftExpression = ASTKinds.ShiftExpression;
-    public left: AdditiveExpression;
-    public right: ShiftExpression_$0[];
+    public left: ShiftExpression_$0[];
+    public right: AdditiveExpression;
     public eval: EvalFunc;
-    constructor(left: AdditiveExpression, right: ShiftExpression_$0[]){
+    constructor(left: ShiftExpression_$0[], right: AdditiveExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1931,18 +1906,18 @@ export class ShiftExpression {
 }
 export interface ShiftExpression_$0 {
     kind: ASTKinds.ShiftExpression_$0;
-    op: ShiftExpression_$0_$0;
     e: ShiftExpression;
+    op: ShiftExpression_$0_$0;
 }
 export type ShiftExpression_$0_$0 = ShiftExpression_$0_$0_1 | ShiftExpression_$0_$0_2;
 export type ShiftExpression_$0_$0_1 = string;
 export type ShiftExpression_$0_$0_2 = string;
 export class AdditiveExpression {
     public kind: ASTKinds.AdditiveExpression = ASTKinds.AdditiveExpression;
-    public left: MultiplicativeExpression;
-    public right: AdditiveExpression_$0[];
+    public left: AdditiveExpression_$0[];
+    public right: MultiplicativeExpression;
     public eval: EvalFunc;
-    constructor(left: MultiplicativeExpression, right: AdditiveExpression_$0[]){
+    constructor(left: AdditiveExpression_$0[], right: MultiplicativeExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1952,18 +1927,18 @@ export class AdditiveExpression {
 }
 export interface AdditiveExpression_$0 {
     kind: ASTKinds.AdditiveExpression_$0;
-    op: AdditiveExpression_$0_$0;
     e: AdditiveExpression;
+    op: AdditiveExpression_$0_$0;
 }
 export type AdditiveExpression_$0_$0 = AdditiveExpression_$0_$0_1 | AdditiveExpression_$0_$0_2;
 export type AdditiveExpression_$0_$0_1 = string;
 export type AdditiveExpression_$0_$0_2 = string;
 export class MultiplicativeExpression {
     public kind: ASTKinds.MultiplicativeExpression = ASTKinds.MultiplicativeExpression;
-    public left: UnaryExpression;
-    public right: MultiplicativeExpression_$0[];
+    public left: MultiplicativeExpression_$0[];
+    public right: UnaryExpression;
     public eval: EvalFunc;
-    constructor(left: UnaryExpression, right: MultiplicativeExpression_$0[]){
+    constructor(left: MultiplicativeExpression_$0[], right: UnaryExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1973,8 +1948,8 @@ export class MultiplicativeExpression {
 }
 export interface MultiplicativeExpression_$0 {
     kind: ASTKinds.MultiplicativeExpression_$0;
-    op: MultiplicativeExpression_$0_$0;
     e: MultiplicativeExpression;
+    op: MultiplicativeExpression_$0_$0;
 }
 export type MultiplicativeExpression_$0_$0 = MultiplicativeExpression_$0_$0_1 | MultiplicativeExpression_$0_$0_2 | MultiplicativeExpression_$0_$0_3;
 export type MultiplicativeExpression_$0_$0_1 = string;
@@ -5002,12 +4977,14 @@ export interface Filename_2 {
 }
 export class IncludeDirective {
     public kind: ASTKinds.IncludeDirective = ASTKinds.IncludeDirective;
+    public pos: PosInfo;
     public name: Filename;
-    public bytes: Bytes;
-    constructor(name: Filename){
+    public lines: LinesInfo;
+    constructor(pos: PosInfo, name: Filename){
+        this.pos = pos;
         this.name = name;
-        this.bytes = ((): Bytes => {
-        return includeFile(name.raw);
+        this.lines = ((): LinesInfo => {
+        return includeFile(pos, name.raw);
         })();
     }
 }
@@ -5054,7 +5031,19 @@ export class Parser {
         return this.pos.overallPos === this.input.length;
     }
     public clearMemos(): void {
+        this.$scope$BitwiseOrExpression$memo.clear();
+        this.$scope$BitwiseXOrExpression$memo.clear();
+        this.$scope$BitwiseAndExpression$memo.clear();
+        this.$scope$ShiftExpression$memo.clear();
+        this.$scope$AdditiveExpression$memo.clear();
+        this.$scope$MultiplicativeExpression$memo.clear();
     }
+    protected $scope$BitwiseOrExpression$memo: Map<number, [Nullable<BitwiseOrExpression>, PosInfo]> = new Map();
+    protected $scope$BitwiseXOrExpression$memo: Map<number, [Nullable<BitwiseXOrExpression>, PosInfo]> = new Map();
+    protected $scope$BitwiseAndExpression$memo: Map<number, [Nullable<BitwiseAndExpression>, PosInfo]> = new Map();
+    protected $scope$ShiftExpression$memo: Map<number, [Nullable<ShiftExpression>, PosInfo]> = new Map();
+    protected $scope$AdditiveExpression$memo: Map<number, [Nullable<AdditiveExpression>, PosInfo]> = new Map();
+    protected $scope$MultiplicativeExpression$memo: Map<number, [Nullable<MultiplicativeExpression>, PosInfo]> = new Map();
     public matchstart($$dpth: number, $$cr?: ErrorTracker): Nullable<start> {
         return this.run<start>($$dpth,
             () => {
@@ -5574,27 +5563,22 @@ export class Parser {
     public matchLine_2($$dpth: number, $$cr?: ErrorTracker): Nullable<Line_2> {
         return this.matchLineStatement($$dpth + 1, $$cr);
     }
-    public matchEqual($$dpth: number, $$cr?: ErrorTracker): Nullable<Equal> {
-        return this.regexAccept(String.raw`(?:\.?equ|eq)`, $$dpth + 1, $$cr);
-    }
     public matchLineEqual($$dpth: number, $$cr?: ErrorTracker): Nullable<LineEqual> {
         return this.run<LineEqual>($$dpth,
             () => {
                 let $scope$label: Nullable<LabelDeclaration>;
-                let $scope$e: Nullable<Expression>;
+                let $scope$equal: Nullable<EqualDirective>;
                 let $scope$comment: Nullable<Nullable<Comment>>;
                 let $$res: Nullable<LineEqual> = null;
                 if (true
                     && ($scope$label = this.matchLabelDeclaration($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.matchEqual($$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$equal = this.matchEqualDirective($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
                 ) {
-                    $$res = new LineEqual($scope$label, $scope$e, $scope$comment);
+                    $$res = {kind: ASTKinds.LineEqual, label: $scope$label, equal: $scope$equal, comment: $scope$comment};
                 }
                 return $$res;
             });
@@ -5614,7 +5598,7 @@ export class Parser {
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
                 ) {
-                    $$res = new LineStatement($scope$label, $scope$statement, $scope$comment);
+                    $$res = {kind: ASTKinds.LineStatement, label: $scope$label, statement: $scope$statement, comment: $scope$comment};
                 }
                 return $$res;
             });
@@ -5623,17 +5607,18 @@ export class Parser {
         return this.choice<Statement>([
             () => this.matchStatement_1($$dpth + 1, $$cr),
             () => this.matchStatement_2($$dpth + 1, $$cr),
+            () => this.matchStatement_3($$dpth + 1, $$cr),
         ]);
     }
     public matchStatement_1($$dpth: number, $$cr?: ErrorTracker): Nullable<Statement_1> {
         return this.run<Statement_1>($$dpth,
             () => {
-                let $scope$instruction: Nullable<Instruction>;
+                let $scope$inc: Nullable<IncludeDirective>;
                 let $$res: Nullable<Statement_1> = null;
                 if (true
-                    && ($scope$instruction = this.matchInstruction($$dpth + 1, $$cr)) !== null
+                    && ($scope$inc = this.matchIncludeDirective($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Statement_1($scope$instruction);
+                    $$res = new Statement_1($scope$inc);
                 }
                 return $$res;
             });
@@ -5641,12 +5626,40 @@ export class Parser {
     public matchStatement_2($$dpth: number, $$cr?: ErrorTracker): Nullable<Statement_2> {
         return this.run<Statement_2>($$dpth,
             () => {
-                let $scope$directive: Nullable<Directive>;
+                let $scope$ins: Nullable<Instruction>;
                 let $$res: Nullable<Statement_2> = null;
                 if (true
-                    && ($scope$directive = this.matchDirective($$dpth + 1, $$cr)) !== null
+                    && ($scope$ins = this.matchInstruction($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Statement_2($scope$directive);
+                    $$res = new Statement_2($scope$ins);
+                }
+                return $$res;
+            });
+    }
+    public matchStatement_3($$dpth: number, $$cr?: ErrorTracker): Nullable<Statement_3> {
+        return this.run<Statement_3>($$dpth,
+            () => {
+                let $scope$dir: Nullable<Directive>;
+                let $$res: Nullable<Statement_3> = null;
+                if (true
+                    && ($scope$dir = this.matchDirective($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Statement_3($scope$dir);
+                }
+                return $$res;
+            });
+    }
+    public matchEqualDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<EqualDirective> {
+        return this.run<EqualDirective>($$dpth,
+            () => {
+                let $scope$e: Nullable<Expression>;
+                let $$res: Nullable<EqualDirective> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:\.?equ|eq)`, $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = {kind: ASTKinds.EqualDirective, e: $scope$e};
                 }
                 return $$res;
             });
@@ -5657,7 +5670,6 @@ export class Parser {
             () => this.matchDirective_2($$dpth + 1, $$cr),
             () => this.matchDirective_3($$dpth + 1, $$cr),
             () => this.matchDirective_4($$dpth + 1, $$cr),
-            () => this.matchDirective_5($$dpth + 1, $$cr),
         ]);
     }
     public matchDirective_1($$dpth: number, $$cr?: ErrorTracker): Nullable<Directive_1> {
@@ -5689,10 +5701,10 @@ export class Parser {
     public matchDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<Directive_3> {
         return this.run<Directive_3>($$dpth,
             () => {
-                let $scope$directive: Nullable<IncludeDirective>;
+                let $scope$directive: Nullable<OutputDirective>;
                 let $$res: Nullable<Directive_3> = null;
                 if (true
-                    && ($scope$directive = this.matchIncludeDirective($$dpth + 1, $$cr)) !== null
+                    && ($scope$directive = this.matchOutputDirective($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Directive_3($scope$directive);
                 }
@@ -5702,25 +5714,12 @@ export class Parser {
     public matchDirective_4($$dpth: number, $$cr?: ErrorTracker): Nullable<Directive_4> {
         return this.run<Directive_4>($$dpth,
             () => {
-                let $scope$directive: Nullable<OutputDirective>;
-                let $$res: Nullable<Directive_4> = null;
-                if (true
-                    && ($scope$directive = this.matchOutputDirective($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new Directive_4($scope$directive);
-                }
-                return $$res;
-            });
-    }
-    public matchDirective_5($$dpth: number, $$cr?: ErrorTracker): Nullable<Directive_5> {
-        return this.run<Directive_5>($$dpth,
-            () => {
                 let $scope$directive: Nullable<DeviceDirective>;
-                let $$res: Nullable<Directive_5> = null;
+                let $$res: Nullable<Directive_4> = null;
                 if (true
                     && ($scope$directive = this.matchDeviceDirective($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Directive_5($scope$directive);
+                    $$res = new Directive_4($scope$directive);
                 }
                 return $$res;
             });
@@ -5810,19 +5809,46 @@ export class Parser {
             });
     }
     public matchBitwiseOrExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseOrExpression> {
-        return this.run<BitwiseOrExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<BitwiseXOrExpression>;
-                let $scope$right: Nullable<BitwiseOrExpression_$0[]>;
-                let $$res: Nullable<BitwiseOrExpression> = null;
-                if (true
-                    && ($scope$left = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<BitwiseOrExpression_$0>(() => this.matchBitwiseOrExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new BitwiseOrExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<BitwiseOrExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<BitwiseOrExpression_$0[]>;
+                    let $scope$right: Nullable<BitwiseXOrExpression>;
+                    let $$res: Nullable<BitwiseOrExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<BitwiseOrExpression_$0>(() => this.matchBitwiseOrExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new BitwiseOrExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$BitwiseOrExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$BitwiseOrExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<BitwiseOrExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$BitwiseOrExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchBitwiseOrExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseOrExpression_$0> {
         return this.run<BitwiseOrExpression_$0>($$dpth,
@@ -5830,10 +5856,9 @@ export class Parser {
                 let $scope$e: Nullable<BitwiseOrExpression>;
                 let $$res: Nullable<BitwiseOrExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchBitwiseOrExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\|)`, $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchBitwiseOrExpression($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseOrExpression_$0, e: $scope$e};
                 }
@@ -5841,19 +5866,46 @@ export class Parser {
             });
     }
     public matchBitwiseXOrExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseXOrExpression> {
-        return this.run<BitwiseXOrExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<BitwiseAndExpression>;
-                let $scope$right: Nullable<BitwiseXOrExpression_$0[]>;
-                let $$res: Nullable<BitwiseXOrExpression> = null;
-                if (true
-                    && ($scope$left = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<BitwiseXOrExpression_$0>(() => this.matchBitwiseXOrExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new BitwiseXOrExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<BitwiseXOrExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<BitwiseXOrExpression_$0[]>;
+                    let $scope$right: Nullable<BitwiseAndExpression>;
+                    let $$res: Nullable<BitwiseXOrExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<BitwiseXOrExpression_$0>(() => this.matchBitwiseXOrExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new BitwiseXOrExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$BitwiseXOrExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$BitwiseXOrExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<BitwiseXOrExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$BitwiseXOrExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchBitwiseXOrExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseXOrExpression_$0> {
         return this.run<BitwiseXOrExpression_$0>($$dpth,
@@ -5861,10 +5913,9 @@ export class Parser {
                 let $scope$e: Nullable<BitwiseXOrExpression>;
                 let $$res: Nullable<BitwiseXOrExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\^)`, $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseXOrExpression_$0, e: $scope$e};
                 }
@@ -5872,19 +5923,46 @@ export class Parser {
             });
     }
     public matchBitwiseAndExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseAndExpression> {
-        return this.run<BitwiseAndExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<ShiftExpression>;
-                let $scope$right: Nullable<BitwiseAndExpression_$0[]>;
-                let $$res: Nullable<BitwiseAndExpression> = null;
-                if (true
-                    && ($scope$left = this.matchShiftExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<BitwiseAndExpression_$0>(() => this.matchBitwiseAndExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new BitwiseAndExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<BitwiseAndExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<BitwiseAndExpression_$0[]>;
+                    let $scope$right: Nullable<ShiftExpression>;
+                    let $$res: Nullable<BitwiseAndExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<BitwiseAndExpression_$0>(() => this.matchBitwiseAndExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchShiftExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new BitwiseAndExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$BitwiseAndExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$BitwiseAndExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<BitwiseAndExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$BitwiseAndExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchBitwiseAndExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<BitwiseAndExpression_$0> {
         return this.run<BitwiseAndExpression_$0>($$dpth,
@@ -5892,10 +5970,9 @@ export class Parser {
                 let $scope$e: Nullable<BitwiseAndExpression>;
                 let $$res: Nullable<BitwiseAndExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\&)`, $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseAndExpression_$0, e: $scope$e};
                 }
@@ -5903,33 +5980,59 @@ export class Parser {
             });
     }
     public matchShiftExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<ShiftExpression> {
-        return this.run<ShiftExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<AdditiveExpression>;
-                let $scope$right: Nullable<ShiftExpression_$0[]>;
-                let $$res: Nullable<ShiftExpression> = null;
-                if (true
-                    && ($scope$left = this.matchAdditiveExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<ShiftExpression_$0>(() => this.matchShiftExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new ShiftExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<ShiftExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<ShiftExpression_$0[]>;
+                    let $scope$right: Nullable<AdditiveExpression>;
+                    let $$res: Nullable<ShiftExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<ShiftExpression_$0>(() => this.matchShiftExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchAdditiveExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new ShiftExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$ShiftExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$ShiftExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<ShiftExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$ShiftExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchShiftExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<ShiftExpression_$0> {
         return this.run<ShiftExpression_$0>($$dpth,
             () => {
-                let $scope$op: Nullable<ShiftExpression_$0_$0>;
                 let $scope$e: Nullable<ShiftExpression>;
+                let $scope$op: Nullable<ShiftExpression_$0_$0>;
                 let $$res: Nullable<ShiftExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchShiftExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$op = this.matchShiftExpression_$0_$0($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchShiftExpression($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = {kind: ASTKinds.ShiftExpression_$0, op: $scope$op, e: $scope$e};
+                    $$res = {kind: ASTKinds.ShiftExpression_$0, e: $scope$e, op: $scope$op};
                 }
                 return $$res;
             });
@@ -5947,33 +6050,59 @@ export class Parser {
         return this.regexAccept(String.raw`(?:>>)`, $$dpth + 1, $$cr);
     }
     public matchAdditiveExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<AdditiveExpression> {
-        return this.run<AdditiveExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<MultiplicativeExpression>;
-                let $scope$right: Nullable<AdditiveExpression_$0[]>;
-                let $$res: Nullable<AdditiveExpression> = null;
-                if (true
-                    && ($scope$left = this.matchMultiplicativeExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<AdditiveExpression_$0>(() => this.matchAdditiveExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new AdditiveExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<AdditiveExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<AdditiveExpression_$0[]>;
+                    let $scope$right: Nullable<MultiplicativeExpression>;
+                    let $$res: Nullable<AdditiveExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<AdditiveExpression_$0>(() => this.matchAdditiveExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchMultiplicativeExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new AdditiveExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$AdditiveExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$AdditiveExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<AdditiveExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$AdditiveExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchAdditiveExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<AdditiveExpression_$0> {
         return this.run<AdditiveExpression_$0>($$dpth,
             () => {
-                let $scope$op: Nullable<AdditiveExpression_$0_$0>;
                 let $scope$e: Nullable<AdditiveExpression>;
+                let $scope$op: Nullable<AdditiveExpression_$0_$0>;
                 let $$res: Nullable<AdditiveExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchAdditiveExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$op = this.matchAdditiveExpression_$0_$0($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchAdditiveExpression($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = {kind: ASTKinds.AdditiveExpression_$0, op: $scope$op, e: $scope$e};
+                    $$res = {kind: ASTKinds.AdditiveExpression_$0, e: $scope$e, op: $scope$op};
                 }
                 return $$res;
             });
@@ -5991,33 +6120,59 @@ export class Parser {
         return this.regexAccept(String.raw`(?:\-)`, $$dpth + 1, $$cr);
     }
     public matchMultiplicativeExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression> {
-        return this.run<MultiplicativeExpression>($$dpth,
-            () => {
-                let $scope$left: Nullable<UnaryExpression>;
-                let $scope$right: Nullable<MultiplicativeExpression_$0[]>;
-                let $$res: Nullable<MultiplicativeExpression> = null;
-                if (true
-                    && ($scope$left = this.matchUnaryExpression($$dpth + 1, $$cr)) !== null
-                    && ($scope$right = this.loop<MultiplicativeExpression_$0>(() => this.matchMultiplicativeExpression_$0($$dpth + 1, $$cr), true)) !== null
-                ) {
-                    $$res = new MultiplicativeExpression($scope$left, $scope$right);
-                }
-                return $$res;
-            });
+        const fn = () => {
+            return this.run<MultiplicativeExpression>($$dpth,
+                () => {
+                    let $scope$left: Nullable<MultiplicativeExpression_$0[]>;
+                    let $scope$right: Nullable<UnaryExpression>;
+                    let $$res: Nullable<MultiplicativeExpression> = null;
+                    if (true
+                        && ($scope$left = this.loop<MultiplicativeExpression_$0>(() => this.matchMultiplicativeExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && this.match_($$dpth + 1, $$cr) !== null
+                        && ($scope$right = this.matchUnaryExpression($$dpth + 1, $$cr)) !== null
+                    ) {
+                        $$res = new MultiplicativeExpression($scope$left, $scope$right);
+                    }
+                    return $$res;
+                });
+        };
+        const $scope$pos = this.mark();
+        const memo = this.$scope$MultiplicativeExpression$memo.get($scope$pos.overallPos);
+        if(memo !== undefined) {
+            this.reset(memo[1]);
+            return memo[0];
+        }
+        const $scope$oldMemoSafe = this.memoSafe;
+        this.memoSafe = false;
+        this.$scope$MultiplicativeExpression$memo.set($scope$pos.overallPos, [null, $scope$pos]);
+        let lastRes: Nullable<MultiplicativeExpression> = null;
+        let lastPos: PosInfo = $scope$pos;
+        for(;;) {
+            this.reset($scope$pos);
+            const res = fn();
+            const end = this.mark();
+            if(end.overallPos <= lastPos.overallPos)
+                break;
+            lastRes = res;
+            lastPos = end;
+            this.$scope$MultiplicativeExpression$memo.set($scope$pos.overallPos, [lastRes, lastPos]);
+        }
+        this.reset(lastPos);
+        this.memoSafe = $scope$oldMemoSafe;
+        return lastRes;
     }
     public matchMultiplicativeExpression_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression_$0> {
         return this.run<MultiplicativeExpression_$0>($$dpth,
             () => {
-                let $scope$op: Nullable<MultiplicativeExpression_$0_$0>;
                 let $scope$e: Nullable<MultiplicativeExpression>;
+                let $scope$op: Nullable<MultiplicativeExpression_$0_$0>;
                 let $$res: Nullable<MultiplicativeExpression_$0> = null;
                 if (true
+                    && ($scope$e = this.matchMultiplicativeExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$op = this.matchMultiplicativeExpression_$0_$0($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$e = this.matchMultiplicativeExpression($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = {kind: ASTKinds.MultiplicativeExpression_$0, op: $scope$op, e: $scope$e};
+                    $$res = {kind: ASTKinds.MultiplicativeExpression_$0, e: $scope$e, op: $scope$op};
                 }
                 return $$res;
             });
@@ -12358,15 +12513,17 @@ export class Parser {
     public matchIncludeDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<IncludeDirective> {
         return this.run<IncludeDirective>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
                 let $scope$name: Nullable<Filename>;
                 let $$res: Nullable<IncludeDirective> = null;
                 if (true
+                    && ($scope$pos = this.mark()) !== null
                     && this.regexAccept(String.raw`(?:\.?include)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
                     && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncludeDirective($scope$name);
+                    $$res = new IncludeDirective($scope$pos, $scope$name);
                 }
                 return $$res;
             });

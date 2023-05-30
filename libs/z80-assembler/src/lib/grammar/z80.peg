@@ -13,6 +13,7 @@ import {
 } from "./LowLevel";
 
 import {
+    LinesInfo,
     EvalFunc,
     Address,
     Bytes,
@@ -108,27 +109,27 @@ Lines :=
     Line*
 
 Line :=
-    LineEqual | LineStatement
-
-Equal :=
-    '\.?equ|eq'
+  LineEqual | LineStatement
 
 LineEqual :=
-    label=LabelDeclaration _ Equal __ e=Expression _ comment=Comment? '\r\n|\n'
-    .bytes = Bytes { return []; }
+  label=LabelDeclaration _ equal=EqualDirective _ comment=Comment? '\r\n|\n'
 
 LineStatement :=
-    label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
-    .bytes = Bytes { return statement ? statement.bytes : []; }
+  label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
 
 Statement :=
-    instruction=Instruction
-    .bytes = Bytes { return instruction.bytes; }
-    .address = Address { return null; } |
+    inc=IncludeDirective
+    .linesinfo = LinesInfo { return inc.lines; } |
 
-    directive=Directive
-    .bytes = Bytes { return directive.bytes; }
-    .address = Address { return directive.address; }
+    ins=Instruction
+    .bytes = Bytes { return ins.bytes; } |
+
+    dir=Directive
+    .bytes = Bytes { return dir.bytes; }
+    .address = Address { return dir.address; }
+
+EqualDirective :=
+    '\.?equ|eq' __ e=Expression
 
 Directive :=
     data=DataDirective
@@ -138,10 +139,6 @@ Directive :=
     origin=OriginDirective
     .bytes = Bytes { return []; }
     .address = Address { return origin.address.value; } |
-
-    directive=IncludeDirective
-    .bytes = Bytes { return directive.bytes; }
-    .address = Address { return null; } |
 
     directive=OutputDirective
     .bytes = Bytes { return []; }
@@ -1155,8 +1152,8 @@ Filename :=
     raw='[^ \t\r\n"\\:\*\?<>\|%#\$,]+'
 
 IncludeDirective :=
-    '\.?include' __ name=Filename &_eos
-    .bytes = Bytes { return includeFile(name.raw); }
+    pos=@ '\.?include' __ name=Filename &_eos
+    .lines = LinesInfo { return includeFile(pos, name.raw); }
 
 OutputDirective :=
     '\.?output' __ name=Filename sld={_ ',' _ 'sld'}? &_eos
