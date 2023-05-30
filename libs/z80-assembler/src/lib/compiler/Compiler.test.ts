@@ -185,6 +185,16 @@ test("Expression with multiple parenthesis", () => {
   expect(bytes).toEqual([0x3E, 0x06]);
 });
 
+test("Expression with (left) additive associativity", () => {
+  const bytes = compileCode('LD A, 10 - 4 - 2 - 1');
+  expect(bytes).toEqual([0x3E, 0x03]);
+});
+
+test("Expression with (left) multiplicative associativity", () => {
+  const bytes = compileCode('LD A, 20 / 2 / 5');
+  expect(bytes).toEqual([0x3E, 0x02]);
+});
+
 // -------------------------------------------------------
 // Instructions
 // -------------------------------------------------------
@@ -1667,172 +1677,264 @@ test("Circular Labels", () => {
   compileWithError('label1 equ label2\nlabel2 equ label3\nlabel3 equ label1\nld a, label1');
 });
 
+test("Labels with computation EQU", () => {
+  const bytes = compileCode(`
+before equ 0
+after  equ 5
+defw after-before-4
+`);
+  expect(bytes).toEqual([0x01, 0x00]);
+});
+
+test("Labels with computation DEFW", () => {
+  const bytes = compileCode(`before:
+    defb $55, $44
+    defw after-before-4
+    defb $66
+after:`);
+  expect(bytes).toEqual([0x55, 0x44, 0x01, 0x00, 0x66]);
+});
 
 // -------------------------------------------------------
 // Data
 // -------------------------------------------------------
 
-test("Declaring bytes", () => {
-  const bytes = compileCode('db $44, $01, $55');
-  expect(bytes).toEqual([0x44, 0x01, 0x55]);
-});
+  test("Declaring bytes", () => {
+    const bytes = compileCode('db $44, $01, $55');
+    expect(bytes).toEqual([0x44, 0x01, 0x55]);
+  });
 
-test("Declaring bytes with expressions", () => {
-  const bytes = compileCode('db $44 + 2, $01 * 2, $55');
-  expect(bytes).toEqual([0x46, 0x02, 0x55]);
-});
+  test("Declaring bytes with expressions", () => {
+    const bytes = compileCode('db $44 + 2, $01 * 2, $55');
+    expect(bytes).toEqual([0x46, 0x02, 0x55]);
+  });
 
-test("Declaring string", () => {
-  const bytes = compileCode('db "ABCDEF"');
-  expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46]);
-});
+  test("Declaring string", () => {
+    const bytes = compileCode('db "ABCDEF"');
+    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46]);
+  });
 
-test("Declaring null-terminated string", () => {
-  const bytes = compileCode('dz "ABCDEF"');
-  expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x00]);
-});
+  test("Declaring null-terminated string", () => {
+    const bytes = compileCode('dz "ABCDEF"');
+    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x00]);
+  });
 
-test("Declaring strings", () => {
-  const bytes = compileCode('db "ABCDEF", "abcdef"');
-  expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66]);
-});
+  test("Declaring strings", () => {
+    const bytes = compileCode('db "ABCDEF", "abcdef"');
+    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66]);
+  });
 
-test("Declaring words", () => {
-  const bytes = compileCode('dw $22, $4455, $0102, $55AA');
-  expect(bytes).toEqual([0x22, 0x00, 0x55, 0x44, 0x02, 0x01, 0xAA, 0x55]);
-});
+  test("Declaring words", () => {
+    const bytes = compileCode('dw $22, $4455, $0102, $55AA');
+    expect(bytes).toEqual([0x22, 0x00, 0x55, 0x44, 0x02, 0x01, 0xAA, 0x55]);
+  });
 
-test("Declaring words with label", () => {
-  const bytes = compileCode('values:\ndw label2*2+0x55\nlabel2:');
-  expect(bytes).toEqual([0x59, 0x00]);
-});
+  test("Declaring words with label", () => {
+    const bytes = compileCode('values:\ndw label2*2+0x55\nlabel2:');
+    expect(bytes).toEqual([0x59, 0x00]);
+  });
 
-test("Declaring block with implicit value", () => {
-  const bytes = compileCode('ds 10, 0xFF');
-  expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
-});
+  test("Declaring block with implicit value", () => {
+    const bytes = compileCode('ds 10, 0xFF');
+    expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
+  });
 
-test("Declaring block with explicit value", () => {
-  const bytes = compileCode('ds 10');
-  expect(bytes).toEqual([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-});
+  test("Declaring block with explicit value", () => {
+    const bytes = compileCode('ds 10');
+    expect(bytes).toEqual([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+  });
 
-test("Declaring block with length from previous label", () => {
-  const bytes = compileCode('db 0x00, 0x01, 0x02, 0x03\nlength:\nds length, 0xFF');
-  expect(bytes).toEqual([0x00, 0x01, 0x02, 0x03, 0xFF, 0xFF, 0xFF, 0xFF]);
-});
+  test("Declaring block with length from previous label", () => {
+    const bytes = compileCode('db 0x00, 0x01, 0x02, 0x03\nlength:\nds length, 0xFF');
+    expect(bytes).toEqual([0x00, 0x01, 0x02, 0x03, 0xFF, 0xFF, 0xFF, 0xFF]);
+  });
 
-test("Declaring block with length from following label", () => {
-  compileWithError('db 0x00, 0x01, 0x02, 0x03\nds length, 0xFF\nlength:');
-});
+  test("Declaring block with length from following label", () => {
+    compileWithError('db 0x00, 0x01, 0x02, 0x03\nds length, 0xFF\nlength:');
+  });
 
-test("Declaring block with length from previous equ", () => {
-  const bytes = compileCode('length equ 10\nds length, 0xFF');
-  expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
-});
+  test("Declaring block with length from previous equ", () => {
+    const bytes = compileCode('length equ 10\nds length, 0xFF');
+    expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
+  });
 
-test("Declaring block with length from following equ", () => {
-  const bytes = compileCode('ds length, 0xFF\nlength equ 10');
-  expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
-});
+  test("Declaring block with length from following equ", () => {
+    const bytes = compileCode('ds length, 0xFF\nlength equ 10');
+    expect(bytes).toEqual([0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
+  });
 
-test("Declaring block with length dependent of the size", () => {
-  compileWithError('length equ label1\ndb 0x55, 0x56, 0x57\nds length, 0xFF\nlabel1:\n db 0x44');
-});
+  test("Declaring block with length dependent of the size", () => {
+    compileWithError('length equ label1\ndb 0x55, 0x56, 0x57\nds length, 0xFF\nlabel1:\n db 0x44');
+  });
 
 // -------------------------------------------------------
 // Directives
 // -------------------------------------------------------
 
-test("Origin directive", () => {
-  const bytes = compileCode('org $5544\nlabel1:\nld hl, label1');
-  expect(bytes).toEqual([0x21, 0x44, 0x55]);
+  test("Origin directive", () => {
+    const bytes = compileCode('org $5544\nlabel1:\nld hl, label1');
+    expect(bytes).toEqual([0x21, 0x44, 0x55]);
+  });
+
+  test("Origin directive with dot", () => {
+    const bytes = compileCode('.org $5544\nlabel1:\nld hl, label1');
+    expect(bytes).toEqual([0x21, 0x44, 0x55]);
+  });
+
+  test("Include", () => {
+    const bytes = compileCode('include test.asm');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Include with dot", () => {
+    const bytes = compileCode('.include test.asm');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Include with quotes", () => {
+    const bytes = compileCode('include "test.asm"');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Include with label definition", () => {
+    const bytes = compileCodes([
+      {filename: 'main.asm', code: 'include "inc1.asm"\ndb test1'},
+      {filename: 'inc1.asm', code: 'test1 equ $55'}
+    ]);
+    expect(bytes).toEqual([0x55]);
+  });
+
+  test("Include with label defined after inclusion", () => {
+    const bytes = compileCodes([
+      {filename: 'main.asm', code: 'include "inc1.asm"\ntest2 equ $55\ndb test1'},
+      {filename: 'inc1.asm', code: 'test1 equ test2'}
+    ]);
+    expect(bytes).toEqual([0x55]);
+  });
+
+  test("Include with address defined after inclusion", () => {
+    const bytes = compileCodes([
+      {filename: 'main.asm', code: 'db $AA, $AA, $AA, $AA\ninclude "inc1.asm"\ntest1: db $55'},
+      {filename: 'inc1.asm', code: 'db test1'}
+    ]);
+    expect(bytes).toEqual([0xAA, 0xAA, 0xAA, 0xAA, 0x05, 0x55]);
+  });
+
+  test("Include with address defined in another inclusion", () => {
+    const bytes = compileCodes([
+      {filename: 'main.asm', code: 'db $AA, $AA, $AA, $AA\ninclude "inc1.asm"\ndb $55\ninclude "inc2.asm"\ndb $66'},
+      {filename: 'inc1.asm', code: 'test1: defw test2'},
+      {filename: 'inc2.asm', code: 'test2: db $22, $22, $22, $22'}
+    ]);
+    expect(bytes).toEqual([0xAA, 0xAA, 0xAA, 0xAA, 0x07, 0x00, 0x55, 0x22, 0x22, 0x22, 0x22, 0x66]);
+  });
+
+  test("Output", () => {
+    const bytes = compileCode('output test.P');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Output with dot", () => {
+    const bytes = compileCode('.output test.P');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Output with quotes", () => {
+    const bytes = compileCode('output "test.P"');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Output with SLD", () => {
+    const bytes = compileCode('output test.P, sld');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Output with SLD and quotes", () => {
+    const bytes = compileCode('output "test.P", sld');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Device", () => {
+    const bytes = compileCode('device ZX81');
+    expect(bytes).toEqual([]);
+  });
+
+  test("Device with dot", () => {
+    const bytes = compileCode('.device ZX81');
+    expect(bytes).toEqual([]);
+  });
+
+// -------------------------------------------------------
+// Full code
+// -------------------------------------------------------
+
+  test("Full code 1", () => {
+    const bytes = compileCode(`
+ERR_NR    equ $4000
+FLAGS     equ $4001
+ERR_SP    equ $4002
+RAMTOP    equ $4004
+MODE      equ $4006
+PPC       equ $4007
+
+          org  $4009
+
+VERSN:    defb  0             ; $4009
+E_PPC:    defw  10            ; $400a
+D_FILE:   defw  display       ; $400c
+DF_CC:    defw  display+1     ; $400e
+VARS:     defw  variables     ; $4010
+DEST:     defw  0             ; $4012
+E_LINE:   defw  edit_line     ; $4014
+CH_ADD:   defw  edit_line+4   ; $4016
+X_PTR:    defw  0             ; $4018
+STKBOT:   defw  edit_line+5   ; $401a
+STKEND:   defw  edit_line+5   ; $401c
+BERG:     defb  0             ; $401e
+MEM:      defw  MEMBOT        ; $401f
+SPARE1:   defb  0             ; $4021
+DF_SZ:    defb  2             ; $4022
+S_TOP:    defw  10            ; $4023
+LAST_K:   defw  0xffff        ; $4025
+DB_ST:    defb  0             ; $4027
+MARGIN:   defb  55            ; $4028
+NXTLIN:   defw  0x407C        ; $4029
+OLDPPC:   defw  0             ; $402b
+FLAGX:    defb  0             ; $402d
+STRLEN:   defw  0             ; $402e
+T_ADDR:   defw  0x0c8d        ; $4030
+SEED:     defw  0             ; $4032
+FRAMES:   defw  0             ; $4034
+COORDS:   defb  0             ; $4036
+          defb  0             ; $4037
+PR_CC:    defb  0xbc          ; $4038
+S_POSN:   defb  0x21          ; $4039
+          defb  0x18          ; $403a
+CDFLAG:   defb  0x40          ; $403b
+PRBUF:    defs  0x20          ; $403c
+          defb  $76
+MEMBOT:   defs  0x1e          ; $405d
+SPARE2:   defw  0             ; $407b
+
+
+basic_line0:
+    defb 0,0                            ; Line 0
+    defw basic_line0_end-basic_line0-4  ; Line length
+    defb 0xea                           ; REM
+
+basic_line0_end:
+display:
+variables:
+edit_line:
+`);
+    expect(bytes).toEqual([
+      0x00, 0x0a, 0x00, 0x82, 0x40, 0x83, 0x40, 0x82, 0x40, 0x00, 0x00, 0x82, 0x40, 0x86, 0x40, 0x00, 0x00,
+      0x87, 0x40, 0x87, 0x40, 0x00, 0x5D, 0x40, 0x00, 0x02, 0x0a, 0x00, 0xff, 0xff, 0x00, 0x37, 0x7C, 0x40, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x8d, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xbc, 0x21, 0x18, 0x40,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x76,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x01, 0x00, 0xea]);
 });
 
-test("Origin directive with dot", () => {
-  const bytes = compileCode('.org $5544\nlabel1:\nld hl, label1');
-  expect(bytes).toEqual([0x21, 0x44, 0x55]);
-});
-
-test("Include", () => {
-  const bytes = compileCode('include test.asm');
-  expect(bytes).toEqual([]);
-});
-
-test("Include with dot", () => {
-  const bytes = compileCode('.include test.asm');
-  expect(bytes).toEqual([]);
-});
-
-test("Include with quotes", () => {
-  const bytes = compileCode('include "test.asm"');
-  expect(bytes).toEqual([]);
-});
-
-test("Include with label definition", () => {
-  const bytes = compileCodes([
-    {filename: 'main.asm', code: 'include "inc1.asm"\ndb test1'},
-    {filename: 'inc1.asm', code: 'test1 equ $55'}
-  ]);
-  expect(bytes).toEqual([0x55]);
-});
-
-test("Include with label defined after inclusion", () => {
-  const bytes = compileCodes([
-    {filename: 'main.asm', code: 'include "inc1.asm"\ntest2 equ $55\ndb test1'},
-    {filename: 'inc1.asm', code: 'test1 equ test2'}
-  ]);
-  expect(bytes).toEqual([0x55]);
-});
-
-test("Include with address defined after inclusion", () => {
-  const bytes = compileCodes([
-    {filename: 'main.asm', code: 'db $AA, $AA, $AA, $AA\ninclude "inc1.asm"\ntest1: db $55'},
-    {filename: 'inc1.asm', code: 'db test1'}
-  ]);
-  expect(bytes).toEqual([0xAA, 0xAA, 0xAA, 0xAA, 0x05, 0x55]);
-});
-
-test("Include with address defined in another inclusion", () => {
-  const bytes = compileCodes([
-    {filename: 'main.asm', code: 'db $AA, $AA, $AA, $AA\ninclude "inc1.asm"\ndb $55\ninclude "inc2.asm"\ndb $66'},
-    {filename: 'inc1.asm', code: 'test1: defw test2'},
-    {filename: 'inc2.asm', code: 'test2: db $22, $22, $22, $22'}
-  ]);
-  expect(bytes).toEqual([0xAA, 0xAA, 0xAA, 0xAA, 0x07, 0x00, 0x55, 0x22, 0x22, 0x22, 0x22, 0x66]);
-});
-
-test("Output", () => {
-  const bytes = compileCode('output test.P');
-  expect(bytes).toEqual([]);
-});
-
-test("Output with dot", () => {
-  const bytes = compileCode('.output test.P');
-  expect(bytes).toEqual([]);
-});
-
-test("Output with quotes", () => {
-  const bytes = compileCode('output "test.P"');
-  expect(bytes).toEqual([]);
-});
-
-test("Output with SLD", () => {
-  const bytes = compileCode('output test.P, sld');
-  expect(bytes).toEqual([]);
-});
-
-test("Output with SLD and quotes", () => {
-  const bytes = compileCode('output "test.P", sld');
-  expect(bytes).toEqual([]);
-});
-
-test("Device", () => {
-  const bytes = compileCode('device ZX81');
-  expect(bytes).toEqual([]);
-});
-
-test("Device with dot", () => {
-  const bytes = compileCode('.device ZX81');
-  expect(bytes).toEqual([]);
-});

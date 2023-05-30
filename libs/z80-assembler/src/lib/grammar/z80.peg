@@ -177,27 +177,27 @@ Expression :=
 // Precedences: unary, multiplicative, additive, shift, and, xor, or
 
 BitwiseOrExpression :=
-    left=BitwiseXOrExpression right={_ '\|' _ e=BitwiseOrExpression}*
+    left={e=BitwiseOrExpression _ '\|'}* _ right=BitwiseXOrExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorOr); }
 
 BitwiseXOrExpression :=
-    left=BitwiseAndExpression right={_ '\^' _ e=BitwiseXOrExpression}*
+    left={e=BitwiseXOrExpression _ '\^'}* _ right=BitwiseAndExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorXor); }
 
 BitwiseAndExpression :=
-    left=ShiftExpression right={_ '\&' _ e=BitwiseAndExpression}*
+    left={e=BitwiseAndExpression _ '\&'}* _ right=ShiftExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorAnd); }
 
 ShiftExpression :=
-    left=AdditiveExpression right={_ op={'<<' | '>>'} _ e=ShiftExpression}*
+    left={e=ShiftExpression _ op={'<<' | '>>'}}* _ right=AdditiveExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'<<': operatorLeftShift, '>>': operatorRightShift}); }
 
 AdditiveExpression :=
-    left=MultiplicativeExpression right={_ op={'\+' | '\-'} _ e=AdditiveExpression}*
+    left={e=AdditiveExpression _ op={'\+' | '\-'}}* _ right=MultiplicativeExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'+': operatorAdd, '-': operatorSub}); }
 
 MultiplicativeExpression :=
-    left=UnaryExpression right={_ op={'\*' | '%' | '/'} _ e=MultiplicativeExpression}*
+    left={e=MultiplicativeExpression _ op={'\*' | '%' | '/'}}* _ right=UnaryExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'*': operatorMul, '/': operatorDiv, '%': operatorModulo} ); }
 
 UnaryExpression :=
