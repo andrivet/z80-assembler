@@ -7,7 +7,7 @@ import {Chunk, CompilationError, compile, formatBytes} from "@andrivet/z80-assem
 import AppFooter from "./footer";
 import AppHeader from "./header";
 import AppBinary from "./binary";
-import AppEditor, {AppEditorHandle} from "./editor";
+import AppEditor, {AppEditorHandlers} from "./editor";
 import Errors from "./errors";
 import {closeDropdown} from "./misc";
 import {fileSave} from "browser-fs-access";
@@ -30,7 +30,7 @@ export function App() {
   const [chunks, setChunks] = useState<Chunk[] | undefined>();
   const [showOpCodes, setShowOpCodes] = useState<boolean>(false);
   const [outputName, setOutputName] = useState<string | undefined>(undefined);
-  const ref = useRef<AppEditorHandle>(null);
+  const ref = useRef<AppEditorHandlers>(null);
 
   function handleGetFileCode(filename: string): string {
     if(ref.current == null) throw new Error(`Invalid reference to the editor`);
@@ -84,6 +84,8 @@ export function App() {
         onSaveCode={() => ref.current?.saveCode()}
         onSaveBinary={handleSaveBinary}
         onSaveSld={handleSaveSld}
+        onClose={() => ref.current?.closeCode()}
+        onCloseAll={() => ref.current?.closeAll()}
         onCompile={handleCompile}
         onShowOpCodes={() => setShowOpCodes(true)}
       />

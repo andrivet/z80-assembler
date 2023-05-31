@@ -1,5 +1,5 @@
 import {Tabs} from "react-daisyui";
-import {XMarkIcon} from "@heroicons/react/24/solid";
+import {FaWindowClose} from "react-icons/fa";
 import CodeMirror, {basicSetup} from "@uiw/react-codemirror";
 import {linter, lintGutter} from '@codemirror/lint'
 import React, {useState, useImperativeHandle} from "react";
@@ -8,6 +8,23 @@ import {closeDropdown} from "./misc";
 import {CompilationError} from "@andrivet/z80-assembler";
 
 const validExt = ['.asm', '.zx81'];
+
+interface AppEditorHandlers {
+  openCode: () => void;
+  openCodeDirectory: () => void;
+  saveCode: () => void;
+  closeCode: () => void;
+  closeAll: () => void;
+  getCode: (filename: string) => string;
+}
+
+interface AppEditorProps {
+  code: string,
+  setFilePath: React.Dispatch<React.SetStateAction<string>>,
+  setCode: React.Dispatch<React.SetStateAction<string>>,
+  errors: CompilationError[] | undefined,
+  setErrors: React.Dispatch<React.SetStateAction<CompilationError[] | undefined>>
+}
 
 type CodeFile = {
   filepath: string,
@@ -25,92 +42,99 @@ function isValidExt(name: string){
   return validExt.indexOf('.' + ext) !== -1
 }
 
-interface AppEditorProps {
-  code: string,
-  setFilePath: React.Dispatch<React.SetStateAction<string>>,
-  setCode: React.Dispatch<React.SetStateAction<string>>,
-  errors: CompilationError[] | undefined,
-  setErrors: React.Dispatch<React.SetStateAction<CompilationError[] | undefined>>
-}
 
-interface AppEditorHandle {
-  openCode: () => void;
-  openCodeDirectory: () => void;
-  saveCode: () => void;
-  getCode: (filename: string) => string;
-}
-
-function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandle>) {
+function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandlers>) {
   const [codeFiles, setCodeFiles] = useState<CodeFile[]>([{filepath: '', name: undefined, code: ''}]);
   const [currentFile, setCurrentFile] = useState<number>(0);
 
+  async function handleOpenCode() {
+    const blob = await fileOpen({extensions: validExt});
+    closeDropdown();
+    const content = await blob.text();
+
+    let files: CodeFile[];
+    let current = codeFiles[currentFile];
+    if(current.name == null && current.code.length <= 0) {
+      files = [...codeFiles]; // Have to be a copy
+      current = files[currentFile];
+      current.filepath = blob.webkitRelativePath;
+      current.name = blob.name;
+      current.code = content;
+    }
+    else
+      files = [...codeFiles, {filepath: blob.webkitRelativePath, name: blob.name, code: content}]; // Must be a copy
+
+    setCodeFiles(files);
+    setCurrentFile(files.length - 1);
+    props.setCode(content);
+    props.setFilePath(blob.webkitRelativePath);
+    props.setErrors(undefined);
+  }
+
+  async function handleOpenDirectory() {
+    const blobs = await directoryOpen({
+      recursive: true
+    });
+    closeDropdown();
+
+    const files = [...codeFiles]; // Have to be a copy
+    for (const blob of blobs) {
+      if (!isValidExt(blob.name)) continue;
+      const file = blob as FileWithDirectoryAndFileHandle;
+      const content = await file.text();
+      files.push({filepath: file.webkitRelativePath, name: blob.name, code: content});
+    }
+    const index = files.length - 1;
+    setCodeFiles(files);
+    setCurrentFile(index);
+    props.setCode(files[index].code);
+    props.setFilePath(files[index].filepath);
+    props.setErrors(undefined);
+  }
+
+  async function handleSaveCode() {
+    closeDropdown();
+    const file = codeFiles[currentFile];
+    if (!file) return;
+    const blob = new Blob([file.code]);
+    await fileSave(blob, {
+      fileName: file.name ?? 'untitled.asm',
+      extensions: validExt
+    });
+  }
+
+  function handleGetCode(filename: string) {
+    const file = codeFiles.find(f => f.filepath.endsWith(filename));
+    if(file == null) throw new Error(`File ${filename} not found`);
+    return file.code;
+  }
+
+  function handleCloseCode() {
+    closeDropdown();
+    handleCloseTab(currentFile);
+  }
+
+  function handleCloseAll() {
+    closeDropdown();
+    setCodeFiles([{filepath: '', name: undefined, code: ''}]);
+    setCurrentFile(0);
+    props.setCode('');
+    props.setFilePath('');
+    props.setErrors(undefined);
+  }
+
   useImperativeHandle(ref, () => {
     return {
-      async openCode() {
-        const blob = await fileOpen({extensions: validExt});
-        closeDropdown();
-        const content = await blob.text();
-
-        let files: CodeFile[] = [];
-        let current = codeFiles[currentFile];
-        if(current.name == null && current.code.length <= 0) {
-          files = [...codeFiles]; // Have to be a copy
-          current = files[currentFile];
-          current.filepath = blob.webkitRelativePath;
-          current.name = blob.name;
-          current.code = content;
-        }
-        else
-          files = [...codeFiles, {filepath: blob.webkitRelativePath, name: blob.name, code: content}]; // Must be a copy
-
-        setCodeFiles(files);
-        setCurrentFile(files.length - 1);
-        props.setCode(content);
-        props.setFilePath(blob.webkitRelativePath);
-        props.setErrors(undefined);
-      },
-
-      async openCodeDirectory() {
-        const blobs = await directoryOpen({
-          recursive: true
-        });
-        closeDropdown();
-
-        const files = [...codeFiles]; // Have to be a copy
-        for (const blob of blobs) {
-          if (!isValidExt(blob.name)) continue;
-          const file = blob as FileWithDirectoryAndFileHandle;
-          const content = await file.text();
-          files.push({filepath: file.webkitRelativePath, name: blob.name, code: content});
-        }
-        const index = files.length - 1;
-        setCodeFiles(files);
-        setCurrentFile(index);
-        props.setCode(files[index].code);
-        props.setFilePath(files[index].filepath);
-        props.setErrors(undefined);
-      },
-
-      async saveCode() {
-        closeDropdown();
-        const file = codeFiles[currentFile];
-        if (!file) return;
-        const blob = new Blob([file.code]);
-        await fileSave(blob, {
-          fileName: file.name ?? 'untitled.asm',
-          extensions: validExt
-        });
-      },
-
-      getCode(filename: string): string {
-        const file = codeFiles.find(f => f.filepath.endsWith(filename));
-        if(file == null) throw new Error(`File ${filename} not found`);
-        return file.code;
-      }
+      openCode: handleOpenCode,
+      openCodeDirectory: handleOpenDirectory,
+      saveCode: handleSaveCode,
+      getCode: handleGetCode,
+      closeCode: handleCloseCode,
+      closeAll: handleCloseAll
     }
   });
 
-  function onChangeTab(index: number) {
+  function handleChangeTab(index: number) {
     if (index >= codeFiles.length) index = codeFiles.length > 0 ? codeFiles.length - 1 : 0;
     setCurrentFile(index);
     if(codeFiles.length > 0) {
@@ -125,7 +149,7 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
     props.setErrors(undefined);
   }
 
-  function onCloseTab(index: number) {
+  function handleCloseTab(index: number) {
     const files = codeFiles.slice(0, index).concat(codeFiles.slice(index + 1));
     if(files.length <= 0) {
       setCodeFiles([{filepath: '', name: undefined, code: ''}]);
@@ -167,10 +191,10 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
         >{
           codeFiles.map((file, index) => (
             <Tabs.Tab key={index} value={index}>
-              <XMarkIcon
-                className="border rounded h-4 w-4 mr-2 border-slate-500 hover:bg-neutral-600"
-                onClick={() => onCloseTab(index)} />
-              <p onClick={() => onChangeTab(index)}>{file.name ?? 'untitled.asm'}</p>
+              <FaWindowClose
+                className="h-4 w-4 mr-2"
+                onClick={() => handleCloseTab(index)} />
+              <p onClick={() => handleChangeTab(index)}>{file.name ?? 'untitled.asm'}</p>
             </Tabs.Tab>
           ))}
         </Tabs>
@@ -190,4 +214,4 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
 }
 
 export default React.forwardRef(AppEditor);
-export {AppEditorHandle};
+export {AppEditorHandlers};
