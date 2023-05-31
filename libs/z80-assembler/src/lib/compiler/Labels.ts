@@ -1,21 +1,21 @@
 import {Expression, PosInfo} from "../grammar/z80";
 
-export type Label = {
+type Label = {
   expression: Expression | null;
   value: number;
   known: boolean;
   used: boolean;
 };
 
-export type Labels = Map<string, Label>;
+type Labels = Map<string, Label>;
 
 const labels: Labels = new Map<string, Label>();
 
-export function resetLabels() {
+function resetLabels() {
   labels.clear();
 }
 
-export function addLabel(_: PosInfo, name: string, value: number | null) {
+function addLabel(_: PosInfo, name: string, value: number | null) {
   const label = labels.get(name);
   if(!label) {
     labels.set(name, {expression: null, value: value ?? 0, known: value != null, used: false});
@@ -32,7 +32,7 @@ export function addLabel(_: PosInfo, name: string, value: number | null) {
   label.known = value != null;
 }
 
-export function addLabelExpression(_: PosInfo, name: string, expression: Expression) {
+function addLabelExpression(_: PosInfo, name: string, expression: Expression) {
   const label = labels.get(name);
   if(!label) {
     labels.set(name, {expression: expression, value: 0, known: false, used: false});
@@ -43,14 +43,14 @@ export function addLabelExpression(_: PosInfo, name: string, expression: Express
   label.expression = expression;
 }
 
-export function getLabelValue(name: string): number | null {
+function getLabelValue(name: string, setUsed = true): number | null {
   const label = labels.get(name);
   if(!label) {
     labels.set(name, {expression: null, value: 0, known: false, used: true});
     return null;
   }
 
-  label.used = true;
+  if(setUsed) label.used = true;
   if(label.known) return label.value;
   if(label.expression == null) return null;
 
@@ -62,12 +62,15 @@ export function getLabelValue(name: string): number | null {
   return value;
 }
 
-export function getLabel(name: string) {
-  return labels.get(name);
+function isLabelUsed(name: string) {
+  const label = labels.get(name);
+  return label && label.used;
 }
 
-export function getUnknownLabels(): string[] {
+function getUnknownLabels(): string[] {
   return [...labels.entries()]
     .filter(([, label]) => !label.known && label.value == null)
     .map(([name]) => name);
 }
+
+export {resetLabels, addLabel, addLabelExpression, getLabelValue, isLabelUsed, getUnknownLabels}
