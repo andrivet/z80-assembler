@@ -1,6 +1,7 @@
 import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
-import {addLabel, addLabelExpression, getLabel} from "../compiler/Labels";
-import {Byte, Bytes, bytes, getByteSize, isAbstract, LinesInfo} from "../compiler/Ast";
+import {bytes, LinesInfo} from '../types/Types';
+import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "../compiler/Labels";
+import {Byte, Bytes, getByteSize, isAbstract, } from "../compiler/Ast";
 
 interface Chunk {
   address: string;
@@ -89,7 +90,7 @@ function formatBytes(bytes: number[], perLine: number): Chunk[] {
 function generateSld(lines: LinesInfo): string {
   const filename = lines.filename;
   const header = '|SLD.data.version|1\n' +
-    `${filename}|1||0|-1|-1|Z|pages.size:16384,pages.count:1,slots.count:1,slots.adr:0\n`;
+    `${filename}|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0\n`;
   return header + generateSldLines(lines);
 }
 
@@ -109,15 +110,19 @@ function generateSldLines(lines: LinesInfo): string {
 
 function generateSldLabel(filename: string, lineNumber: number, line: Line): string {
   if(!line.label) return '';
-  const label = getLabel(line.label.name);
-  const value = label?.value ?? 0;
+  const value = getLabelValue(line.label.name, false);
+  const isUsed = isLabelUsed(line.label.name);
 
-  // zx81-characters.asm|3||0|-1|0|L|,_SPC,,+equ,+used
+  // ./includes/zx81-characters.asm|3||0|-1|0|D|_SPC
+  // ./includes/zx81-characters.asm|3||0|-1|0|L|,_SPC,,+equ,+used
   if(line.kind === ASTKinds.LineEqual)
-      return `${filename}|${lineNumber}||0|-1|${value}|L|,${line.label.name},,+equ${label?.used ? ',+used' : ''}\n`;
+      return `${filename}|${lineNumber}||0|-1|${value}|D|${line.label.name}\n` +
+             `${filename}|${lineNumber}||0|-1|${value}|L|,${line.label.name},,+equ${isUsed ? ',+used' : ''}\n`;
 
-  // zx81-system-variables.asm|12||0|0|16393|L|,VERSN,
-  return `${filename}|${lineNumber}||0|0|${value}|L|,${line.label.name ?? ''},${label?.used ? ',+used' : ''}\n`;
+  // ./includes/zx81-system-variables.asm|12||0|0|16393|F|VERSN
+  // ./includes/zx81-system-variables.asm|12||0|0|16393|L|,VERSN,
+  return `${filename}|${lineNumber}||0|0|${value}|F|${line.label.name}\n` +
+         `${filename}|${lineNumber}||0|0|${value}|L|,${line.label.name},${isUsed ? ',+used' : ''}\n`;
 }
 
 function generateSldTrace(filename: string, lineNumber: number, line: Line, address: number): string {
