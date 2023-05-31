@@ -13,10 +13,9 @@
 *     p_bits,
 *     imode
 * } from "./LowLevel";
+* import {LinesInfo, Address} from '../types/Types';
 * import {
-*     LinesInfo,
 *     EvalFunc,
-*     Address,
 *     Bytes,
 *     binaryOperation,
 *     binaryOperations,
@@ -903,10 +902,10 @@ import {
     imode
 } from "./LowLevel";
 
+import {LinesInfo, Address} from '../types/Types';
+
 import {
-    LinesInfo,
     EvalFunc,
-    Address,
     Bytes,
     binaryOperation,
     binaryOperations,

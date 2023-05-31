@@ -1,5 +1,4 @@
-import {byte} from "../compiler/Ast";
-
+import {byte} from "../types/Types";
 
 export function r_bits(r: string, offset = 0): byte {
   switch(r.toLowerCase()) {
@@ -79,7 +78,7 @@ export function cc_bits(cc: string, offset = 0): byte {
   }
 }
 
-export function jj_bits(jj: string = ''): byte {
+export function jj_bits(jj = ''): byte {
   switch(jj.toLowerCase()) {
     case '':   return 0x18;
     case 'nz': return 0x20;

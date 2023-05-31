@@ -1,16 +1,9 @@
 import {Line, Parser, PosInfo} from "../grammar/z80";
-import {bytes, LinesInfo} from "./Ast";
-import {CompilationError} from "./Error";
+import {LinesInfo, CompilationInfo} from "../types/Types";
+import {CompilationError} from "../types/Error";
 import {computeLabels, generateBytes, generateSld} from "../generator/Generator";
 import {getUnknownLabels, resetLabels} from "./Labels";
 
-interface CompilationInfo {
-  outputName: string;
-  outputSld: boolean;
-  bytes: bytes;
-  sld: string; // Source Level Debugging data
-  errs: CompilationError[];
-}
 
 interface ParseDate {
   outputName: string,
@@ -116,11 +109,4 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
   }
 }
 
-export {
-  parseData,
-  compile,
-  includeFile,
-  setOutputName,
-  setDeviceName,
-  CompilationInfo
-};
+export {parseData, compile, includeFile, setOutputName, setDeviceName};

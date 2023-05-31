@@ -1,16 +1,8 @@
-import {ByteValue, Expression, Line, PosInfo, WordValue} from "../grammar/z80";
+import {byte, bytes} from '../types/Types';
+import {CompilationError} from "../types/Error";
+import {ByteValue, Expression, PosInfo, WordValue} from "../grammar/z80";
 import {addLabel, getLabelValue} from "./Labels";
-import {CompilationError} from "./Error";
 import {parseData} from "../compiler/Compiler";
-
-export type byte = number;
-export type bytes = byte[];
-export type Address = number | null;
-
-export interface LinesInfo {
-  lines: Line[];
-  filename: string;
-}
 
 export type EvalFunc = () => number | null;
 
