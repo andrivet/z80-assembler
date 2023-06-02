@@ -1,1 +1,3 @@
 node_modules
+libs/z80-assembler/src/lib/grammar/z80.ts
+libs/z80-assembler/src/lib/**/*.test.ts

@@ -16,7 +16,6 @@ interface ErrorsProps {
 function errorText(errors: CompilationError[] | undefined) {
   if(errors == null) return '';
   if(errors.length <= 0) return 'Successful compilation';
-  const error = errors[0];
   return errors[0].toString();
 }
 

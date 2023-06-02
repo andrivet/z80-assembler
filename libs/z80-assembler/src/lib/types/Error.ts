@@ -37,17 +37,17 @@ class CompilationError extends Error {
     return new CompilationError(filename, e.pos, this.formatError(e));
   }
 
-  static fromAny(filename: string, e: any) {
+  static fromAny(filename: string, e: any) { // eslint-disable-line
     if(e instanceof CompilationError) return e;
     if(e instanceof SyntaxErr) return this.fromSyntaxErr(filename, e);
     return new CompilationError(filename, {line: 1, offset: 0, overallPos: 0}, e.toString());
   }
 
-  static is(err: any): err is CompilationError {
+  static is(err: any): err is CompilationError { // eslint-disable-line
     return (err as CompilationError).filename !== undefined;
   }
 
-  static isArray(err: any): err is CompilationError[] {
+  static isArray(err: any): err is CompilationError[] { // eslint-disable-line
     const errs = err as CompilationError[];
     return errs.length !== undefined && (errs.length === 0 || errs[0].filename !== undefined);
   }

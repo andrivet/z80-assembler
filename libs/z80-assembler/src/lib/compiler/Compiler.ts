@@ -35,7 +35,7 @@ function setOutputName(filename: string, sld: boolean) {
   parseData.outputSld = sld;
 }
 
-function setDeviceName(_: string) {
+function setDeviceName(/*_: string*/) {
   // For the moment, do nothing
 }
 
@@ -107,7 +107,7 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
       errs: []
     };
   }
-  catch(ex: any) {
+  catch(ex: any) { // eslint-disable-line
     return {
       outputName: parseData.outputName,
       outputSld: parseData.outputSld,
