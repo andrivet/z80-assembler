@@ -1,8 +1,8 @@
 /**
  * Z80 Assembler in Typescript
  *
- * File:
- * Description:
+ * File:        Types.ts
+ * Description: Common types
  * Author:			Sebastien Andrivet
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet

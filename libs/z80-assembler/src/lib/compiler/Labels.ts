@@ -1,8 +1,8 @@
 /**
  * Z80 Assembler in Typescript
  *
- * File:
- * Description:
+ * File:        Labels.ts
+ * Description: Labels associated to locations in memory
  * Author:			Sebastien Andrivet
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet

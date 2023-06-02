@@ -1,8 +1,8 @@
 /**
  * Z80 Assembler in Typescript
  *
- * File:
- * Description:
+ * File:        header.tsx
+ * Description: Header of the application
  * Author:			Sebastien Andrivet
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
