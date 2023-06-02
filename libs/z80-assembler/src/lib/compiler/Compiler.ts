@@ -10,7 +10,7 @@
 import {Line, Parser, PosInfo} from "../grammar/z80";
 import {LinesInfo, CompilationInfo} from "../types/Types";
 import {CompilationError} from "../types/Error";
-import {computeLabels, generateBytes, generateSld} from "../generator/Generator";
+import {computeLabels, generateBytes, generateSld} from "./Generator";
 import {getUnknownLabels, resetLabels} from "./Labels";
 
 
