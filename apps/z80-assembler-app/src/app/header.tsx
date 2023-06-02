@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import React from "react";
 import {Menu, Navbar} from "react-daisyui";
 import logoUrl from "../assets/images/logo192.png";

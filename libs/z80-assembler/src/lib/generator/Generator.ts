@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
 import {bytes, LinesInfo} from '../types/Types';
 import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "../compiler/Labels";

@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 const { join } = require('path');
 
 // Note: If you use library-specific PostCSS/Tailwind configuration then you should remove the `postcssConfig` build

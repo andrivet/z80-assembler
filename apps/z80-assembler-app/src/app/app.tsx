@@ -1,3 +1,13 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.css';
 

@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {byte} from "../types/Types";
 
 export function r_bits(r: string, offset = 0): byte {

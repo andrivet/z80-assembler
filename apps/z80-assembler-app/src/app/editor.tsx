@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {Tabs} from "react-daisyui";
 import {FaWindowClose} from "react-icons/fa";
 import CodeMirror, {basicSetup} from "@uiw/react-codemirror";

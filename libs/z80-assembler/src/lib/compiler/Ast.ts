@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {byte, bytes} from '../types/Types';
 import {CompilationError} from "../types/Error";
 import {ByteValue, Expression, PosInfo, WordValue} from "../grammar/z80";

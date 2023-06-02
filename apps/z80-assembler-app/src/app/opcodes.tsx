@@ -1,3 +1,12 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:
+ * Description:
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {Collapse, Table} from "react-daisyui";
 
 
@@ -5,7 +14,6 @@ export function AppOpcodes() {
   return(
     <div className="flex flex-auto h-full relative mt-0">
       <div className="absolute top-0 bottom-0 left-0 right-0 overflow-auto">
-        <h1 className="font-bold mb-2 text-orange-400">Z80 Instructions</h1>
         <Collapse checkbox={true} icon="arrow">
           <Collapse.Title className="font-bold">8-bit Load</Collapse.Title>
           <Collapse.Content>
@@ -156,20 +164,6 @@ export function AppOpcodes() {
         </Collapse>
 
         <Collapse checkbox={true} icon="arrow">
-          <Collapse.Title className="font-bold">Bit Manipulation</Collapse.Title>
-          <Collapse.Content>
-            <Table compact={false} zebra={true} width="100%">
-              <Table.Head>
-                {['Opcode', 'Arguments']}
-              </Table.Head>
-              <Table.Body>
-                <Table.Row>{[<span></span>, <span></span>]}</Table.Row>
-              </Table.Body>
-            </Table>
-          </Collapse.Content>
-        </Collapse>
-
-        <Collapse checkbox={true} icon="arrow">
           <Collapse.Title className="font-bold">Jump, Call and Return</Collapse.Title>
           <Collapse.Content>
             <Table compact={false} zebra={true} width="100%">
@@ -211,8 +205,21 @@ export function AppOpcodes() {
           </Collapse.Content>
         </Collapse>
 
-      <h1 className="font-bold mb-2 text-orange-400">Pseudo-Instructions</h1>
-    </div>
+        <Collapse checkbox={true} icon="arrow">
+          <Collapse.Title className="font-bold">Pseudo Instructions</Collapse.Title>
+          <Collapse.Content>
+            <Table compact={false} zebra={true} width="100%">
+              <Table.Head>
+                {['Opcode', 'Arguments']}
+              </Table.Head>
+              <Table.Body>
+                <Table.Row>{[<span></span>, <span></span>]}</Table.Row>
+              </Table.Body>
+            </Table>
+          </Collapse.Content>
+        </Collapse>
+
+      </div>
     </div>
   );
 }
