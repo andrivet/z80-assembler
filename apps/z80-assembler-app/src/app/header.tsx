@@ -8,7 +8,7 @@
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
 import React from "react";
-import {Menu, Navbar} from "react-daisyui";
+import {Button, Dropdown, Menu, Navbar} from "react-daisyui";
 import logoUrl from "../assets/images/logo192.png";
 import {FaChevronDown, FaCog, FaFile, FaFileAlt, FaCodepen, FaFolderOpen, FaSave, FaTimesCircle} from "react-icons/fa";
 
@@ -34,34 +34,22 @@ export default function AppHeader(props: AppHeaderProps) {
           <img src={logoUrl} width={32} className="mx-4" alt="Logo"></img><span className="text-orange-400">Z80 Assembler</span>
         </Navbar.Start>
         <Navbar.Center className="flex">
-          <Menu horizontal={true} className="px-1">
-            <Menu.Item tabIndex={0}>
-              <p>
-                <FaFile className="h-5 w-5" />
-                File
-                <FaChevronDown className="w-4 h-4" />
-              </p>
-              <Menu className="bg-gray-800 z-10">
-                <Menu.Item onClick={props.onOpenCode}><p><FaFileAlt className="h-5 w-5" />Open Code...</p></Menu.Item>
-                <Menu.Item onClick={props.onOpenCodeDirectory}><p><FaFolderOpen className="h-5 w-5" />Open Code Directory...</p></Menu.Item>
-                <Menu.Item><p onClick={props.onSaveCode}><FaSave className="h-5 w-5" />Save Code...</p></Menu.Item>
-                <Menu.Item><p onClick={props.onSaveBinary}><FaSave className="h-5 w-5" />Save Binary...</p></Menu.Item>
-                <Menu.Item><p onClick={props.onSaveSld}><FaSave className="h-5 w-5" />Save SLD File...</p></Menu.Item>
-                <Menu.Item><p onClick={props.onClose}><FaTimesCircle className="h-5 w-5" />Close Code</p></Menu.Item>
-                <Menu.Item><p onClick={props.onCloseAll}><FaTimesCircle className="h-5 w-5" />Close All</p></Menu.Item>
-              </Menu>
-            </Menu.Item>
-            <Menu.Item>
-              <p onClick={props.onCompile}><FaCog className="h-5 w-5"/>Compile</p>
-            </Menu.Item>
-          </Menu>
+          <Dropdown hover={true}  className="z-10">
+            <Dropdown.Toggle color="ghost"><FaFile className="h-5 w-5" />File<FaChevronDown className="w-4 h-4" /></Dropdown.Toggle>
+            <Dropdown.Menu className="w-56">
+              <Dropdown.Item onClick={props.onOpenCode}><FaFileAlt className="h-5 w-5" />Open Code...</Dropdown.Item>
+              <Dropdown.Item onClick={props.onOpenCodeDirectory}><FaFolderOpen className="h-5 w-5" />Open Code Directory...</Dropdown.Item>
+              <Dropdown.Item onClick={props.onSaveCode}><FaSave className="h-5 w-5" />Save Code...</Dropdown.Item>
+              <Dropdown.Item onClick={props.onSaveBinary}><FaSave className="h-5 w-5" />Save Binary...</Dropdown.Item>
+              <Dropdown.Item onClick={props.onSaveSld}><FaSave className="h-5 w-5" />Save SLD File...</Dropdown.Item>
+              <Dropdown.Item onClick={props.onClose}><FaTimesCircle className="h-5 w-5" />Close Code</Dropdown.Item>
+              <Dropdown.Item onClick={props.onCloseAll}><FaTimesCircle className="h-5 w-5" />Close All</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Button color="ghost" onClick={props.onCompile}><FaCog className="h-5 w-5"/>Compile</Button>
         </Navbar.Center>
         <Navbar.End>
-          <Menu horizontal={true} className="px-1">
-            <Menu.Item tabIndex={0}><p onClick={props.onShowOpCodes}><FaCodepen className="h-5 w-5" />
-              Z80 Opcodes</p>
-            </Menu.Item>
-          </Menu>
+          <Button color="ghost" onClick={props.onShowOpCodes}><FaCodepen className="h-5 w-5" />Z80 Opcodes</Button>
         </Navbar.End>
       </Navbar>
     </div>
