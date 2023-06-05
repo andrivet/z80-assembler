@@ -3,5 +3,10 @@
   "version": "1.0.0",
   "author": "Sebastien Andrivet",
   "license": "GPLv3",
-  "type": "commonjs"
+  "type": "commonjs",
+  "keywords": ["z80", "assembler", "ZX81"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrivet/z80-assembler"
+  }
 }

@@ -8,7 +8,7 @@
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
 import React from "react";
-import {Button, Dropdown, Menu, Navbar} from "react-daisyui";
+import {Button, Dropdown, Navbar} from "react-daisyui";
 import logoUrl from "../assets/images/logo192.png";
 import {FaChevronDown, FaCog, FaFile, FaFileAlt, FaCodepen, FaFolderOpen, FaSave, FaTimesCircle} from "react-icons/fa";
 

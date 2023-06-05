@@ -31,7 +31,7 @@
       }
     },
     "compile grammar": {
-      "command": "tspeg --regex-flags=i ./libs/z80-assembler/src/lib/grammar/z80.peg ./libs/z80-assembler/src/lib/grammar/z80.ts",
+      "command": "tspeg --regex-flags=i --include-grammar-comment=false ./libs/z80-assembler/src/lib/grammar/z80.peg ./libs/z80-assembler/src/lib/grammar/z80.ts",
       "outputs": ["./libs/z80-assembler/src/lib/grammar/z80.ts"]
     }
   },

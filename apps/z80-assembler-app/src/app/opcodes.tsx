@@ -7,7 +7,7 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
-import {Collapse, Table} from "react-daisyui";
+import {Collapse} from "react-daisyui";
 
 
 export function AppOpcodes() {
