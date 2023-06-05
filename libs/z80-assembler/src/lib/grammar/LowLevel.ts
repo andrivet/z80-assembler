@@ -9,6 +9,11 @@
  */
 import {byte} from "../types/Types";
 
+/**
+ * Compute the binary representation of the r argument.
+ * @param r The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
 export function r_bits(r: string, offset = 0): byte {
   switch(r.toLowerCase()) {
     case 'b': return 0b000 << offset;
@@ -22,46 +27,71 @@ export function r_bits(r: string, offset = 0): byte {
   }
 }
 
-export function dd_bits(rr: string, offset = 0): byte {
-  switch(rr.toLowerCase()) {
+/**
+ * Compute the binary representation of the dd argument.
+ * @param dd The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
+export function dd_bits(dd: string, offset = 0): byte {
+  switch(dd.toLowerCase()) {
     case 'bc': return 0b00000000 << offset;
     case 'de': return 0b00000001 << offset;
     case 'hl': return 0b00000010 << offset;
     case 'sp': return 0b00000011 << offset;
-    default: console.log(`Invalid register name: ${rr}`); return 0;
+    default: console.log(`Invalid register name: ${dd}`); return 0;
   }
 }
 
-export function qq_bits(rr: string, offset = 0): byte {
-  switch(rr.toLowerCase()) {
+/**
+ * Compute the binary representation of the qq argument.
+ * @param qq The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
+export function qq_bits(qq: string, offset = 0): byte {
+  switch(qq.toLowerCase()) {
     case 'bc': return 0b00000000 << offset;
     case 'de': return 0b00000001 << offset;
     case 'hl': return 0b00000010 << offset;
     case 'af': return 0b00000011 << offset;
-    default: console.log(`Invalid register name: ${rr}`); return 0;
+    default: console.log(`Invalid register name: ${qq}`); return 0;
   }
 }
 
-export function ss_bits(rr: string, offset = 0): byte {
-  switch(rr.toLowerCase()) {
+/**
+ * Compute the binary representation of the ss argument.
+ * @param ss The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
+export function ss_bits(ss: string, offset = 0): byte {
+  switch(ss.toLowerCase()) {
     case 'bc': return 0b00000000 << offset;
     case 'de': return 0b00000001 << offset;
     case 'hl': return 0b00000010 << offset;
     case 'sp': return 0b00000011 << offset;
-    default: console.log(`Invalid register name: ${rr}`); return 0;
+    default: console.log(`Invalid register name: ${ss}`); return 0;
   }
 }
 
-export function pp_bits(rr: string, offset = 0): byte {
-  switch(rr.toLowerCase()) {
+/**
+ * Compute the binary representation of the pp argument.
+ * @param pp The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
+export function pp_bits(pp: string, offset = 0): byte {
+  switch(pp.toLowerCase()) {
     case 'bc': return 0b00000000 << offset;
     case 'de': return 0b00000001 << offset;
     case 'ix': return 0b00000010 << offset;
     case 'sp': return 0b00000011 << offset;
-    default: console.log(`Invalid register name: ${rr}`); return 0;
+    default: console.log(`Invalid register name: ${pp}`); return 0;
   }
 }
 
+/**
+ * Compute the binary representation of the rr argument.
+ * @param rr The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
 export function rr_bits(rr: string, offset = 0): byte {
   switch(rr.toLowerCase()) {
     case 'bc': return 0b00000000 << offset;
@@ -72,6 +102,11 @@ export function rr_bits(rr: string, offset = 0): byte {
   }
 }
 
+/**
+ * Compute the binary representation of the cc argument.
+ * @param cc The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
 export function cc_bits(cc: string, offset = 0): byte {
   switch(cc.toLowerCase()) {
     case 'nz': return 0b00000000 << offset;
@@ -87,6 +122,10 @@ export function cc_bits(cc: string, offset = 0): byte {
   }
 }
 
+/**
+ * Compute the binary representation of the jj argument.
+ * @param jj The argument of the opcode
+ */
 export function jj_bits(jj = ''): byte {
   switch(jj.toLowerCase()) {
     case '':   return 0x18;
@@ -98,13 +137,21 @@ export function jj_bits(jj = ''): byte {
   }
 }
 
-
+/**
+ * Compute the binary representation of the p argument.
+ * @param p The argument of the opcode
+ * @param offset The number of bits to shift to the left.
+ */
 export function p_bits(p: number, offset = 0): byte {
   if(p < 0 || p > 0x38 || p % 8 !== 0)
     console.log(`Invalid argument for RST: ${p}`);
   return (p / 8) << offset;
 }
 
+/**
+ * Compute the binary representation of the mode argument.
+ * @param mode The argument of the opcode
+ */
 export function imode(mode: string): byte {
   switch (mode) {
     case '0': return 0x46;

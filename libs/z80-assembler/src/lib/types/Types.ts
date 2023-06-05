@@ -10,20 +10,42 @@
 import {Line} from "../grammar/z80";
 import {CompilationError} from "./Error";
 
+/**
+ * A byte is represented by a number.
+ */
 type byte = number;
+
+/**
+ * An array of bytes.
+ */
 type bytes = byte[];
+
+/**
+ * An address is either a number (known) or null (unknown)
+ */
 type Address = number | null;
 
+/**
+ * Information about lines.
+ */
 interface LinesInfo {
+  // An array of lines (AST)
   lines: Line[];
+  // A filename associated with this lines
   filename: string;
 }
 
+/**
+ * The result of a compilation.
+ */
 interface CompilationInfo {
+  // The name of the output (output directive)
   outputName: string;
-  outputSld: boolean;
+  // The bytes, result of the compilation
   bytes: bytes;
-  sld: string; // Source Level Debugging data
+  // The Source Level Debugging data
+  sld: string;
+  // The compilation errors
   errs: CompilationError[];
 }
 

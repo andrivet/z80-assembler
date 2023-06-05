@@ -21,11 +21,18 @@ import {
     imode
 } from "./LowLevel";
 
+import {
+  parseNumber,
+  parseSimpleChar,
+  parseSimpleEscape,
+  parseOctalEscape,
+  parseHexadecimalEscape,
+  parseZX81String} from './Parse';
 import {LinesInfo, Address} from '../types/Types';
 
 import {
     EvalFunc,
-    Bytes,
+    AstElements,
     binaryOperation,
     binaryOperations,
     unaryOperation,
@@ -49,24 +56,19 @@ import {
     svalue8,
     jrOffset,
     jrRelativeOffset,
-    parseNumber,
-    parseSimpleChar,
-    parseSimpleEscape,
-    parseOctalEscape,
-    parseHexadecimalEscape,
     dataBytes,
-    dataBytesZero,
     dataWords,
-    dataBlock,
-    parseZX81String
+    dataBlock
 } from '../compiler/Ast';
 
 import {getLabelValue} from '../compiler/Labels';
 import {setOutputName, setDeviceName, includeFile} from '../compiler/Compiler';
 ---
 
-start := lines=Lines $
+// Start (top level symbol) of the grammar
+start := lines=Lines $ // Les followed by the end of the code
 
+// Names of the registers for the different opcodes (the names are from the Z80 CPU User Manual)
 r := 'a' | 'b' | 'c' | 'd' | 'e' | 'h' | 'l'
 dd := 'bc' | 'de' | 'hl' | 'sp'
 ss := dd
@@ -74,89 +76,108 @@ qq := 'bc' | 'de' | 'hl' | 'af'
 pp := 'bc' | 'de' | 'ix' | 'sp'
 rr := 'bc' | 'de' | 'iy' | 'sp'
 
-// binary before hexadecimal because 0b is ambiguous
+// 8-bit values
+// Note: binary is before hexadecimal because 0b is ambiguous
 n :=
     pos=@ binary=binary               .value = number { return parseNumber(pos, binary.raw, 2, 1); } |
     pos=@ hexadecimal=hexadecimal     .value = number { return parseNumber(pos, hexadecimal.raw, 16, 1); } |
     pos=@ octal=octal                 .value = number { return parseNumber(pos, octal.raw, 8, 1); } |
     pos=@ decimal=decimal             .value = number { return parseNumber(pos, decimal.raw, 10, 1); }
 
+// 16-bit values
+// Note: binary is before hexadecimal because 0b is ambiguous
 nn :=
     pos=@ binary=binary               .value = number { return parseNumber(pos, binary.raw, 2, 2); } |
     pos=@ hexadecimal=hexadecimal     .value = number { return parseNumber(pos, hexadecimal.raw, 16, 2); } |
     pos=@ octal=octal                 .value = number { return parseNumber(pos, octal.raw, 8, 2); } |
     pos=@ decimal=decimal             .value = number { return parseNumber(pos, decimal.raw, 10, 2); }
 
+// A decimal unsigned value with the different allowed syntaxes
 decimal :=
     raw='[0-9]+' 'd'?
 
+// A binary value with the different allowed syntaxes
 binary :=
     {'0b' | '%'} raw='[0-1]+'
 
+// An octal value with the different allowed syntaxes
 octal :=
     {'0q' | '0o'} raw='[0-7]+' |
     raw='[0-7]+' {'q' | 'o'}
 
+// An hexadecimal value with the different allowed syntaxes
 hexadecimal :=
     {'0x' | '\$' | '#'} raw='[0-9a-f]+' |
     raw='[0-9][0-9a-f]?' 'h'
 
+// Different names used in the Z80 CPU User Manual for 8-bit values
 d := n
 e := n
 p := n
 
+// A bit value
 b := raw='[0-7]'    .value = number { return parseInt(raw); }
 
+// Conditional flags for jumps
 cc := 'nz' | 'z' | 'nc' | 'c' | 'po' | 'pe' | 'p' | 'm' | 's'
+// Conditional flags for djnz
 jj := 'c'  | 'nc' | 'z' | 'nz'
 
 __   := '[ \t]+'                 // Mandatory space
 _    := '[ \t]*'                 // Optional space
 _eos := '[ \t]*(;|\r\n|\n|//)'   // End of statement
 
+// Lines is a list of lines (can be empty)
 Lines :=
     Line*
 
+// A line is either an equality or a statement
 Line :=
   LineEqual | LineStatement
 
+// An equality is a label (mandatory) followed by an equality directive, an optional comment and an end of line.
 LineEqual :=
   label=LabelDeclaration _ equal=EqualDirective _ comment=Comment? '\r\n|\n'
 
+// A line with a statement is an optional label, followed by a statement, an optional comment and an end of line.
 LineStatement :=
   label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
 
+// A statement is either in include, and instruction or directive
 Statement :=
     inc=IncludeDirective
     .linesinfo = LinesInfo { return inc.lines; } |
 
     ins=Instruction
-    .bytes = Bytes { return ins.bytes; } |
+    .elements = AstElements { return ins.elements; } |
 
     dir=Directive
-    .bytes = Bytes { return dir.bytes; }
+    .elements = AstElements { return dir.elements; }
     .address = Address { return dir.address; }
 
+// An equality directive is 'equ' (or an alias) followed by an expression
 EqualDirective :=
     '\.?equ|eq' __ e=Expression
 
+// A directive is either a data directive, an origin directive, an output directive or a device directive
 Directive :=
     data=DataDirective
-    .bytes = Bytes { return data.bytes; }
+    .elements = AstElements { return data.elements; }
     .address = Address { return null; } |
 
     origin=OriginDirective
-    .bytes = Bytes { return []; }
+    .elements = AstElements { return []; }
     .address = Address { return origin.address.value; } |
 
     directive=OutputDirective
-    .bytes = Bytes { return []; }
+    .elements = AstElements { return []; }
     .address = Address { return null; } |
 
     directive=DeviceDirective
-    .bytes = Bytes { return []; }
+    .elements = AstElements { return []; }
     .address = Address { return null; }
 
+// Names not allowed for a label
 ForbiddenNames :=
     'block|.\?equ|\.?org|\.?include|\.?output|\.?device' |
     'byte|call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|word' |
@@ -164,48 +185,60 @@ ForbiddenNames :=
     'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor' |
     'cp|db|di|dm|ds|dw|dz|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
 
+// A forbidden label is a name not allowed for a label followed by a space, a tabulation, the character ':' or an end of line.
 ForbiddenLabel :=
     ForbiddenNames '[ \t:\r\n]'
 
+// A label can't have a forbidden name. It is a name.
 Label :=
     !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.]*'
 
+// A label declaration can't have a forbidden name. It is a name optionally followed by a ':' character.
 LabelDeclaration :=
     !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.]*' '\:'?
 
-// Top level expressions can't start with a parenthesis, otherwise it is ambiguous with dereferences
+// Note: Top level expressions can't start with a parenthesis, otherwise it is ambiguous with dereferences
 // like LD HL, (0)
 
+// An expression can't start with an open parenthesis. it is a bitwise OR expression
 Expression :=
     !'\(' e1=BitwiseOrExpression
     .eval = EvalFunc { return e1.eval; }
 
 // Precedences: unary, multiplicative, additive, shift, and, xor, or
+// Associativity: left to right
 
+// A bitwise OR expression is a list of bitwise OR expressions (eventually empty) followed by a bitwise XOR expression
 BitwiseOrExpression :=
     left={e=BitwiseOrExpression _ '\|'}* _ right=BitwiseXOrExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorOr); }
 
+// A bitwise XOR expression is a list of bitwise XOR expressions (eventually empty) followed by a bitwise AND expression
 BitwiseXOrExpression :=
     left={e=BitwiseXOrExpression _ '\^'}* _ right=BitwiseAndExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorXor); }
 
+// A bitwise AND expression is a list of bitwise AND expressions (eventually empty) followed by a bitwise Shift expression
 BitwiseAndExpression :=
     left={e=BitwiseAndExpression _ '\&'}* _ right=ShiftExpression
     .eval = EvalFunc { return binaryOperation(left, right, operatorAnd); }
 
+// A bitwise Shift expression is a list of bitwise Shift expressions (eventually empty) followed by an Additive expression
 ShiftExpression :=
     left={e=ShiftExpression _ op={'<<' | '>>'}}* _ right=AdditiveExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'<<': operatorLeftShift, '>>': operatorRightShift}); }
 
+// An Additive expression is a list of Additive expressions (eventually empty) followed by a Multiplicative expression
 AdditiveExpression :=
     left={e=AdditiveExpression _ op={'\+' | '\-'}}* _ right=MultiplicativeExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'+': operatorAdd, '-': operatorSub}); }
 
+// A Multiplicative expression is a list of Multiplicative expressions (eventually empty) followed by an Unary expression
 MultiplicativeExpression :=
     left={e=MultiplicativeExpression _ op={'\*' | '%' | '/'}}* _ right=UnaryExpression
     .eval = EvalFunc { return binaryOperations(left, right, {'*': operatorMul, '/': operatorDiv, '%': operatorModulo} ); }
 
+// An Unary expression is an optional unary operator followed by a Primary expression
 UnaryExpression :=
     op={'~' | '\+' | '\-'} _ e=PrimaryExpression
     .eval = EvalFunc { return unaryOperations(e, op, {'~': operatorInvert, '+': operatorPlus, '-': operatorNeg} ); } |
@@ -213,6 +246,7 @@ UnaryExpression :=
     e=PrimaryExpression
     .eval = EvalFunc { return unaryOperation(e, operatorIdentity); }
 
+// A Primary expression is a either a number, a label or an expression enclosed in parenthesis
 PrimaryExpression :=
     nn=nn
     .eval = EvalFunc { return () => nn.value; } |
@@ -223,9 +257,12 @@ PrimaryExpression :=
     '\(' e=BitwiseOrExpression '\)'
     .eval = EvalFunc { return unaryOperation(e, operatorIdentity); }
 
+// A 8-bit register is the name of a 8-bit register but can't be followed by characters such as alphanumerical
+// or symbols. This is to distinguish registers from labels
 Reg8 :=
     reg=r &'[^a-z0-9_!\?#@\.]'
 
+// An instruction
 Instruction :=
     Load8Instruction |
     Load16Instruction |
@@ -244,701 +281,711 @@ Instruction :=
     OutputInstruction |
     CpuControlGroupInstruction
 
+// 8-bit Load
 Load8Instruction :=
     // LD r, r' &_eos
     'ld' __ r0=Reg8 _ ',' _ r1=Reg8
-    .bytes = Bytes { return [0b01000000 | r_bits(r0.reg, 3) | r_bits(r1.reg)]; } |
+    .elements = AstElements { return [0b01000000 | r_bits(r0.reg, 3) | r_bits(r1.reg)]; } |
 
     // LD r, (HL)
     'ld' __ r=r _ ',' _ '\(' 'hl' '\)' &_eos
-    .bytes = Bytes { return [0b01000110 | r_bits(r, 3)]; } |
+    .elements = AstElements { return [0b01000110 | r_bits(r, 3)]; } |
 
     // LD r, (IX+d)
     'ld' __ r=r _ ',' _ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0b01000110 | r_bits(r, 3), svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0b01000110 | r_bits(r, 3), svalue8(pos, s, d)]; } |
 
     // LD r, (IY+d)
     'ld' __ r=r _ ',' _ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0b01000110 | r_bits(r, 3), svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0b01000110 | r_bits(r, 3), svalue8(pos, s, d)]; } |
 
     // LD (HL), r
     'ld' __ '\(' _ 'hl' _ '\)' _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0b01110000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b01110000 | r_bits(r)]; } |
 
     // LD (IX+d), r
     'ld' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xDD, 0b01110000 | r_bits(r), svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0b01110000 | r_bits(r), svalue8(pos, s, d)]; } |
 
     // LD (IY+d), r
     'ld' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xFD, 0b01110000 | r_bits(r), svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0b01110000 | r_bits(r), svalue8(pos, s, d)]; } |
 
     // LD (HL), n
     'ld' __ '\(' 'hl' '\)' _ ',' _ pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0x36, value8(pos, n)]; } |
+    .elements = AstElements { return [0x36, value8(pos, n)]; } |
 
     // LD (IX+d), n
     'ld' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos0=@ d=Expression _ '\)' _ ',' _ pos1=@ n=Expression &_eos
-    .bytes = Bytes { return [0xDD, 0x36, svalue8(pos0, s, d), value8(pos1, n)]; } |
+    .elements = AstElements { return [0xDD, 0x36, svalue8(pos0, s, d), value8(pos1, n)]; } |
 
     // LD (IY+d), n
     'ld' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos0=@ d=Expression _ '\)' _ ',' _ pos1=@ n=Expression &_eos
-    .bytes = Bytes { return [0xFD, 0x36, svalue8(pos0, s, d), value8(pos1, n)]; } |
+    .elements = AstElements { return [0xFD, 0x36, svalue8(pos0, s, d), value8(pos1, n)]; } |
 
     // LD A, (BC)
     'ld' __ 'a' _ ',' _ '\(' _ 'bc' _ '\)' &_eos
-    .bytes = Bytes { return [0x0A]; } |
+    .elements = AstElements { return [0x0A]; } |
 
     // LD A, (DE)
     'ld' __ 'a' _ ',' _ '\(' _ 'de' _ '\)' &_eos
-    .bytes = Bytes { return [0x1A]; } |
+    .elements = AstElements { return [0x1A]; } |
 
     // LD A, (nn)
     'ld' __ 'a' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0x3A, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0x3A, value16LE(pos, ee)]; } |
 
     // LD (BC), A
     'ld' __ '\(' _ 'bc' _ '\)' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0x02]; } |
+    .elements = AstElements { return [0x02]; } |
 
     // LD (DE), A
     'ld' __ '\(' _ 'de' _ '\)' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0x12]; } |
+    .elements = AstElements { return [0x12]; } |
 
     // LD (nn), A
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0x32, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0x32, value16LE(pos, ee)]; } |
 
     // LD A, I
     'ld' __ 'a' _ ',' _ 'i' &_eos
-    .bytes = Bytes { return [0xED, 0x57]; } |
+    .elements = AstElements { return [0xED, 0x57]; } |
 
     // LD A, R
     'ld' __ 'a' _ ',' _ 'r' &_eos
-    .bytes = Bytes { return [0xED, 0x5F]; } |
+    .elements = AstElements { return [0xED, 0x5F]; } |
 
     // LD I, A
     'ld' __ 'i' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0xED, 0x47]; } |
+    .elements = AstElements { return [0xED, 0x47]; } |
 
     // LD R, A
     'ld' __ 'r' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0xED, 0x4F]; } |
+    .elements = AstElements { return [0xED, 0x4F]; } |
 
     // Have to be after the others to avoid ambiguity on n=Expression
     // LD r, n
     // Have to be before LD r,r' because it is ambiguous
     'ld' __ r=Reg8 _ ',' _ pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0b00000110 | r_bits(r.reg, 3), value8(pos, n)]; }
+    .elements = AstElements { return [0b00000110 | r_bits(r.reg, 3), value8(pos, n)]; }
 
+// 16-bit Load
 Load16Instruction :=
     // LD IX, nn
     'ld' __ 'ix' _ ',' _ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0xDD, 0x21, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xDD, 0x21, value16LE(pos, ee)]; } |
 
     // LD IY, nn
     'ld' __ 'iy' _ ',' _ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0xFD, 0x21, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xFD, 0x21, value16LE(pos, ee)]; } |
 
     // LD HL, (nn)
     'ld' __ 'hl' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0x2A, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0x2A, value16LE(pos, ee)]; } |
 
     // LD dd, (nn)
     'ld' __ dd=dd _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xED, 0b01001011 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xED, 0b01001011 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
 
     // LD IX, (nn)
     'ld' __ 'ix' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x2A, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xDD, 0x2A, value16LE(pos, ee)]; } |
 
     // LD IY, (nn)
     'ld' __ 'iy' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x2A, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xFD, 0x2A, value16LE(pos, ee)]; } |
 
     // LD (nn), HL
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ 'hl' &_eos
-    .bytes = Bytes { return [0x22, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0x22, value16LE(pos, ee)]; } |
 
     // LD (nn), dd
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ dd=dd &_eos
-    .bytes = Bytes { return [0xED, 0b01000011 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xED, 0b01000011 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
 
     // LD (nn), IX
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0x22, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xDD, 0x22, value16LE(pos, ee)]; } |
 
     // LD (nn), IY
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0x22, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xFD, 0x22, value16LE(pos, ee)]; } |
 
     // LD SP, HL
     'ld' __ 'sp' _ ',' _ 'hl' &_eos
-    .bytes = Bytes { return [0xF9]; } |
+    .elements = AstElements { return [0xF9]; } |
 
     // LD SP, IX
     'ld' __ 'sp' _ ',' _ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0xF9]; } |
+    .elements = AstElements { return [0xDD, 0xF9]; } |
 
     // LD SP, IY
     'ld' __ 'sp' _ ',' _ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0xF9]; } |
+    .elements = AstElements { return [0xFD, 0xF9]; } |
 
     // Have to be after the other LD instructions
     // LD dd, nn
     'ld' __ dd=dd _ ',' _ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0b00000001 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0b00000001 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
 
     // PUSH qq
     'push' __ qq=qq &_eos
-    .bytes = Bytes { return [0b11000101 | qq_bits(qq, 4)]; } |
+    .elements = AstElements { return [0b11000101 | qq_bits(qq, 4)]; } |
 
     // PUSH IX
     'push' __ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0xE5]; } |
+    .elements = AstElements { return [0xDD, 0xE5]; } |
 
     // PUSH IY
     'push' __ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0xE5]; } |
+    .elements = AstElements { return [0xFD, 0xE5]; } |
 
     // POP qq
     'pop' __ qq=qq &_eos
-    .bytes = Bytes { return [0b11000001 | qq_bits(qq, 4)]; } |
+    .elements = AstElements { return [0b11000001 | qq_bits(qq, 4)]; } |
 
     // POP IX
     'pop' __ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0xE1]; } |
+    .elements = AstElements { return [0xDD, 0xE1]; } |
 
     // POP IY
     'pop' __ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0xE1]; }
+    .elements = AstElements { return [0xFD, 0xE1]; }
 
+// Exchange
 ExchangeInstruction :=
     // EX DE, HL
     'ex' __ 'de' _ ',' _ 'hl' &_eos
-    .bytes = Bytes { return [0xEB]; } |
+    .elements = AstElements { return [0xEB]; } |
 
     // EX AF, AF'
     'ex' __ 'af' _ ',' _ 'af\'' &_eos
-    .bytes = Bytes { return [0x08]; } |
+    .elements = AstElements { return [0x08]; } |
 
     // EXX
     'exx' &_eos
-    .bytes = Bytes { return [0xD9]; } |
+    .elements = AstElements { return [0xD9]; } |
 
     // EX (SP), HL
     'ex' __ '\(' 'sp' '\)' _ ',' _ 'hl' &_eos
-    .bytes = Bytes { return [0xE3]; } |
+    .elements = AstElements { return [0xE3]; } |
 
     // EX (SP), IX
     'ex' __ '\(' 'sp' '\)' _ ',' _ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0xE3]; } |
+    .elements = AstElements { return [0xDD, 0xE3]; } |
 
     // EX (SP), IY
     'ex' __ '\(' 'sp' '\)' _ ',' _ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0xE3]; }
+    .elements = AstElements { return [0xFD, 0xE3]; }
 
+// Block Transfer and Search
 BlockInstruction :=
     // Have to be before ldi
     // LDIR
     'ldir' &_eos
-    .bytes = Bytes { return [0xED, 0xB0]; } |
+    .elements = AstElements { return [0xED, 0xB0]; } |
 
     // LDI
     'ldi' &_eos
-    .bytes = Bytes { return [0xED, 0xA0]; } |
+    .elements = AstElements { return [0xED, 0xA0]; } |
 
     // LDDR
     'lddr' &_eos
-    .bytes = Bytes { return [0xED, 0xB8]; } |
+    .elements = AstElements { return [0xED, 0xB8]; } |
 
     // LDD
     'ldd' &_eos
-    .bytes = Bytes { return [0xED, 0xA8]; } |
+    .elements = AstElements { return [0xED, 0xA8]; } |
 
     // CPIR
     'cpir' &_eos
-    .bytes = Bytes { return [0xED, 0xB1]; } |
+    .elements = AstElements { return [0xED, 0xB1]; } |
 
     // CPI
     'cpi' &_eos
-    .bytes = Bytes { return [0xED, 0xA1]; } |
+    .elements = AstElements { return [0xED, 0xA1]; } |
 
     // CPDR
     'cpdr' &_eos
-    .bytes = Bytes { return [0xED, 0xB9]; } |
+    .elements = AstElements { return [0xED, 0xB9]; } |
 
     // CPD
     'cpd' &_eos
-    .bytes = Bytes { return [0xED, 0xA9]; }
+    .elements = AstElements { return [0xED, 0xA9]; }
 
+// 8-bit Arithmetic
 ArithmeticLogic8Instruction :=
     // ADD A, r
     'add' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10000000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10000000 | r_bits(r)]; } |
 
     // ADD A, n
     'add' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xC6, value8(pos, n)]; } |
+    .elements = AstElements { return [0xC6, value8(pos, n)]; } |
 
     // ADD A, (HL)
     'add' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0x86]; } |
+    .elements = AstElements { return [0x86]; } |
 
     // ADD A, (IX+d)
     'add' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x86, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x86, svalue8(pos, s, d)]; } |
 
     // ADD A, (IY+d)
     'add' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x86, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0x86, svalue8(pos, s, d)]; } |
 
     // ADC A, r
     'adc' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10001000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10001000 | r_bits(r)]; } |
 
     // ADC A, n
     'adc' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xCE, value8(pos, n)]; } |
+    .elements = AstElements { return [0xCE, value8(pos, n)]; } |
 
     // ADC A, (HL)
     'adc' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0x8E]; } |
+    .elements = AstElements { return [0x8E]; } |
 
     // ADC (IX+d)
     'adc' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x8E, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x8E, svalue8(pos, s, d)]; } |
 
     // ADC (IY+d)
     'adc' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x8E, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0x8E, svalue8(pos, s, d)]; } |
 
     // SUB A, r
     'sub' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10010000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10010000 | r_bits(r)]; } |
 
     // SUB A, n
     'sub' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xD6, value8(pos, n)]; } |
+    .elements = AstElements { return [0xD6, value8(pos, n)]; } |
 
     // SUB A, (HL)
     'sub' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0x96]; } |
+    .elements = AstElements { return [0x96]; } |
 
     // SUB (IX+d)
     'sub' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x96, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x96, svalue8(pos, s, d)]; } |
 
     // SUB (IY+d)
     'sub' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x96, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0x96, svalue8(pos, s, d)]; } |
 
     // SBC A, r
     'sbc' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10011000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10011000 | r_bits(r)]; } |
 
     // SBC A, n
     'sbc' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xDE, value8(pos, n)]; } |
+    .elements = AstElements { return [0xDE, value8(pos, n)]; } |
 
     // SBC A, (HL)
     'sbc' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0x9E]; } |
+    .elements = AstElements { return [0x9E]; } |
 
     // SBC (IX+d)
     'sbc' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x9E, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x9E, svalue8(pos, s, d)]; } |
 
     // SBC (IY+d)
     'sbc' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x9E, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0x9E, svalue8(pos, s, d)]; } |
 
     // AND A, r
     'and' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10100000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10100000 | r_bits(r)]; } |
 
     // AND A, n
     'and' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xE6, value8(pos, n)]; } |
+    .elements = AstElements { return [0xE6, value8(pos, n)]; } |
 
     // AND A, (HL)
     'and' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0xA6]; } |
+    .elements = AstElements { return [0xA6]; } |
 
     // AND (IX+d)
     'and' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xA6, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0xA6, svalue8(pos, s, d)]; } |
 
     // AND (IY+d)
     'and' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xA6, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0xA6, svalue8(pos, s, d)]; } |
 
     // OR A, r
     'or' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10110000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10110000 | r_bits(r)]; } |
 
     // OR A, n
     'or' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xF6, value8(pos, n)]; } |
+    .elements = AstElements { return [0xF6, value8(pos, n)]; } |
 
     // OR A, (HL)
     'or' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0xB6]; } |
+    .elements = AstElements { return [0xB6]; } |
 
     // OR (IX+d)
     'or' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xB6, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0xB6, svalue8(pos, s, d)]; } |
 
     // OR (IY+d)
     'or' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xB6, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0xB6, svalue8(pos, s, d)]; } |
 
     // XOR A, r
     'xor' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10101000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10101000 | r_bits(r)]; } |
 
     // XOR A, n
     'xor' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xEE, value8(pos, n)]; } |
+    .elements = AstElements { return [0xEE, value8(pos, n)]; } |
 
     // XOR A, (HL)
     'xor' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0xAE]; } |
+    .elements = AstElements { return [0xAE]; } |
 
     // XOR (IX+d)
     'xor' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xAE, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0xAE, svalue8(pos, s, d)]; } |
 
     // XOR (IY+d)
     'xor' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xAE, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0xAE, svalue8(pos, s, d)]; } |
 
     // CP A, r
     'cp' __ {'a' _ ',' _}? r=r &_eos
-    .bytes = Bytes { return [0b10111000 | r_bits(r)]; } |
+    .elements = AstElements { return [0b10111000 | r_bits(r)]; } |
 
     // CP A, n
     'cp' __ {'a' _ ',' _}? pos=@ n=Expression &_eos
-    .bytes = Bytes { return [0xFE, value8(pos, n)]; } |
+    .elements = AstElements { return [0xFE, value8(pos, n)]; } |
 
     // CP A, (HL)
     'cp' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &_eos
-    .bytes = Bytes { return [0xBE]; } |
+    .elements = AstElements { return [0xBE]; } |
 
     // CP (IX+d)
     'cp' __ {'a' _ ',' _}? '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xBE, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0xBE, svalue8(pos, s, d)]; } |
 
     // CP (IY+d)
     'cp' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xBE, svalue8(pos, s, d)]; }
+    .elements = AstElements { return [0xFD, 0xBE, svalue8(pos, s, d)]; }
 
+// 8-bit Increment and Decrement
 IncrementDecrement8Instruction :=
     // INC r
     'inc' __ r=r &_eos
-    .bytes = Bytes { return [0b00000100 | r_bits(r, 3)]; } |
+    .elements = AstElements { return [0b00000100 | r_bits(r, 3)]; } |
 
     // INC (HL)
     'inc' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0x34]; } |
+    .elements = AstElements { return [0x34]; } |
 
     // INC (IX+d)
     'inc' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x34, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x34, svalue8(pos, s, d)]; } |
 
     // INC (IY+d)
     'inc' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x34, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xFD, 0x34, svalue8(pos, s, d)]; } |
 
     // DEC r
     'dec' __ r=r &_eos
-    .bytes = Bytes { return [0b00000101 | r_bits(r, 3)]; } |
+    .elements = AstElements { return [0b00000101 | r_bits(r, 3)]; } |
 
     // DEC (HL)
     'dec' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0x35]; } |
+    .elements = AstElements { return [0x35]; } |
 
     // DEC (IX+d)
     'dec' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0x35, svalue8(pos, s, d)]; } |
+    .elements = AstElements { return [0xDD, 0x35, svalue8(pos, s, d)]; } |
 
     // DEC (IY+d)
     'dec' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0x35, svalue8(pos, s, d)]; }
+    .elements = AstElements { return [0xFD, 0x35, svalue8(pos, s, d)]; }
 
+// General Purpose Arithmetic Instructions
 GeneralPurposeArithmeticInstruction :=
     // DAA
     'daa' &_eos
-    .bytes = Bytes { return [0x27]; } |
+    .elements = AstElements { return [0x27]; } |
 
     // CPL
     'cpl' &_eos
-    .bytes = Bytes { return [0x2F]; } |
+    .elements = AstElements { return [0x2F]; } |
 
     // NEG
     'neg' &_eos
-    .bytes = Bytes { return [0xED, 0x44]; } |
+    .elements = AstElements { return [0xED, 0x44]; } |
 
     // CCF
     'ccf' &_eos
-    .bytes = Bytes { return [0x3F]; } |
+    .elements = AstElements { return [0x3F]; } |
 
     // SCF
     'scf' &_eos
-    .bytes = Bytes { return [0x37]; }
+    .elements = AstElements { return [0x37]; }
 
+// CPU Control Group Instructions
 CpuControlGroupInstruction :=
     // NOP
     'nop' &_eos
-    .bytes = Bytes { return [0x00]; } |
+    .elements = AstElements { return [0x00]; } |
 
     // HALT
     'halt' &_eos
-    .bytes = Bytes { return [0x76]; } |
+    .elements = AstElements { return [0x76]; } |
 
     // DI
     'di' &_eos
-    .bytes = Bytes { return [0xF3]; } |
+    .elements = AstElements { return [0xF3]; } |
 
     // EI
     'ei' &_eos
-    .bytes = Bytes { return [0xFB]; } |
+    .elements = AstElements { return [0xFB]; } |
 
     // IM 0, IM 1, IM 2
     'im' __ m='[012]' &_eos
-    .bytes = Bytes { return [0xED, imode(m)]; }
+    .elements = AstElements { return [0xED, imode(m)]; }
 
+// 16-bit Arithmetic
 ArithmeticLogic16Instruction :=
     // ADD HL, ss
     'add' __ 'hl' _ ',' _ ss=ss &_eos
-    .bytes = Bytes { return [0b00001001 | ss_bits(ss, 4)]; } |
+    .elements = AstElements { return [0b00001001 | ss_bits(ss, 4)]; } |
 
     // ADC HL, ss
     'adc' __ 'hl' _ ',' _ ss=ss &_eos
-    .bytes = Bytes { return [0xED, 0b01001010 | ss_bits(ss, 4)]; } |
+    .elements = AstElements { return [0xED, 0b01001010 | ss_bits(ss, 4)]; } |
 
     // SBC HL, ss
     'sbc' __ 'hl' _ ',' _ ss=ss &_eos
-    .bytes = Bytes { return [0xED, 0b01000010 | ss_bits(ss, 4)]; } |
+    .elements = AstElements { return [0xED, 0b01000010 | ss_bits(ss, 4)]; } |
 
     // ADD IX, pp
     'add' __ 'ix' _ ',' _ pp=pp &_eos
-    .bytes = Bytes { return [0xDD, 0b00001001 | pp_bits(pp, 4)]; } |
+    .elements = AstElements { return [0xDD, 0b00001001 | pp_bits(pp, 4)]; } |
 
     // ADD IY, pp
     'add' __ 'iy' _ ',' _ rr=rr &_eos
-    .bytes = Bytes { return [0xFD, 0b00001001 | rr_bits(rr, 4)]; } |
+    .elements = AstElements { return [0xFD, 0b00001001 | rr_bits(rr, 4)]; } |
 
     // INC ss
     'inc' __ ss=ss &_eos
-    .bytes = Bytes { return [0b00000011 | ss_bits(ss, 4)]; } |
+    .elements = AstElements { return [0b00000011 | ss_bits(ss, 4)]; } |
 
     // INC IX
     'inc' __ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0x23]; } |
+    .elements = AstElements { return [0xDD, 0x23]; } |
 
     // INC IY
     'inc' __ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0x23]; } |
+    .elements = AstElements { return [0xFD, 0x23]; } |
 
     // DEC ss
     'dec' __ ss=ss &_eos
-    .bytes = Bytes { return [0b00001011 | ss_bits(ss, 4)]; } |
+    .elements = AstElements { return [0b00001011 | ss_bits(ss, 4)]; } |
 
     // DEC IX
     'dec' __ 'ix' &_eos
-    .bytes = Bytes { return [0xDD, 0x2B]; } |
+    .elements = AstElements { return [0xDD, 0x2B]; } |
 
     // DEC IY
     'dec' __ 'iy' &_eos
-    .bytes = Bytes { return [0xFD, 0x2B]; }
+    .elements = AstElements { return [0xFD, 0x2B]; }
 
+// Rotate and Shift
 RotateShiftInstruction :=
     // RLCA
     'rlca' &_eos
-    .bytes = Bytes { return [0x07]; } |
+    .elements = AstElements { return [0x07]; } |
 
     // RLA
     'rla' &_eos
-    .bytes = Bytes { return [0x17]; } |
+    .elements = AstElements { return [0x17]; } |
 
     // RRCA
     'rrca' &_eos
-    .bytes = Bytes { return [0x0F]; } |
+    .elements = AstElements { return [0x0F]; } |
 
     // RRA
     'rra' &_eos
-    .bytes = Bytes { return [0x1F]; } |
+    .elements = AstElements { return [0x1F]; } |
 
     // RLC r
     'rlc' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00000000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00000000 | r_bits(r)]; } |
 
     // RLC (HL)
     'rlc' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x06]; } |
+    .elements = AstElements { return [0xCB, 0x06]; } |
 
     // RLC (IX+d)
     'rlc' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x06]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x06]; } |
 
     // RLC (IY+d)
     'rlc' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x06]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x06]; } |
 
     // RL r
     'rl' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00010000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00010000 | r_bits(r)]; } |
 
     // RL (HL)
     'rl' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x16]; } |
+    .elements = AstElements { return [0xCB, 0x16]; } |
 
     // RL (IX+d)
     'rl' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x16]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x16]; } |
 
     // RL (IY+d)
     'rl' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x16]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x16]; } |
 
     // RRC r
     'rrc' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00001000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00001000 | r_bits(r)]; } |
 
     // RRC (HL)
     'rrc' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x0E]; } |
+    .elements = AstElements { return [0xCB, 0x0E]; } |
 
     // RRC (IX+d)
     'rrc' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x0E]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x0E]; } |
 
     // RRC (IY+d)
     'rrc' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x0E]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x0E]; } |
 
     // RR r
     'rr' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00011000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00011000 | r_bits(r)]; } |
 
     // RR (HL)
     'rr' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x1E]; } |
+    .elements = AstElements { return [0xCB, 0x1E]; } |
 
     // RR (IX+d)
     'rr' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x1E]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x1E]; } |
 
     // RR (IY+d)
     'rr' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x1E]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x1E]; } |
 
     // SLA r
     'sla' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00100000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00100000 | r_bits(r)]; } |
 
     // SLA (HL)
     'sla' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x26]; } |
+    .elements = AstElements { return [0xCB, 0x26]; } |
 
     // SLA (IX+d)
     'sla' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x26]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x26]; } |
 
     // SLA (IY+d)
     'sla' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x26]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x26]; } |
 
     // SRA r
     'sra' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00101000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00101000 | r_bits(r)]; } |
 
     // SRA (HL)
     'sra' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x2E]; } |
+    .elements = AstElements { return [0xCB, 0x2E]; } |
 
     // SRA (IX+d)
     'sra' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x2E]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x2E]; } |
 
     // SRA (IY+d)
     'sra' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x2E]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x2E]; } |
 
     // SRL r
     'srl' __ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b00111000 | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b00111000 | r_bits(r)]; } |
 
     // SRL (HL)
     'srl' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0x3E]; } |
+    .elements = AstElements { return [0xCB, 0x3E]; } |
 
     // SRL (IX+d)
     'srl' __ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0x3E]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0x3E]; } |
 
     // SRL (IY+d)
     'srl' __ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0x3E]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0x3E]; } |
 
     // RLD
     'rld' &_eos
-    .bytes = Bytes { return [0xED, 0x6F]; } |
+    .elements = AstElements { return [0xED, 0x6F]; } |
 
     // RRD
     'rrd' &_eos
-    .bytes = Bytes { return [0xED, 0x67]; }
+    .elements = AstElements { return [0xED, 0x67]; }
 
-
+// Bit Manipulation
 BitManipulationInstruction :=
     // BIT b, r
     'bit' __ b=b _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b01000000 | (b.value << 3) | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b01000000 | (b.value << 3) | r_bits(r)]; } |
 
     // BIT b, (HL)
     'bit' __ b=b _ ',' _ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0b01000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xCB, 0b01000110 | (b.value << 3)]; } |
 
     // BIT b, (IX+d)
     'bit' __ b=b _ ',' _ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0b01000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0b01000110 | (b.value << 3)]; } |
 
     // BIT b, (IY+d)
     'bit' __ b=b _ ',' _ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0b01000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0b01000110 | (b.value << 3)]; } |
 
     // SET b, r
     'set' __ b=b _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b11000000 | (b.value << 3) | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b11000000 | (b.value << 3) | r_bits(r)]; } |
 
     // SET b, (HL)
     'set' __ b=b _ ',' _ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0b11000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xCB, 0b11000110 | (b.value << 3)]; } |
 
     // SET b, (IX+d)
     'set' __ b=b _ ',' _ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0b11000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0b11000110 | (b.value << 3)]; } |
 
     // SET b, (IY+d)
     'set' __ b=b _ ',' _ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0b11000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0b11000110 | (b.value << 3)]; } |
 
     // RES b, r
     'res' __ b=b _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xCB, 0b10000000 | (b.value << 3) | r_bits(r)]; } |
+    .elements = AstElements { return [0xCB, 0b10000000 | (b.value << 3) | r_bits(r)]; } |
 
     // RES b, (HL)
     'res' __ b=b _ ',' _ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xCB, 0b10000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xCB, 0b10000110 | (b.value << 3)]; } |
 
     // RES b, (IX+d)
     'res' __ b=b _ ',' _ '\(' _ 'ix' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xCB, svalue8(pos, s, d), 0b10000110 | (b.value << 3)]; } |
+    .elements = AstElements { return [0xDD, 0xCB, svalue8(pos, s, d), 0b10000110 | (b.value << 3)]; } |
 
     // RES b, (IY+d)
     'res' __ b=b _ ',' _ '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xCB, svalue8(pos, s, d), 0b10000110 | (b.value << 3)]; }
+    .elements = AstElements { return [0xFD, 0xCB, svalue8(pos, s, d), 0b10000110 | (b.value << 3)]; }
 
 Offset :=
     pos=@ label=Label
@@ -947,227 +994,250 @@ Offset :=
     e=Expression
     .eval = EvalFunc { return e.eval; }
 
+// Jumps
 JumpInstruction :=
     // JP nn
     'jp' __ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0xC3, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xC3, value16LE(pos, ee)]; } |
 
     // JP CC, nn
     'jp' __ cc=cc _ ',' _ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0b11000010 | cc_bits(cc, 3), value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0b11000010 | cc_bits(cc, 3), value16LE(pos, ee)]; } |
 
     // JR label
     'jr' __ pos=@ label=Label &_eos
-    .bytes = Bytes { return [jj_bits(), jrRelativeOffset(pos, label.name)]; } |
+    .elements = AstElements { return [jj_bits(), jrRelativeOffset(pos, label.name)]; } |
 
     // JR e
     'jr' __ pos=@ e=Expression &_eos
-    .bytes = Bytes { return [jj_bits(), jrOffset(pos, e)]; } |
+    .elements = AstElements { return [jj_bits(), jrOffset(pos, e)]; } |
 
     // JR jj, label
     'jr' __ jj=jj _ ',' _ pos=@ label=Label &_eos
-    .bytes = Bytes { return [jj_bits(jj), jrRelativeOffset(pos, label.name)]; } |
+    .elements = AstElements { return [jj_bits(jj), jrRelativeOffset(pos, label.name)]; } |
 
     // JR jj, e
     'jr' __ jj=jj _ ',' _ pos=@ e=Expression &_eos
-    .bytes = Bytes { return [jj_bits(jj), jrOffset(pos, e)]; } |
+    .elements = AstElements { return [jj_bits(jj), jrOffset(pos, e)]; } |
 
     // JP (HL)
     'jp' __ '\(' _ 'hl' _ '\)' &_eos
-    .bytes = Bytes { return [0xE9]; } |
+    .elements = AstElements { return [0xE9]; } |
 
     // JP (IX)
     'jp' __ '\(' _ 'ix' _ '\)' &_eos
-    .bytes = Bytes { return [0xDD, 0xE9]; } |
+    .elements = AstElements { return [0xDD, 0xE9]; } |
 
     // JP (IY)
     'jp' __ '\(' _ 'iy' _ '\)' &_eos
-    .bytes = Bytes { return [0xFD, 0xE9]; } |
+    .elements = AstElements { return [0xFD, 0xE9]; } |
 
     // DJNZ label
     'djnz' __ pos=@ label=Label &_eos
-    .bytes = Bytes { return [0x10, jrRelativeOffset(pos, label.name)]; } |
+    .elements = AstElements { return [0x10, jrRelativeOffset(pos, label.name)]; } |
 
     // DJNZ e
     'djnz' __ pos=@ e=Expression &_eos
-    .bytes = Bytes { return [0x10, jrOffset(pos, e)]; }
+    .elements = AstElements { return [0x10, jrOffset(pos, e)]; }
 
+// Calls
 CallInstruction :=
     // CALL nn
     'call' __ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0xCD, value16LE(pos, ee)]; } |
+    .elements = AstElements { return [0xCD, value16LE(pos, ee)]; } |
 
     // CALL cc, nn
     'call' __ cc=cc _ ',' _ pos=@ ee=Expression &_eos
-    .bytes = Bytes { return [0b11000100 | cc_bits(cc, 3), value16LE(pos, ee)]; }
+    .elements = AstElements { return [0b11000100 | cc_bits(cc, 3), value16LE(pos, ee)]; }
 
+// Returns
 ReturnInstruction :=
     // RET
     'ret' &_eos
-    .bytes = Bytes { return [0xC9]; } |
+    .elements = AstElements { return [0xC9]; } |
 
     // RET cc
     'ret' __ cc=cc &_eos
-    .bytes = Bytes { return [0b11000000 | cc_bits(cc, 3)]; } |
+    .elements = AstElements { return [0b11000000 | cc_bits(cc, 3)]; } |
 
     // RETI
     'reti' &_eos
-    .bytes = Bytes { return [0xED, 0x4D]; } |
+    .elements = AstElements { return [0xED, 0x4D]; } |
 
     // RETN
     'retn' &_eos
-    .bytes = Bytes { return [0xED, 0x45]; } |
+    .elements = AstElements { return [0xED, 0x45]; } |
 
     // RST p
     'rst' __ p=p &_eos
-    .bytes = Bytes { return [0b11000111 | p_bits(p.value, 3)]; }
+    .elements = AstElements { return [0b11000111 | p_bits(p.value, 3)]; }
 
+// Inputs
 InputInstruction :=
     // Have to be before IN A, (n)
     // IN r, (C)
     'in' __ r=r _ ',' _ '\(' 'c' '\)' &_eos
-    .bytes = Bytes { return [0xED, 0b01000000 | r_bits(r, 3)]; } |
+    .elements = AstElements { return [0xED, 0b01000000 | r_bits(r, 3)]; } |
 
     // IN A, (n)
     'in' __ 'a' _ ',' _ '\(' _ pos=@ n=Expression _ '\)' &_eos
-    .bytes = Bytes { return [0xDB, value8(pos, n)]; } |
+    .elements = AstElements { return [0xDB, value8(pos, n)]; } |
 
     // INI
     'ini' &_eos
-    .bytes = Bytes { return [0xED, 0xA2]; } |
+    .elements = AstElements { return [0xED, 0xA2]; } |
 
     // INIR
     'inir' &_eos
-    .bytes = Bytes { return [0xED, 0xB2]; } |
+    .elements = AstElements { return [0xED, 0xB2]; } |
 
     // IND
     'ind' &_eos
-    .bytes = Bytes { return [0xED, 0xAA]; } |
+    .elements = AstElements { return [0xED, 0xAA]; } |
 
     // INDR
     'indr' &_eos
-    .bytes = Bytes { return [0xED, 0xBA]; }
+    .elements = AstElements { return [0xED, 0xBA]; }
 
+// Outputs
 OutputInstruction :=
     // Have to be before OUT (n), A
     // OUT (C), r
     'out' __ '\(' 'c' '\)' _ ',' _ r=r &_eos
-    .bytes = Bytes { return [0xED, 0b01000001 | r_bits(r, 3)]; } |
+    .elements = AstElements { return [0xED, 0b01000001 | r_bits(r, 3)]; } |
 
     // OUT (n), A
     'out' __ '\(' _ pos=@ n=Expression _ '\)' _ ',' _ 'a' &_eos
-    .bytes = Bytes { return [0xD3, value8(pos, n)]; } |
+    .elements = AstElements { return [0xD3, value8(pos, n)]; } |
 
     // OUTI
     'outi' &_eos
-    .bytes = Bytes { return [0xED, 0xA3]; } |
+    .elements = AstElements { return [0xED, 0xA3]; } |
 
     // OTIR
     'otir' &_eos
-    .bytes = Bytes { return [0xED, 0xB3]; } |
+    .elements = AstElements { return [0xED, 0xB3]; } |
 
     // OUTD
     'outd' &_eos
-    .bytes = Bytes { return [0xED, 0xAB]; } |
+    .elements = AstElements { return [0xED, 0xAB]; } |
 
     // OTDR
     'otdr' &_eos
-    .bytes = Bytes { return [0xED, 0xBB]; }
+    .elements = AstElements { return [0xED, 0xBB]; }
 
-
+// Byte directive
 ByteDirective :=
     'db' | 'dm' | 'byte' | 'defb' | 'defm'
 
+// Word directive
 WordDirective :=
     'dw' | 'word' | 'defw'
 
+// Block directive
 BlockDirective :=
     'block' | 'defs' | 'ds'
 
+// A Byte directive contains either characters, strings, ZX81 strings or expressions
 ByteValue :=
-    c=Char              .bytes = Bytes { return c.bytes; } |
-    s=Str               .bytes = Bytes { return s.bytes; } |
-    s=ZX81Str           .bytes = Bytes { return s.bytes; } |
-    pos=@ e=Expression  .bytes = Bytes { return [value8(pos, e)]; }
+    c=Char              .elements = AstElements { return c.elements; } |
+    s=Str               .elements = AstElements { return s.elements; } |
+    s=ZX81Str           .elements = AstElements { return s.elements; } |
+    pos=@ e=Expression  .elements = AstElements { return [value8(pos, e)]; }
 
+// A Word directive contains expressions
 WordValue :=
-    pos=@ e=Expression  .bytes = Bytes { return [value16LE(pos, e)]; }
+    pos=@ e=Expression  .elements = AstElements { return [value16LE(pos, e)]; }
 
+// A Data directive is either a Byte directive, a Word directive or a Block directive
 DataDirective :=
     // byte $FF, ...
     ByteDirective __ pos0=@ data0=ByteValue data={_ ',' _ inner=ByteValue}* &_eos
-    .bytes = Bytes { return dataBytes(pos0, data0, data); } |
-
-    // dz "test"
-    'dz' __ pos0=@ data0=ByteValue data={_ ',' _ inner=ByteValue}* &_eos
-    .bytes = Bytes { return dataBytesZero(pos0, data0, data); } |
+    .elements = AstElements { return dataBytes(pos0, data0, data); } |
 
     // word $FFFF, ...
     WordDirective __ pos0=@ data0=WordValue data={_ ',' _ inner=WordValue}* &_eos
-    .bytes = Bytes { return dataWords(pos0, data0, data); } |
+    .elements = AstElements { return dataWords(pos0, data0, data); } |
 
     // block length, fill byte
     BlockDirective __ @pos0=@ nn=Expression data={_ ',' _ pos1=@ b=Expression}? &_eos
-    .bytes = Bytes { return [dataBlock(pos0, nn, data?.pos1, data?.b)]; }
+    .elements = AstElements { return [dataBlock(pos0, nn, data?.pos1, data?.b)]; }
 
 
 // Escapes taken from C++ (C++ standard 20, A.2 Lexical conventions) with some modifications
 
+// An escape sequence is either simple, in octal or in hexadecimal
 EscapeSequence :=
     SimpleEscapeSequence |
     OctalEscapeSequence |
     HexadecimalEscapeSequence
 
+// A simple escape is a backslash followed by a character
 SimpleEscapeSequence :=
     '\\' raw={'\'' | '"' | '\?' | '\\' | 'a' | 'b' | 'e' | 'f' | 'n' | 't' | 'r' | 'v'}
-    .bytes = Bytes { return parseSimpleEscape(raw); }
+    .elements = AstElements { return parseSimpleEscape(raw); }
 
+// An octal escape is a backslash followed by an octal value
 OctalEscapeSequence :=
     '\\' pos=@ raw='[0-7]{1,3}'
-    .bytes = Bytes { return parseOctalEscape(pos, raw); }
+    .elements = AstElements { return parseOctalEscape(pos, raw); }
 
+// An hexadecimal escape is a backslash followed by an 'x' and an hexadecimal value
 HexadecimalEscapeSequence :=
     '\\x' pos=@ raw='[0-9a-f]{1,2}'
-    .bytes = Bytes { return parseHexadecimalEscape(pos, raw); }
+    .elements = AstElements { return parseHexadecimalEscape(pos, raw); }
 
+// A simple character is not a quote, a backslash or a newline
 SimpleChar :=
     pos=@ raw='[^\'\\\n]'
-    .bytes = Bytes { return parseSimpleChar(pos, raw); }
+    .elements = AstElements { return parseSimpleChar(pos, raw); }
 
+// A string character is not a double-quote, a backslash or a newline
 StringChar :=
     pos=@ raw='[^\"\\\n]'
-    .bytes = Bytes { return parseSimpleChar(pos, raw); }
+    .elements = AstElements { return parseSimpleChar(pos, raw); }
 
+// A character literal is enclosed in quotes and is either a simple character or an escape sequence
 Char :=
     '\'' char={SimpleChar | EscapeSequence} '\''
-    .bytes = Bytes { return char.bytes; }
+    .elements = AstElements { return char.elements; }
 
+// A string literal is enclosed in double-quotes and contains either simple characters or escape sequences
 Str :=
     '\"' chars={StringChar | EscapeSequence}* '\"'
-    .bytes = Bytes { return chars.reduce((r, c) => { return r.concat(c.bytes); }, [] as Bytes); }
+    .elements = AstElements { return chars.reduce((r, c) => { return r.concat(c.elements); }, [] as AstElements); }
 
+// A ZX81 string literal starts with 'zx81', is enclosed in double-quotes and contains only characters common to
+// ASCII and the ZX81 characters set.
 ZX81Str :=
     'zx81\"' pos=@ chars='[ £\$:\?()><=+\-\*;/,.0-9A-Za-z]*' '\"'
-    .bytes = Bytes { return parseZX81String(pos, chars); }
+    .elements = AstElements { return parseZX81String(pos, chars); }
 
+// A comment starts with '//' or ';' and goes until the end of the statement
 Comment :=
     '(//|;)[^\r\n]*'
 
+// An Origin directive is 'org' (or an alias) followed by a 16-bit value and the end of the statement
 OriginDirective :=
     '\.?org' __ address=nn &_eos
 
+// A filename is optionally enclosed in double-quotes and contains a subset of characters.
 Filename :=
     '"' raw='[^"\\:\*\?<>\|%#\$,]+' '"' |
     raw='[^ \t\r\n"\\:\*\?<>\|%#\$,]+'
 
+// An Include directive starts with 'include' (or an alias) and is followed by a Filename
 IncludeDirective :=
     pos=@ '\.?include' __ name=Filename &_eos
     .lines = LinesInfo { return includeFile(pos, name.raw); }
 
+// An Output directive starts with 'output' (or an alias) and is followed by a Filename.
+// Optionally, it is followed by a comma, 'sld' and an filename
 OutputDirective :=
-    '\.?output' __ name=Filename sld={_ ',' _ 'sld'}? &_eos
-    .void = void { setOutputName(name.raw, sld != null); }
+    '\.?output' __ name=Filename sld={_ ',' _ 'sld' __ name=Filename}? &_eos
+    .void = void { setOutputName(name.raw, sld?.name.raw); }
 
+// A Device directive starts with 'device' (or an alias) and is followed by a name (the target)
 DeviceDirective :=
     '\.?device' __ raw='[a-zA-Z][0-9a-zA-Z]*' &_eos
     .void = void { setDeviceName(raw); }

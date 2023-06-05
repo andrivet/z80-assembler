@@ -1704,6 +1704,10 @@ after:`);
   expect(bytes).toEqual([0x55, 0x44, 0x01, 0x00, 0x66]);
 });
 
+test("Label redefined", () => {
+  compileWithError('lbl: db $00\nlbl: db $01\ndb lbl');
+});
+
 // -------------------------------------------------------
 // Data
 // -------------------------------------------------------
@@ -1721,11 +1725,6 @@ after:`);
   test("Declaring string", () => {
     const bytes = compileCode('db "ABCDEF"');
     expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46]);
-  });
-
-  test("Declaring null-terminated string", () => {
-    const bytes = compileCode('dz "ABCDEF"');
-    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x00]);
   });
 
   test("Declaring strings", () => {
@@ -1854,12 +1853,12 @@ after:`);
   });
 
   test("Output with SLD", () => {
-    const bytes = compileCode('output test.P, sld');
+    const bytes = compileCode('output test.P, sld test.sld');
     expect(bytes).toEqual([]);
   });
 
   test("Output with SLD and quotes", () => {
-    const bytes = compileCode('output "test.P", sld');
+    const bytes = compileCode('output "test.P", sld "test.sld"');
     expect(bytes).toEqual([]);
   });
 
