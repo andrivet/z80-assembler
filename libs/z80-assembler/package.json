@@ -1,10 +1,14 @@
 {
   "name": "@andrivet/z80-assembler",
   "version": "1.0.0",
+  "description": "A Z80 assembler entirely written in Typescript and derived from a PEG grammar.",
   "author": "Sebastien Andrivet",
   "license": "GPLv3",
   "type": "commonjs",
   "keywords": ["z80", "assembler", "ZX81"],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/andrivet/z80-assembler"

@@ -11,10 +11,6 @@
         "outputPath": "dist/libs/z80-assembler"
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs z80-assembler {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "test": {
       "executor": "@nx/vite:test",
       "outputs": ["coverage/libs/z80-assembler"],
