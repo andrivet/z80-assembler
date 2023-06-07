@@ -38,7 +38,10 @@ class CompilationError extends Error {
   private static formatMatch(match: MatchAttempt) {
     if(match.kind === 'EOF') return " end of code";
     const not = match.negated ? 'not ' : '';
-    return ` ${not}${match.literal}`;
+    const literal = match.literal
+      .replace(/\\([^\\])/g, '$1') // Escaped chars except escaped backslashes
+      .replace(/\\\\/g, '\\'); // Escaped backslashes
+    return ` ${not}${literal}`;
   }
 
   /**
