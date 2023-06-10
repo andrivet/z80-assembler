@@ -1,7 +1,4 @@
-; Start of the BASIC area for user programs.
-; 0x407D, 16509
-
 basic_line1:
-    defb 0,1                            ; Line 1
-    defw basic_line0_end-basic_line0-4  ; Line length
-    defb _REM                           ; REM
+    byte 0,1
+    word basic_line1_end-basic_line1-4
+    byte _REM

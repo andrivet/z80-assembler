@@ -1,130 +1,127 @@
+__          equ  $00
+_SPC        equ  $00
+_DQT        equ  $0b
+_PND        equ  $0c
+_DLR        equ  $0d
+_CLN        equ  $0e
+_QMK        equ  $0f
+_OBR        equ  $10
+_CBR        equ  $11
+_GTH        equ  $12
+_LTH        equ  $13
+_EQU        equ  $14
+_PLS        equ  $15
+_MNS        equ  $16
+_ASK        equ  $17
+_SLS        equ  $18
+_SMC        equ  $19
+_CMA        equ  $1a
+_FST        equ  $1b
+_0          equ  $1c
+_1          equ  $1d
+_2          equ  $1e
+_3          equ  $1f
+_4          equ  $20
+_5          equ  $21
+_6          equ  $22
+_7          equ  $23
+_8          equ  $24
+_9          equ  $25
+_A          equ  $26
+_B          equ  $27
+_C          equ  $28
+_D          equ  $29
+_E          equ  $2a
+_F          equ  $2b
+_G          equ  $2c
+_H          equ  $2d
+_I          equ  $2e
+_J          equ  $2f
+_K          equ  $30
+_L          equ  $31
+_M          equ  $32
+_N          equ  $33
+_O          equ  $34
+_P          equ  $35
+_Q          equ  $36
+_R          equ  $37
+_S          equ  $38
+_T          equ  $39
+_U          equ  $3a
+_V          equ  $3b
+_W          equ  $3c
+_X          equ  $3d
+_Y          equ  $3e
+_Z          equ  $3f
 
-__          equ	0x00		; " "
-_SPC        equ	0x00		; " "
-_DQT        equ	0x0b		; "
-_PND        equ	0x0c		; £
-_DLR        equ	0x0d		; $
-_CLN        equ	0x0e		; :
-_QMK        equ	0x0f		; ?
-_OBR        equ	0x10		; (
-_CBR        equ	0x11		; )
-_GTH        equ	0x12		; >
-_LTH        equ	0x13		; <
-_EQU        equ	0x14		; =
-_PLS        equ	0x15		; +
-_MNS        equ	0x16		; -
-_ASK        equ	0x17		; *
-_SLS        equ	0x18		; /
-_SMC        equ	0x19		; ;
-_CMA        equ	0x1a		; ,
-_FST        equ	0x1b		; .
-_0          equ	0x1c
-_1          equ	0x1d
-_2          equ	0x1e
-_3          equ	0x1f
-_4          equ	0x20
-_5          equ	0x21
-_6          equ	0x22
-_7          equ	0x23
-_8          equ	0x24
-_9          equ	0x25
-_A          equ	0x26
-_B          equ	0x27
-_C          equ	0x28
-_D          equ	0x29
-_E          equ	0x2a
-_F          equ	0x2b
-_G          equ	0x2c
-_H          equ	0x2d
-_I          equ	0x2e
-_J          equ	0x2f
-_K          equ	0x30
-_L          equ	0x31
-_M          equ	0x32
-_N          equ	0x33
-_O          equ	0x34
-_P          equ	0x35
-_Q          equ	0x36
-_R          equ	0x37
-_S          equ	0x38
-_T          equ	0x39
-_U          equ	0x3a
-_V          equ	0x3b
-_W          equ	0x3c
-_X          equ	0x3d
-_Y          equ	0x3e
-_Z          equ	0x3f
+_SPCV       equ  _SPC+$80
+_DQTV       equ  _DQT+$80
+_PNDV       equ  _PND+$80
+_DLRV       equ  _DLR+$80
+_CLNV       equ  _CLN+$80
+_QMKV       equ  _QMK+$80
+_OBRV       equ  _OBR+$80
+_CBRV       equ  _CBR+$80
+_GTHV       equ  _GTH+$80
+_LTHV       equ  _LTH+$80
+_EQUV       equ  _EQU+$80
+_PLSV       equ  _PLS+$80
+_MNSV       equ  _MNS+$80
+_ASKV       equ  _ASK+$80
+_SLSV       equ  _SLS+$80
+_SMCV       equ  _SMC+$80
+_CMAV       equ  _CMA+$80
+_FSTV       equ  _FST+$80
+_0V         equ  _0+$80
+_1V         equ  _1+$80
+_2V         equ  _2+$80
+_3V         equ  _3+$80
+_4V         equ  _4+$80
+_5V         equ  _5+$80
+_6V         equ  _6+$80
+_7V         equ  _7+$80
+_8V         equ  _8+$80
+_9V         equ  _9+$80
+_AV         equ  _A+$80
+_BV         equ  _B+$80
+_CV         equ  _C+$80
+_DV         equ  _D+$80
+_EV         equ  _E+$80
+_FV         equ  _F+$80
+_GV         equ  _G+$80
+_HV         equ  _H+$80
+_IV         equ  _I+$80
+_JV         equ  _J+$80
+_KV         equ  _K+$80
+_LV         equ  _L+$80
+_MV         equ  _M+$80
+_NV         equ  _N+$80
+_OV         equ  _O+$80
+_PV         equ  _P+$80
+_QV         equ  _Q+$80
+_RV         equ  _R+$80
+_SV         equ  _S+$80
+_TV         equ  _T+$80
+_UV         equ  _U+$80
+_VV         equ  _V+$80
+_WV         equ  _W+$80
+_XV         equ  _X+$80
+_YV         equ  _Y+$80
+_ZV         equ  _Z+$80
 
-; Inverse equivalents of the above.
+_NL         equ  $76
 
-_SPCV       equ	_SPC+0x80	; [ ]
-_DQTV       equ	_DQT+0x80	; ["]
-_PNDV       equ	_PND+0x80	; [£]
-_DLRV       equ	_DLR+0x80	; [$]
-_CLNV       equ	_CLN+0x80	; [:]
-_QMKV       equ	_QMK+0x80	; [?]
-_OBRV       equ	_OBR+0x80	; [(]
-_CBRV       equ	_CBR+0x80	; [)]
-_GTHV       equ	_GTH+0x80	; [>]
-_LTHV       equ	_LTH+0x80	; [<]
-_EQUV       equ	_EQU+0x80	; [=]
-_PLSV       equ	_PLS+0x80	; [+]
-_MNSV       equ	_MNS+0x80	; [-]
-_ASKV       equ	_ASK+0x80	; [*]
-_SLSV       equ	_SLS+0x80	; [/]
-_SMCV       equ	_SMC+0x80	; [;]
-_CMAV       equ	_CMA+0x80	; [,]
-_FSTV       equ	_FST+0x80	; [.]
-_0V         equ	_0+0x80
-_1V         equ	_1+0x80
-_2V         equ	_2+0x80
-_3V         equ	_3+0x80
-_4V         equ	_4+0x80
-_5V         equ	_5+0x80
-_6V         equ	_6+0x80
-_7V         equ	_7+0x80
-_8V         equ	_8+0x80
-_9V         equ	_9+0x80
-_AV         equ	_A+0x80
-_BV         equ	_B+0x80
-_CV         equ	_C+0x80
-_DV         equ	_D+0x80
-_EV         equ	_E+0x80
-_FV         equ	_F+0x80
-_GV         equ	_G+0x80
-_HV         equ	_H+0x80
-_IV         equ	_I+0x80
-_JV         equ	_J+0x80
-_KV         equ	_K+0x80
-_LV         equ	_L+0x80
-_MV         equ	_M+0x80
-_NV         equ	_N+0x80
-_OV         equ	_O+0x80
-_PV         equ	_P+0x80
-_QV         equ	_Q+0x80
-_RV         equ	_R+0x80
-_SV         equ	_S+0x80
-_TV         equ	_T+0x80
-_UV         equ	_U+0x80
-_VV         equ	_V+0x80
-_WV         equ	_W+0x80
-_XV         equ	_X+0x80
-_YV         equ	_Y+0x80
-_ZV         equ	_Z+0x80
-
-_NL         equ	0x76
-
-_VAL        equ	0xc5
-_INT        equ	0xcf
-_USR        equ	0xd4
-_NOT        equ	0xd7
-_PWR        equ	0xd8		; **
-_THEN       equ	0xde
-_STOP       equ	0xe3
-_REM        equ	0xea
-_LET        equ	0xf1
-_PRINT      equ	0xf5
-_RUN        equ	0xf7
-_SAVE       equ	0xf8
-_RAND       equ	0xf9
-_IF         equ	0xfa
+_VAL        equ  $c5
+_INT        equ  $cf
+_USR        equ  $d4
+_NOT        equ  $d7
+_PWR        equ  $d8
+_THEN       equ  $de
+_STOP       equ  $e3
+_REM        equ  $ea
+_LET        equ  $f1
+_PRINT      equ  $f5
+_RUN        equ  $f7
+_SAVE       equ  $f8
+_RAND       equ  $f9
+_IF         equ  $fa

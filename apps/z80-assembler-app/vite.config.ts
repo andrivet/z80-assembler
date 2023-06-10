@@ -15,6 +15,7 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/z80-assembler-app',
+  assetsInclude: ['**/*.zx81'],
 
   build: {
     chunkSizeWarningLimit: 1024
