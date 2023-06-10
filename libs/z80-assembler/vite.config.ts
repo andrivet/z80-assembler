@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 
 import viteTsConfigPaths from 'vite-tsconfig-paths';
@@ -7,6 +6,7 @@ import { joinPathFragments } from '@nx/devkit';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/z80-assembler',
+  assetsInclude: ['**/*.zx81'],
 
   plugins: [
     dts({
