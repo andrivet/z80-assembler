@@ -1,0 +1,13 @@
+
+; End of line 1
+    defb _NL                            ; Newline
+basic_line1_end:
+
+; 10 RAND VAL "USR 16514"
+basic_line2:
+    defb 0,2                                        ; Line 2
+    defw basic_line2_end-basic_line2-4              ; length
+    defb _RAND,_USR,_VAL,_DQT,_1,_6,_5,_1,_4,_DQT   ; RAND USR VAL "16514"
+    defb _NL                                        ; Newline
+basic_line2_end:
+

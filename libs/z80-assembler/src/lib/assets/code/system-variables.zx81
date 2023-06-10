@@ -1,0 +1,47 @@
+
+; Not saved
+ERR_NR		equ $4000
+FLAGS		equ $4001
+ERR_SP		equ $4002
+RAMTOP		equ $4004
+MODE		equ $4006
+PPC		    equ $4007
+
+            org	$4009
+
+VERSN:		defb	0				; $4009 - 0 Identifies ZX81 BASIC in saved programs.
+E_PPC:		defw	10				; $400a - Number of current BASIC line (with program cursor).
+D_FILE:		defw	display         ; $400c - Display file
+DF_CC:		defw	display+1	    ; $400e - Address of PRINT position in display file
+VARS:		defw	variables       ; $4010 - Address of Variables
+DEST:		defw	0				; $4012 - Address of variable in assignment
+E_LINE:		defw	edit_line       ; $4014 - Address of line being typed
+CH_ADD:		defw	edit_line+4		; $4016 - Address of the next character to be interpreted
+X_PTR:		defw	0				; $4018 - Address of the character preceding the [S] marker.
+STKBOT:		defw	edit_line+5     ; $401a - Address of the calculator stack.
+STKEND:		defw	edit_line+5     ; $401c - Address of the end of the calculator stack
+BERG:		defb	0				; $401e - Calculator's b register
+MEM:		defw	MEMBOT			; $401f - Address of area used for calculator's memory
+SPARE1:		defb	0				; $4021 - not used
+DF_SZ:		defb	2				; $4022 - The number of lines (including one blank line) in the lower part of the screen.
+S_TOP:		defw	10				; $4023 - The number of the top program line in automatic listings
+LAST_K:		defw	0xffff			; $4025 - Shows which keys pressed
+DB_ST:		defb	0				; $4027 - Debounce status of keyboard
+MARGIN:		defb	55				; $4028 - Number of blank lines above or below picture: 55 in Britain, 31 in America
+NXTLIN:		defw	basic_line10    ; $4029 - Address of next program line to be executed
+OLDPPC:		defw	0				; $402b - Line number of which CONT jumps
+FLAGX:		defb	0				; $402d - Various flags
+STRLEN:		defw	0				; $402e - Length of string type destination in assignment
+T_ADDR:		defw	0x0c8d			; $4030 - Address of next item in syntax table
+SEED:		defw	0				; $4032 - The seed for RND. This is the variable that is set by RAND
+FRAMES:		defw	0				; $4034 - Counts the frames displayed on the television
+COORDS:		defb	0				; $4036 - x-coordinate of last point PLOTted
+            defb    0               ; $4037 - y-coordinate of last point PLOTted
+PR_CC:		defb	0xbc            ; $4038 - Less significant byte of address of next position for LPRINT to print as (in PRBUFF)
+S_POSN:		defb	0x21            ; $4039 - Column number for PRINT position
+            defb    0x18            ; $403a - Line number for PRINT position
+CDFLAG:		defb	0x40            ; $403b - Various flags. Bit 7 is on (1) during compute & display mode
+PRBUF:		defs	0x20            ; $403c - Printer buffer
+            defb	_NL
+MEMBOT:		defs	0x1e            ; $405d - Calculator's memory area; used to store numbers that cannot conveniently be put on the calculator stack
+SPARE2:		defw	0               ; $407b - not used

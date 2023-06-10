@@ -1,0 +1,7 @@
+; close out the BASIC program structure
+
+; BASIC Variables area
+variables:
+variables_end:
+    defb 80h
+edit_line:

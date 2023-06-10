@@ -12,7 +12,14 @@ import {LinesInfo, CompilationInfo} from "../types/Types";
 import {CompilationError} from "../types/Error";
 import {computeLabels, generateLinesBytes, generateSld} from "./Generator";
 import {getUnknownLabels, resetLabels} from "./Labels";
-
+import {
+  assetBasicEnd,
+  assetBasicLine1,
+  assetBasicLine2,
+  assetCharacters,
+  assetDisplay,
+  assetSystemVariables
+} from "./Assets";
 
 /**
  * Type of the internal data.
@@ -57,11 +64,27 @@ function setOutputName(filename: string, sld?: string) {
 }
 
 /**
- * Set the name of the target (device directive).
+ * Set the name of the target (device directive) and do special processing for zx81 targets.
+ * @param pos Position of the device directive.
  * @param name The name of the device
  */
-function setDeviceName(name: string) {
-  parseData.deviceName = name;
+function setDeviceName(pos: PosInfo, name: string): LinesInfo[] {
+  parseData.deviceName = name.toLowerCase();
+  if(name === 'zx81') return specialProcessing(pos);
+  return [];
+}
+
+function specialProcessing(pos: PosInfo): LinesInfo[] {
+  return includeFile(pos, assetCharacters)
+    .concat(includeFile(pos, assetSystemVariables))
+    .concat(includeFile(pos, assetBasicLine1));
+}
+
+function postProcessing(pos: PosInfo, lines: Line[]): LinesInfo[] {
+  return [{filename: parseData.fileName, lines}]
+    .concat(includeFile(pos, assetBasicLine2))
+    .concat(includeFile(pos, assetDisplay))
+    .concat(includeFile(pos, assetBasicEnd));
 }
 
 /**
@@ -99,7 +122,7 @@ function parseCode(code: string): Line[] {
   if(result.errs.length > 0)
     throw CompilationError.fromSyntaxErr(parseData.fileName, result.errs[0])
   // Returns the lines, i.e. the AST
-  return result.ast?.lines ?? [];
+  return result.ast?.infos ?? [];
 }
 
 /**
@@ -135,8 +158,7 @@ function getBaseName(filepath: string): string {
  * @param getFileCode A function to get the content of included files.
  */
 function compile(filepath: string, code: string, getFileCode: (filename: string) => string): CompilationInfo {
-  const filename =  getBaseName(filepath);
-
+  const filename = getBaseName(filepath);
   // Set default values globally
   parseData.outputName = "program.P";
   parseData.basePath = getBasePath(filepath);
