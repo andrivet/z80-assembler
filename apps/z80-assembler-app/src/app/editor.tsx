@@ -66,17 +66,17 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
     if(current.name == null && current.code.length <= 0) {
       files = [...codeFiles]; // Have to be a copy
       current = files[currentFile];
-      current.filepath = blob.webkitRelativePath;
+      current.filepath = blob.name;
       current.name = blob.name;
       current.code = content;
     }
     else
-      files = [...codeFiles, {filepath: blob.webkitRelativePath, name: blob.name, code: content}]; // Must be a copy
+      files = [...codeFiles, {filepath: blob.name, name: blob.name, code: content}]; // Must be a copy
 
     setCodeFiles(files);
     setCurrentFile(files.length - 1);
     props.setCode(content);
-    props.setFilePath(blob.webkitRelativePath);
+    props.setFilePath(blob.name);
     props.setErrors(undefined);
   }
 
