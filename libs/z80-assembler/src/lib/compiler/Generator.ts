@@ -10,7 +10,7 @@
 import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
 import {bytes, LinesInfo} from '../types/Types';
 import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "./Labels";
-import {AstElement, AstElements, getByteSize, isAbstract, } from "./Ast";
+import {AstElement, AstElements, getByteSize, isAbstract} from "./Ast";
 
 
 /**
@@ -26,13 +26,15 @@ interface ProgramInfo {
 /**
  * Compute, whenever possible, the value associated with labels.
  * @param address The starting address.
- * @param lines The lines (i.e. the AST)
- * @return the address that corresponds to the code after the lines (i.e the new starting address).
+ * @param infos The lines (i.e. the AST)
+ * @return the address that corresponds to the code after the lines (i.e. the new starting address).
  */
-function computeLabels(address: number, lines: Lines): number {
-  if(lines.length <= 0) return address;
-  computeEqualities(lines);
-  return computeVariableLabels(address, lines);
+function computeLabels(address: number, infos: LinesInfo[]): number {
+  return infos.reduce((r: number, c: LinesInfo) => {
+    if(c.lines.length <= 0) return r;
+    computeEqualities(c.lines);
+    return computeVariableLabels(r, c.lines)
+  }, address);
 }
 
 /**
@@ -47,7 +49,7 @@ function computeEqualities(lines: Lines) {
       addLabelExpression(line.label.pos, line.label.name, line.equal.e);
     // If it is a statement, and it contains an inclusion, compute recursively the labels for those lines
     else if(line.kind === ASTKinds.LineStatement && line.statement?.kind === ASTKinds.Statement_1)
-      computeEqualities(line.statement.inc.lines.lines);
+      computeEqualities(line.statement.inc.info.lines);
   }
 }
 
@@ -80,7 +82,7 @@ function computeAddress(address: number, statement: Statement): number {
   switch(statement.kind) {
       // If it is an include statement, compute recursively the labels for those lines
       case ASTKinds.Statement_1:
-        return computeLabels(address, statement.linesinfo.lines);
+        return computeLabels(address, [statement.info]);
 
       // If it is an instruction, increment the address by the number of bytes that will be generated
       case ASTKinds.Statement_2:
@@ -97,25 +99,32 @@ function computeAddress(address: number, statement: Statement): number {
 /**
  * Generate machine code bytes for an array of lines (i.e. an AST)
  * @param address The current address.
- * @param lines The lines (i.e. the AST)
+ * @param infos The lines (i.e. the AST) with the associated filename
  * @return An array of bytes (numbers)
  */
-function generateLinesBytes(address: number, lines: Lines): bytes {
+function generateLinesBytes(address: number, infos: LinesInfo[]): bytes {
   // Start with an empty array of bytes
   let bytes: bytes = [];
-  // For each line...
-  for (const line of lines) {
-    // If it is not a statement, take the next line
-    if(line.kind !== ASTKinds.LineStatement || !line.statement) continue;
-    switch(line.statement?.kind) {
-      // If it is an include, generate the bytes for those lines and concatenate the result with the already computed bytes
-      case ASTKinds.Statement_1: bytes = bytes.concat(generateLinesBytes(address, line.statement.linesinfo.lines)); break;
-      // Otherwise, generate bytes for the AST elements of the line and concatenate the result with the already computed bytes
-      case ASTKinds.Statement_2:
-      case ASTKinds.Statement_3: bytes = bytes.concat(generateElementsBytes(address, line.statement.elements)); break;
+  for(const info of infos) {
+    // For each line...
+    for (const line of info.lines) {
+      // If it is not a statement, take the next line
+      if (line.kind !== ASTKinds.LineStatement || !line.statement) continue;
+      switch (line.statement?.kind) {
+        case ASTKinds.Statement_1:
+          // If it is an include, generate the bytes for those lines and concatenate the result with the already computed bytes
+          bytes = bytes.concat(generateLinesBytes(address, [line.statement.info]));
+          break;
+
+        case ASTKinds.Statement_2:
+        case ASTKinds.Statement_3:
+          // Otherwise, generate bytes for the AST elements of the line and concatenate the result with the already computed bytes
+          bytes = bytes.concat(generateElementsBytes(address, line.statement.elements));
+          break;
+      }
+      // Compute the address after the line
+      address = computeAddress(address, line.statement);
     }
-    // Compute the address after the line
-    address = computeAddress(address, line.statement);
   }
   return bytes;
 }
@@ -132,40 +141,50 @@ function generateElementsBytes(address: number, elements: AstElements): bytes {
   return elements.reduce((r: bytes, c: AstElement) => r.concat(isAbstract(c) ? c.generate(address) : [c]), [] as bytes)
 }
 
+interface SldInfo {
+  sld: string;
+  address: number;
+}
+
 /**
  * Generate debugging information (in Source Level Debugging format)
- * @param lines An array of lines with their associated filename
+ * @param mainfile Main file name
+ * @param infos An array of lines with their associated filename
  * @return The debugging information (in Source Level Debugging format)
  */
-function generateSld(lines: LinesInfo): string {
-  const filename = lines.filename;
+function generateSld(mainfile: string, infos: LinesInfo[]): string {
   // Generate the header
   const header = '|SLD.data.version|1\n' +
-    `${filename}|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0\n`;
+    `${mainfile}|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0\n`;
+
   // Generate SLD for the lines
-  return header + generateSldLines(0, lines);
+  return header + infos.reduce((r: SldInfo, c: LinesInfo) => {
+    const generated = generateSldLines(r.address, c);
+    return {sld: r.sld + generated.sld, address: generated.address};
+  }, {sld: '', address: 0}).sld;
 }
 
 /**
  * Generate debugging information (in Source Level Debugging format) for the lines.
+ * @param address Starting address for the lines
  * @param lines An array of lines with their associated filename
  * @return The debugging information (in Source Level Debugging format)
  */
-function generateSldLines(address: number, lines: LinesInfo): string {
+function generateSldLines(address: number, lines: LinesInfo): SldInfo {
   const filename = lines.filename;
   let lineNumber = 1;
-  let content = '';
+  let sld = '';
   // For each line...
   for(const line of lines.lines) {
     // Generate SLD for labels and for instruction tracing
-    content += generateSldLabel(filename, lineNumber, line) +
-               generateSldTrace(filename, lineNumber, line, address);
+    sld += generateSldLabel(filename, lineNumber, line) +
+           generateSldTrace(filename, lineNumber, line, address);
     lineNumber += 1; // Next line number
     // If it is a statement, compute the new address
     if(line.kind === ASTKinds.LineStatement && line.statement)
       address = computeAddress(address, line.statement);
   }
-  return content;
+  return {sld: sld, address: address};
 }
 
 /**
@@ -210,7 +229,7 @@ function generateSldTrace(filename: string, lineNumber: number, line: Line, addr
   // If the statement is an include, generate recursively the SLD
   if(line.statement?.kind === ASTKinds.Statement_1) {
     content += generateSldLines(address,
-      {filename: line.statement.inc.name.raw, lines: line.statement.linesinfo.lines});
+      {filename: line.statement.inc.name.raw, lines: line.statement.info.lines});
   }
   return content;
 }

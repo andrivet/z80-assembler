@@ -64,7 +64,7 @@ import {
 } from '../compiler/Ast';
 
 import {getLabelValue} from '../compiler/Labels';
-import {setOutputName, setDeviceName, includeFile} from '../compiler/Compiler';
+import {setOutputName, setDevice, includeFile} from '../compiler/Compiler';
 
 type Nullable<T> = T | null;
 type $$RuleType<T> = () => Nullable<T>;
@@ -833,7 +833,7 @@ export class Statement_1 {
     constructor(inc: IncludeDirective){
         this.inc = inc;
         this.info = ((): LinesInfo => {
-        return inc.lines;
+        return inc.info;
         })();
     }
 }
@@ -4111,7 +4111,7 @@ export class DeviceDirective {
     constructor(raw: string){
         this.raw = raw;
         this.void = ((): void => {
-        setDeviceName(raw);
+        setDevice(raw);
         })();
     }
 }
@@ -4870,7 +4870,7 @@ export class Parser {
                 if (true
                     && this.negate(() => this.matchForbiddenLabel($$dpth + 1, $$cr)) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_][a-z0-9_!\?#@\.]*)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_][a-z0-9_!\?#@\.\$]*)`, $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.Label, pos: $scope$pos, name: $scope$name};
                 }
@@ -4886,7 +4886,7 @@ export class Parser {
                 if (true
                     && this.negate(() => this.matchForbiddenLabel($$dpth + 1, $$cr)) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_][a-z0-9_!\?#@\.]*)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_][a-z0-9_!\?#@\.\$]*)`, $$dpth + 1, $$cr)) !== null
                     && ((this.regexAccept(String.raw`(?:\:)`, $$dpth + 1, $$cr)) || true)
                 ) {
                     $$res = {kind: ASTKinds.LabelDeclaration, pos: $scope$pos, name: $scope$name};

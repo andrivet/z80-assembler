@@ -62,7 +62,7 @@ import {
 } from '../compiler/Ast';
 
 import {getLabelValue} from '../compiler/Labels';
-import {setOutputName, setDeviceName, includeFile} from '../compiler/Compiler';
+import {setOutputName, setDevice, includeFile} from '../compiler/Compiler';
 ---
 
 // Start (top level symbol) of the grammar
@@ -146,7 +146,7 @@ LineStatement :=
 // A statement is either an include, an instruction or a directive
 Statement :=
     inc=IncludeDirective
-    .info = LinesInfo { return inc.lines; } |
+    .info = LinesInfo { return inc.info; } |
 
     ins=Instruction
     .elements = AstElements { return ins.elements; } |
@@ -191,11 +191,11 @@ ForbiddenLabel :=
 
 // A label can't have a forbidden name. It is a name.
 Label :=
-    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.]*'
+    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.\$]*'
 
 // A label declaration can't have a forbidden name. It is a name optionally followed by a ':' character.
 LabelDeclaration :=
-    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.]*' '\:'?
+    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.\$]*' '\:'?
 
 // Note: Top level expressions can't start with a parenthesis, otherwise it is ambiguous with dereferences
 // like LD HL, (0)
@@ -1240,4 +1240,4 @@ OutputDirective :=
 // A Device directive starts with 'device' (or an alias) and is followed by a name (the target)
 DeviceDirective :=
     '\.?device' __ raw='[a-zA-Z][0-9a-zA-Z]*' &_eos
-    .void = void { setDeviceName(raw); }
+    .void = void { setDevice(raw); }
