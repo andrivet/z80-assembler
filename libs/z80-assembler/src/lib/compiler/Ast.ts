@@ -204,12 +204,12 @@ interface InnerExpression<E extends Evaluable> { e: E; }
 /**
  * A Binary operation interface, i.e. a function with two arguments and that returns a number.
  */
-interface BinaryOperation { (a: number, b: number): number }
+type BinaryOperation = (a: number, b: number) => number
 
 /**
  * A Unary operation interface, i.e. a function with one argument and that returns a number.
  */
-interface UnaryOperation { (a: number): number }
+type UnaryOperation = (a: number) => number
 
 /**
  * A Binary function such as: 2 * 4 * 2.
@@ -254,7 +254,7 @@ type BinaryOperationsMap = { [key: string]: BinaryOperation };
 type UnaryOperationsMap = { [key: string]: UnaryOperation };
 
 /**
- * A Inner Operator i.e. that extends an Inner Expression, itself extending an Evaluable.
+ * An Inner Operator i.e. that extends an Inner Expression, itself extending an Evaluable.
  */
 interface InnerOp<E extends Evaluable> extends InnerExpression<E>{ op: string; }
 
