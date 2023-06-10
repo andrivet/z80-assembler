@@ -143,10 +143,10 @@ LineEqual :=
 LineStatement :=
   label=LabelDeclaration? _ statement=Statement? _ comment=Comment? '\r\n|\n'
 
-// A statement is either in include, and instruction or directive
+// A statement is either an include, an instruction or a directive
 Statement :=
     inc=IncludeDirective
-    .linesinfo = LinesInfo { return inc.lines; } |
+    .info = LinesInfo { return inc.lines; } |
 
     ins=Instruction
     .elements = AstElements { return ins.elements; } |
@@ -183,7 +183,7 @@ ForbiddenNames :=
     'byte|call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|word' |
     'adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla' |
     'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor' |
-    'cp|db|di|dm|ds|dw|dz|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
+    'cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
 
 // A forbidden label is a name not allowed for a label followed by a space, a tabulation, the character ':' or an end of line.
 ForbiddenLabel :=
@@ -1229,7 +1229,7 @@ Filename :=
 // An Include directive starts with 'include' (or an alias) and is followed by a Filename
 IncludeDirective :=
     pos=@ '\.?include' __ name=Filename &_eos
-    .lines = LinesInfo { return includeFile(pos, name.raw); }
+    .info = LinesInfo { return includeFile(pos, name.raw); }
 
 // An Output directive starts with 'output' (or an alias) and is followed by a Filename.
 // Optionally, it is followed by a comma, 'sld' and an filename

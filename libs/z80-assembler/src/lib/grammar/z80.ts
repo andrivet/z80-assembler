@@ -829,10 +829,10 @@ export type Statement = Statement_1 | Statement_2 | Statement_3;
 export class Statement_1 {
     public kind: ASTKinds.Statement_1 = ASTKinds.Statement_1;
     public inc: IncludeDirective;
-    public linesinfo: LinesInfo;
+    public info: LinesInfo;
     constructor(inc: IncludeDirective){
         this.inc = inc;
-        this.linesinfo = ((): LinesInfo => {
+        this.info = ((): LinesInfo => {
         return inc.lines;
         })();
     }
@@ -4078,11 +4078,11 @@ export class IncludeDirective {
     public kind: ASTKinds.IncludeDirective = ASTKinds.IncludeDirective;
     public pos: PosInfo;
     public name: Filename;
-    public lines: LinesInfo;
+    public info: LinesInfo;
     constructor(pos: PosInfo, name: Filename){
         this.pos = pos;
         this.name = name;
-        this.lines = ((): LinesInfo => {
+        this.info = ((): LinesInfo => {
         return includeFile(pos, name.raw);
         })();
     }
@@ -4846,7 +4846,7 @@ export class Parser {
         return this.regexAccept(String.raw`(?:rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor)`, $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_5> {
-        return this.regexAccept(String.raw`(?:cp|db|di|dm|ds|dw|dz|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr)`, $$dpth + 1, $$cr);
     }
     public matchForbiddenLabel($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenLabel> {
         return this.run<ForbiddenLabel>($$dpth,
