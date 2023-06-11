@@ -10,7 +10,7 @@
 import {Parser, PosInfo} from "../grammar/z80";
 import {CompilationInfo, LinesInfo} from "../types/Types";
 import {CompilationError} from "../types/Error";
-import {computeLabels, generateLinesBytes, generateSld} from "./Generator";
+import {computeLabels, generate} from "./Generator";
 import {getUnknownLabels, resetLabels} from "./Labels";
 import {
   assetBasicEnd,
@@ -155,7 +155,6 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
     // Parse this source code
     const parsed = postProcessing(parseCode(filepath, code));
     // Compute the value of the labels
-    // Compute the value of the labels
     computeLabels(0, parsed);
     // Do we have labels with unknown values?
     const unknowns = getUnknownLabels().join(', ');
@@ -163,11 +162,13 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
       throw new CompilationError(parseData.fileName, {line: 1, offset: 0, overallPos: 0},
         `Unknown value for labels: ${unknowns}`);
 
+    const generated = generate(filepath, 0, parsed);
+
     // Generate the bytes, the SLD and return them
     return {
       outputName: parseData.outputName,
-      bytes: generateLinesBytes(0, parsed),
-      sld: generateSld(filepath, parsed),
+      bytes: generated.bytes,
+      sld: generated.sld,
       errs: []
     };
   }
