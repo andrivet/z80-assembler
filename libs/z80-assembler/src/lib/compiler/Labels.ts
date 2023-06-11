@@ -61,7 +61,7 @@ function addLabel(pos: PosInfo, name: string, value: number | null) {
   // Is its value known?
   if(label.known && label.value != value) {
     throw new CompilationError(parseData.fileName, pos,
-      `The value if the label '${name}' is redefined (old value: ${label.value}, new value: ${value})`);
+      `The value of the label '${name}' is redefined (old value: ${label.value}, new value: ${value})`);
   }
 
   // Set the value

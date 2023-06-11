@@ -98,7 +98,7 @@ export function parseHexadecimalEscape(pos: PosInfo, value: string): number[] {
  * Map between ASCII and ZX81 characters set
  */
 const zx81chars = new Map<string, number>([
-  ['£', 0x0C], ['$', 0x0D], [':', 0x0E], ['?', 0x0F],
+  [' ', 0x00], ['£', 0x0C], ['$', 0x0D], [':', 0x0E], ['?', 0x0F],
   ['(', 0x10], [')', 0x11], ['>', 0x12], ['<', 0x13], ['=', 0x14], ['+', 0x15], ['-', 0x16], ['*', 0x17],
   ['/', 0x18], [';', 0x19], [',', 0x1A], ['.', 0x1B]
 ]);

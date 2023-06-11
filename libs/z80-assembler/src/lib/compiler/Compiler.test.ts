@@ -1727,6 +1727,11 @@ test("Label redefined", () => {
     expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46]);
   });
 
+test("Declaring ZX81 string", () => {
+  const bytes = compileCode('db zx81"HELLO WORLD"');
+  expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
+});
+
   test("Declaring strings", () => {
     const bytes = compileCode('db "ABCDEF", "abcdef"');
     expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66]);
@@ -1863,12 +1868,12 @@ test("Label redefined", () => {
   });
 
   test("Device", () => {
-    const bytes = compileCode('device ZX81');
+    const bytes = compileCode('device test');
     expect(bytes).toEqual([]);
   });
 
   test("Device with dot", () => {
-    const bytes = compileCode('.device ZX81');
+    const bytes = compileCode('.device test');
     expect(bytes).toEqual([]);
   });
 
