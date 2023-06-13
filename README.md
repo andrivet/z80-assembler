@@ -12,9 +12,6 @@ A Z80 assembler entirely written in Typescript and derived from a PEG grammar.
 
 ![z80-assembler-app](assets/images/z80-assembler-app.png)
 
-## How to install
-
-TO WRITE
 
 ## How to build from source
 
@@ -38,32 +35,6 @@ nx run z80-assembler-app:dev:production
 
 Open a navigator at the URL http://localhost:4200/
 
-## Quick guide to use the library
-
-The main function is simply called `compile`. It takes three arguments:
-
-* the name of the source file
-* the Z80 source code to compile
-* a function used to return the content of included files
-
-It returns an object of type `CompilationInfo` with the following fields:
-
-* `outputName`: The name of the output as set by the `output` directive.
-* `bytes`: A array of numbers. Each element represents a byte of the generated machine code.
-* `sld`: The Source Level Debugging data as a string. This is used in order to debug the code.
-* `errs`: An array of errors
-
-A typical way to use the function is:
-
-```
-const info = compile(filepath, code, handleGetFileCode);
-if(info.errs.length > 0)
-  displayErrors(info.errs);
-else
-  saveOutput(info.outputName, info.bytes);
-```
-
-You can find a complete example in the `z80-assembler-app`, in particular in the `app.tsx` file.
 
 ## Quick guide to use the application
 
