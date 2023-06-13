@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "license": "GPLv3",
   "homepage": "https://andrivet.github.io/z80-assembler",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.1",

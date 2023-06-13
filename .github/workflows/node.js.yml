@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
     - name: Build
-      run: npx nx build z80-assembler-app --prod
+      run: npx nx build z80-assembler-app --prod --baseHref=/z80-assembler/
     - name: Run tests
       run: npx nx test z80-assembler
     - name: Upload artifact
