@@ -7,6 +7,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     LoweLevel.ts
+ * Description: Fonctions de bas niveau pour l'analyseur.
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {byte} from "../types/Types";
 
 /**

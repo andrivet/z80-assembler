@@ -7,6 +7,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Compile.tests.ts
+ * Description: Tests pour le compilateur
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {compile as rawCompile} from "./Compiler";
 import {expect} from "vitest";
 

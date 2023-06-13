@@ -7,6 +7,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Labels.ts
+ * Description: Etiquettes associées à des emplacements mémoire.
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {Expression, PosInfo} from "../grammar/z80";
 import {CompilationError} from "../types/Error";
 import {parseData} from "./Compiler";

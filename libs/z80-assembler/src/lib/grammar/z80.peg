@@ -8,6 +8,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+ /**
+  * Assembler Z80 en Typescript
+  *
+  * Fichier:     z80.peg
+  * Description: Grammaire PEG de l'assembleur Z80.
+  * Author:      Sebastien Andrivet
+  * License:     GPLv3
+  * Copyrights:  Copyright (C) 2023 Sebastien Andrivet
+  */
 import {
     r_bits,
     dd_bits,

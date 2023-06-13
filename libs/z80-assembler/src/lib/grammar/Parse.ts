@@ -1,3 +1,22 @@
+/**
+ * Z80 Assembler in Typescript
+ *
+ * File:        Parse.ts
+ * Description: Fonctions uses by the parser to convert strings
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Parse.ts
+ * Description: Fonctions de conversion de chaines de caractères pour l'analyseur.
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {PosInfo} from "./z80";
 import {CompilationError} from "../types/Error";
 import {parseData} from '../compiler/Compiler';

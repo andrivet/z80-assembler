@@ -7,6 +7,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Error.ts
+ * Description: Erreurs de compilation
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {MatchAttempt, PosInfo, SyntaxErr} from "../grammar/z80";
 
 /**

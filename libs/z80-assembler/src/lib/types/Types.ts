@@ -7,8 +7,20 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Types.ts
+ * Description: Types partagés
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ *
+ */
 import {Line} from "../grammar/z80";
 import {CompilationError} from "./Error";
+
 
 /**
  * A byte is represented by a number.

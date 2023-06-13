@@ -7,6 +7,16 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
+
+/**
+ * Assembler Z80 en Typescript
+ *
+ * Fichier:     Generator.ts
+ * Description: Generation des octets et du SLD
+ * Author:			Sebastien Andrivet
+ * License:			GPLv3
+ * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
+ */
 import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
 import {bytes, LinesInfo} from '../types/Types';
 import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "./Labels";
@@ -15,11 +25,20 @@ import {AstElement, AstElements, getByteSize, isAbstract} from "./Ast";
 
 /**
  * Information about a compiled program.
+ * Informations sur un programme compilé.
  */
 interface ProgramInfo {
+  // Bytes of the compiled program.
+  // Octets du programme compilé.
   bytes: bytes;
+  // Name of the binary file.
+  // Nom du fichier binaire.
   outputName: string;
+  // Name if the SLD file.
+  // Nom du fichier SLD.
   outputSldName: string;
+  // Next address after the compiled bytes.
+  // Prochaine adresse après les octets compilés.
   address: number;
 }
 
