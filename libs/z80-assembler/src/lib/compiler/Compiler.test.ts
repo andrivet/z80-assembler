@@ -199,6 +199,16 @@ test("Expression with (left) additive associativity", () => {
   expect(bytes).toEqual([0x3E, 0x03]);
 });
 
+test("Expression with (left) additive associativity and different operations", () => {
+  const bytes = compileCode('LD A, 42 + 3 + 1 - 4');
+  expect(bytes).toEqual([0x3E, 42]);
+});
+
+test("Expression with multiplication, subtraction, division and a label", () => {
+  const bytes = compileCode('label1 equ 8\nLD A, 42 * 5 - label1 / 2');
+  expect(bytes).toEqual([0x3E, 206]);
+});
+
 test("Expression with (left) multiplicative associativity", () => {
   const bytes = compileCode('LD A, 20 / 2 / 5');
   expect(bytes).toEqual([0x3E, 0x02]);
@@ -1723,18 +1733,13 @@ test("Label redefined", () => {
   });
 
   test("Declaring string", () => {
-    const bytes = compileCode('db "ABCDEF"');
-    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46]);
+    const bytes = compileCode('db "HELLO WORLD"');
+    expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
   });
 
-test("Declaring ZX81 string", () => {
-  const bytes = compileCode('db zx81"HELLO WORLD"');
-  expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
-});
-
   test("Declaring strings", () => {
-    const bytes = compileCode('db "ABCDEF", "abcdef"');
-    expect(bytes).toEqual([0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66]);
+    const bytes = compileCode('db "HELLO", "WORLD"');
+    expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x3C, 0x34, 0x37, 0x31, 0x29]);
   });
 
   test("Declaring words", () => {
@@ -1876,6 +1881,36 @@ test("Declaring ZX81 string", () => {
     const bytes = compileCode('.device test');
     expect(bytes).toEqual([]);
   });
+
+
+// -------------------------------------------------------
+// Comments
+// -------------------------------------------------------
+
+test("Comment alone", () => {
+  const bytes = compileCode('; a comment');
+  expect(bytes).toEqual([]);
+});
+
+test("Comment with spaces", () => {
+  const bytes = compileCode('    ; a comment');
+  expect(bytes).toEqual([]);
+});
+
+test("Comment with label", () => {
+  const bytes = compileCode('test1: ; a comment');
+  expect(bytes).toEqual([]);
+});
+
+test("Comment with instruction", () => {
+  const bytes = compileCode(' ld a, $55 ; a comment');
+  expect(bytes).toEqual([0x3E, 0x55]);
+});
+
+test("Comment with label and instruction", () => {
+  const bytes = compileCode('test1: ld a, $55 ; a comment');
+  expect(bytes).toEqual([0x3E, 0x55]);
+});
 
 // -------------------------------------------------------
 // Full code

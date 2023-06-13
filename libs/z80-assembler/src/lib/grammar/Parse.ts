@@ -35,38 +35,14 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
 }
 
 /**
- * Parse a simple character, i.e. a character that is not escaped.
- * @param pos Position of the character in the source code.
- * @param raw Raw representation of the character.
- */
-export function parseSimpleChar(pos: PosInfo, raw: string): number[] {
-  const code = raw.charCodeAt(0);
-  if(code > 127) throw new CompilationError(parseData.fileName, pos,
-    "Only ASCII characters are supported, use escape for other values.")
-  return [code];
-}
-
-/**
  * Parse a simple escape, i.e. a backslash followed by a character.
- * @param value The character after the backslash.
+ * @param pos Position of the character in the source code.
+ * @param c The character after the backslash.
  */
-export function parseSimpleEscape(value: string): number[] {
-  switch(value) {
-    case 'a': return [0x07];
-    case 'b': return [0x08];
-    case 'e': return [0x1B];
-    case 'f': return [0x0C];
-    case 'n': return [0x0A];
-    case 'r': return [0x0D];
-    case 't': return [0x09];
-    case 'v': return [0x0B];
-
-    case '\'':
-    case '"':
-    case '?':
-    case '\\':
-    default:
-      return [value.charCodeAt(0)];
+export function parseSimpleEscape(pos: PosInfo, c: string): number[] {
+  switch(c) {
+    case '"': return [0x0B];
+    default:  throw new CompilationError(parseData.fileName, pos,`Invalid escape: \\${c}`);
   }
 }
 
@@ -98,9 +74,10 @@ export function parseHexadecimalEscape(pos: PosInfo, value: string): number[] {
  * Map between ASCII and ZX81 characters set
  */
 const zx81chars = new Map<string, number>([
-  [' ', 0x00], ['£', 0x0C], ['$', 0x0D], [':', 0x0E], ['?', 0x0F],
+  [' ', 0x00], ['"', 0x0B], ['£', 0x0C], ['$', 0x0D], [':', 0x0E], ['?', 0x0F],
   ['(', 0x10], [')', 0x11], ['>', 0x12], ['<', 0x13], ['=', 0x14], ['+', 0x15], ['-', 0x16], ['*', 0x17],
-  ['/', 0x18], [';', 0x19], [',', 0x1A], ['.', 0x1B]
+  ['/', 0x18], [';', 0x19], [',', 0x1A], ['.', 0x1B],
+  ['_', 0x80]
 ]);
 
 /**
@@ -108,7 +85,7 @@ const zx81chars = new Map<string, number>([
  * @param pos Position of the character in the source code.
  * @param c The ASCII character.
  */
-function parseZX81Char(pos: PosInfo, c: string): number {
+export function parseZX81Char(pos: PosInfo, c: string): number {
   // Convert capital letters to their ZX81 counterparts.
   if(c >= 'A' && c < 'Z') return c.charCodeAt(0) - 0x41 + 0x26;
   // Convert lowercase letters to their uppercase and inverted ZX81 counterparts.

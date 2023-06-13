@@ -25,7 +25,7 @@ import {
 
 import {
   parseNumber,
-  parseSimpleChar,
+  parseZX81Char,
   parseSimpleEscape,
   parseOctalEscape,
   parseHexadecimalEscape,
@@ -139,7 +139,8 @@ export enum ASTKinds {
     jj_4 = "jj_4",
     __ = "__",
     _ = "_",
-    _eos = "_eos",
+    eos = "eos",
+    eol = "eol",
     Lines = "Lines",
     Line_1 = "Line_1",
     Line_2 = "Line_2",
@@ -554,7 +555,6 @@ export enum ASTKinds {
     ByteValue_1 = "ByteValue_1",
     ByteValue_2 = "ByteValue_2",
     ByteValue_3 = "ByteValue_3",
-    ByteValue_4 = "ByteValue_4",
     WordValue = "WordValue",
     DataDirective_1 = "DataDirective_1",
     DataDirective_2 = "DataDirective_2",
@@ -568,16 +568,6 @@ export enum ASTKinds {
     SimpleEscapeSequence = "SimpleEscapeSequence",
     SimpleEscapeSequence_$0_1 = "SimpleEscapeSequence_$0_1",
     SimpleEscapeSequence_$0_2 = "SimpleEscapeSequence_$0_2",
-    SimpleEscapeSequence_$0_3 = "SimpleEscapeSequence_$0_3",
-    SimpleEscapeSequence_$0_4 = "SimpleEscapeSequence_$0_4",
-    SimpleEscapeSequence_$0_5 = "SimpleEscapeSequence_$0_5",
-    SimpleEscapeSequence_$0_6 = "SimpleEscapeSequence_$0_6",
-    SimpleEscapeSequence_$0_7 = "SimpleEscapeSequence_$0_7",
-    SimpleEscapeSequence_$0_8 = "SimpleEscapeSequence_$0_8",
-    SimpleEscapeSequence_$0_9 = "SimpleEscapeSequence_$0_9",
-    SimpleEscapeSequence_$0_10 = "SimpleEscapeSequence_$0_10",
-    SimpleEscapeSequence_$0_11 = "SimpleEscapeSequence_$0_11",
-    SimpleEscapeSequence_$0_12 = "SimpleEscapeSequence_$0_12",
     OctalEscapeSequence = "OctalEscapeSequence",
     HexadecimalEscapeSequence = "HexadecimalEscapeSequence",
     SimpleChar = "SimpleChar",
@@ -588,7 +578,6 @@ export enum ASTKinds {
     Str = "Str",
     Str_$0_1 = "Str_$0_1",
     Str_$0_2 = "Str_$0_2",
-    ZX81Str = "ZX81Str",
     Comment = "Comment",
     OriginDirective = "OriginDirective",
     Filename_1 = "Filename_1",
@@ -808,7 +797,8 @@ export type jj_3 = string;
 export type jj_4 = string;
 export type __ = string;
 export type _ = string;
-export type _eos = string;
+export type eos = string;
+export type eol = string;
 export type Lines = Line[];
 export type Line = Line_1 | Line_2;
 export type Line_1 = LineEqual;
@@ -960,10 +950,10 @@ export class Expression {
 }
 export class BitwiseOrExpression {
     public kind: ASTKinds.BitwiseOrExpression = ASTKinds.BitwiseOrExpression;
-    public left: BitwiseOrExpression_$0[];
+    public left: Nullable<BitwiseOrExpression_$0>;
     public right: BitwiseXOrExpression;
     public eval: EvalFunc;
-    constructor(left: BitwiseOrExpression_$0[], right: BitwiseXOrExpression){
+    constructor(left: Nullable<BitwiseOrExpression_$0>, right: BitwiseXOrExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -977,10 +967,10 @@ export interface BitwiseOrExpression_$0 {
 }
 export class BitwiseXOrExpression {
     public kind: ASTKinds.BitwiseXOrExpression = ASTKinds.BitwiseXOrExpression;
-    public left: BitwiseXOrExpression_$0[];
+    public left: Nullable<BitwiseXOrExpression_$0>;
     public right: BitwiseAndExpression;
     public eval: EvalFunc;
-    constructor(left: BitwiseXOrExpression_$0[], right: BitwiseAndExpression){
+    constructor(left: Nullable<BitwiseXOrExpression_$0>, right: BitwiseAndExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -994,10 +984,10 @@ export interface BitwiseXOrExpression_$0 {
 }
 export class BitwiseAndExpression {
     public kind: ASTKinds.BitwiseAndExpression = ASTKinds.BitwiseAndExpression;
-    public left: BitwiseAndExpression_$0[];
+    public left: Nullable<BitwiseAndExpression_$0>;
     public right: ShiftExpression;
     public eval: EvalFunc;
-    constructor(left: BitwiseAndExpression_$0[], right: ShiftExpression){
+    constructor(left: Nullable<BitwiseAndExpression_$0>, right: ShiftExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1011,10 +1001,10 @@ export interface BitwiseAndExpression_$0 {
 }
 export class ShiftExpression {
     public kind: ASTKinds.ShiftExpression = ASTKinds.ShiftExpression;
-    public left: ShiftExpression_$0[];
+    public left: Nullable<ShiftExpression_$0>;
     public right: AdditiveExpression;
     public eval: EvalFunc;
-    constructor(left: ShiftExpression_$0[], right: AdditiveExpression){
+    constructor(left: Nullable<ShiftExpression_$0>, right: AdditiveExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1032,10 +1022,10 @@ export type ShiftExpression_$0_$0_1 = string;
 export type ShiftExpression_$0_$0_2 = string;
 export class AdditiveExpression {
     public kind: ASTKinds.AdditiveExpression = ASTKinds.AdditiveExpression;
-    public left: AdditiveExpression_$0[];
+    public left: Nullable<AdditiveExpression_$0>;
     public right: MultiplicativeExpression;
     public eval: EvalFunc;
-    constructor(left: AdditiveExpression_$0[], right: MultiplicativeExpression){
+    constructor(left: Nullable<AdditiveExpression_$0>, right: MultiplicativeExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -1053,10 +1043,10 @@ export type AdditiveExpression_$0_$0_1 = string;
 export type AdditiveExpression_$0_$0_2 = string;
 export class MultiplicativeExpression {
     public kind: ASTKinds.MultiplicativeExpression = ASTKinds.MultiplicativeExpression;
-    public left: MultiplicativeExpression_$0[];
+    public left: Nullable<MultiplicativeExpression_$0>;
     public right: UnaryExpression;
     public eval: EvalFunc;
-    constructor(left: MultiplicativeExpression_$0[], right: UnaryExpression){
+    constructor(left: Nullable<MultiplicativeExpression_$0>, right: UnaryExpression){
         this.left = left;
         this.right = right;
         this.eval = ((): EvalFunc => {
@@ -3820,7 +3810,7 @@ export type BlockDirective = BlockDirective_1 | BlockDirective_2 | BlockDirectiv
 export type BlockDirective_1 = string;
 export type BlockDirective_2 = string;
 export type BlockDirective_3 = string;
-export type ByteValue = ByteValue_1 | ByteValue_2 | ByteValue_3 | ByteValue_4;
+export type ByteValue = ByteValue_1 | ByteValue_2 | ByteValue_3;
 export class ByteValue_1 {
     public kind: ASTKinds.ByteValue_1 = ASTKinds.ByteValue_1;
     public c: Char;
@@ -3845,17 +3835,6 @@ export class ByteValue_2 {
 }
 export class ByteValue_3 {
     public kind: ASTKinds.ByteValue_3 = ASTKinds.ByteValue_3;
-    public s: ZX81Str;
-    public elements: AstElements;
-    constructor(s: ZX81Str){
-        this.s = s;
-        this.elements = ((): AstElements => {
-        return s.elements;
-        })();
-    }
-}
-export class ByteValue_4 {
-    public kind: ASTKinds.ByteValue_4 = ASTKinds.ByteValue_4;
     public pos: PosInfo;
     public e: Expression;
     public elements: AstElements;
@@ -3945,28 +3924,20 @@ export type EscapeSequence_2 = OctalEscapeSequence;
 export type EscapeSequence_3 = HexadecimalEscapeSequence;
 export class SimpleEscapeSequence {
     public kind: ASTKinds.SimpleEscapeSequence = ASTKinds.SimpleEscapeSequence;
+    public pos: PosInfo;
     public raw: SimpleEscapeSequence_$0;
     public elements: AstElements;
-    constructor(raw: SimpleEscapeSequence_$0){
+    constructor(pos: PosInfo, raw: SimpleEscapeSequence_$0){
+        this.pos = pos;
         this.raw = raw;
         this.elements = ((): AstElements => {
-        return parseSimpleEscape(raw);
+        return parseSimpleEscape(pos, raw);
         })();
     }
 }
-export type SimpleEscapeSequence_$0 = SimpleEscapeSequence_$0_1 | SimpleEscapeSequence_$0_2 | SimpleEscapeSequence_$0_3 | SimpleEscapeSequence_$0_4 | SimpleEscapeSequence_$0_5 | SimpleEscapeSequence_$0_6 | SimpleEscapeSequence_$0_7 | SimpleEscapeSequence_$0_8 | SimpleEscapeSequence_$0_9 | SimpleEscapeSequence_$0_10 | SimpleEscapeSequence_$0_11 | SimpleEscapeSequence_$0_12;
+export type SimpleEscapeSequence_$0 = SimpleEscapeSequence_$0_1 | SimpleEscapeSequence_$0_2;
 export type SimpleEscapeSequence_$0_1 = string;
 export type SimpleEscapeSequence_$0_2 = string;
-export type SimpleEscapeSequence_$0_3 = string;
-export type SimpleEscapeSequence_$0_4 = string;
-export type SimpleEscapeSequence_$0_5 = string;
-export type SimpleEscapeSequence_$0_6 = string;
-export type SimpleEscapeSequence_$0_7 = string;
-export type SimpleEscapeSequence_$0_8 = string;
-export type SimpleEscapeSequence_$0_9 = string;
-export type SimpleEscapeSequence_$0_10 = string;
-export type SimpleEscapeSequence_$0_11 = string;
-export type SimpleEscapeSequence_$0_12 = string;
 export class OctalEscapeSequence {
     public kind: ASTKinds.OctalEscapeSequence = ASTKinds.OctalEscapeSequence;
     public pos: PosInfo;
@@ -4002,7 +3973,7 @@ export class SimpleChar {
         this.pos = pos;
         this.raw = raw;
         this.elements = ((): AstElements => {
-        return parseSimpleChar(pos, raw);
+        return parseZX81Char(pos, raw);
         })();
     }
 }
@@ -4015,7 +3986,7 @@ export class StringChar {
         this.pos = pos;
         this.raw = raw;
         this.elements = ((): AstElements => {
-        return parseSimpleChar(pos, raw);
+        return parseZX81Char(pos, raw);
         })();
     }
 }
@@ -4035,9 +4006,11 @@ export type Char_$0_1 = SimpleChar;
 export type Char_$0_2 = EscapeSequence;
 export class Str {
     public kind: ASTKinds.Str = ASTKinds.Str;
+    public pos: PosInfo;
     public chars: Str_$0[];
     public elements: AstElements;
-    constructor(chars: Str_$0[]){
+    constructor(pos: PosInfo, chars: Str_$0[]){
+        this.pos = pos;
         this.chars = chars;
         this.elements = ((): AstElements => {
         return chars.reduce((r, c) => { return r.concat(c.elements); }, [] as AstElements);
@@ -4047,19 +4020,6 @@ export class Str {
 export type Str_$0 = Str_$0_1 | Str_$0_2;
 export type Str_$0_1 = StringChar;
 export type Str_$0_2 = EscapeSequence;
-export class ZX81Str {
-    public kind: ASTKinds.ZX81Str = ASTKinds.ZX81Str;
-    public pos: PosInfo;
-    public chars: string;
-    public elements: AstElements;
-    constructor(pos: PosInfo, chars: string){
-        this.pos = pos;
-        this.chars = chars;
-        this.elements = ((): AstElements => {
-        return parseZX81String(pos, chars);
-        })();
-    }
-}
 export type Comment = string;
 export interface OriginDirective {
     kind: ASTKinds.OriginDirective;
@@ -4645,8 +4605,11 @@ export class Parser {
     public match_($$dpth: number, $$cr?: ErrorTracker): Nullable<_> {
         return this.regexAccept(String.raw`(?:[ \t]*)`, $$dpth + 1, $$cr);
     }
-    public match_eos($$dpth: number, $$cr?: ErrorTracker): Nullable<_eos> {
+    public matcheos($$dpth: number, $$cr?: ErrorTracker): Nullable<eos> {
         return this.regexAccept(String.raw`(?:[ \t]*(;|\r\n|\n|//))`, $$dpth + 1, $$cr);
+    }
+    public matcheol($$dpth: number, $$cr?: ErrorTracker): Nullable<eol> {
+        return this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr);
     }
     public matchLines($$dpth: number, $$cr?: ErrorTracker): Nullable<Lines> {
         return this.loop<Line>(() => this.matchLine($$dpth + 1, $$cr), true);
@@ -4676,7 +4639,7 @@ export class Parser {
                     && ($scope$equal = this.matchEqualDirective($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
+                    && this.matcheol($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.LineEqual, label: $scope$label, equal: $scope$equal, comment: $scope$comment};
                 }
@@ -4696,7 +4659,7 @@ export class Parser {
                     && (($scope$statement = this.matchStatement($$dpth + 1, $$cr)) || true)
                     && this.match_($$dpth + 1, $$cr) !== null
                     && (($scope$comment = this.matchComment($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr) !== null
+                    && this.matcheol($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.LineStatement, label: $scope$label, statement: $scope$statement, comment: $scope$comment};
                 }
@@ -4912,11 +4875,11 @@ export class Parser {
         const fn = () => {
             return this.run<BitwiseOrExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<BitwiseOrExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<BitwiseOrExpression_$0>>;
                     let $scope$right: Nullable<BitwiseXOrExpression>;
                     let $$res: Nullable<BitwiseOrExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<BitwiseOrExpression_$0>(() => this.matchBitwiseOrExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchBitwiseOrExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -4969,11 +4932,11 @@ export class Parser {
         const fn = () => {
             return this.run<BitwiseXOrExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<BitwiseXOrExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<BitwiseXOrExpression_$0>>;
                     let $scope$right: Nullable<BitwiseAndExpression>;
                     let $$res: Nullable<BitwiseXOrExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<BitwiseXOrExpression_$0>(() => this.matchBitwiseXOrExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchBitwiseXOrExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -5026,11 +4989,11 @@ export class Parser {
         const fn = () => {
             return this.run<BitwiseAndExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<BitwiseAndExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<BitwiseAndExpression_$0>>;
                     let $scope$right: Nullable<ShiftExpression>;
                     let $$res: Nullable<BitwiseAndExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<BitwiseAndExpression_$0>(() => this.matchBitwiseAndExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchBitwiseAndExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchShiftExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -5083,11 +5046,11 @@ export class Parser {
         const fn = () => {
             return this.run<ShiftExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<ShiftExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<ShiftExpression_$0>>;
                     let $scope$right: Nullable<AdditiveExpression>;
                     let $$res: Nullable<ShiftExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<ShiftExpression_$0>(() => this.matchShiftExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchShiftExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchAdditiveExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -5153,11 +5116,11 @@ export class Parser {
         const fn = () => {
             return this.run<AdditiveExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<AdditiveExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<AdditiveExpression_$0>>;
                     let $scope$right: Nullable<MultiplicativeExpression>;
                     let $$res: Nullable<AdditiveExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<AdditiveExpression_$0>(() => this.matchAdditiveExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchAdditiveExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchMultiplicativeExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -5223,11 +5186,11 @@ export class Parser {
         const fn = () => {
             return this.run<MultiplicativeExpression>($$dpth,
                 () => {
-                    let $scope$left: Nullable<MultiplicativeExpression_$0[]>;
+                    let $scope$left: Nullable<Nullable<MultiplicativeExpression_$0>>;
                     let $scope$right: Nullable<UnaryExpression>;
                     let $$res: Nullable<MultiplicativeExpression> = null;
                     if (true
-                        && ($scope$left = this.loop<MultiplicativeExpression_$0>(() => this.matchMultiplicativeExpression_$0($$dpth + 1, $$cr), true)) !== null
+                        && (($scope$left = this.matchMultiplicativeExpression_$0($$dpth + 1, $$cr)) || true)
                         && this.match_($$dpth + 1, $$cr) !== null
                         && ($scope$right = this.matchUnaryExpression($$dpth + 1, $$cr)) !== null
                     ) {
@@ -5515,6 +5478,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r1 = this.matchReg8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_1($scope$r0, $scope$r1);
                 }
@@ -5536,7 +5500,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_2($scope$r);
                 }
@@ -5568,7 +5532,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_3($scope$r, $scope$s, $scope$pos, $scope$d);
                 }
@@ -5600,7 +5564,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_4($scope$r, $scope$s, $scope$pos, $scope$d);
                 }
@@ -5624,7 +5588,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_5($scope$r);
                 }
@@ -5656,7 +5620,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_6($scope$s, $scope$pos, $scope$d, $scope$r);
                 }
@@ -5688,7 +5652,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_7($scope$s, $scope$pos, $scope$d, $scope$r);
                 }
@@ -5712,7 +5676,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_8($scope$pos, $scope$n);
                 }
@@ -5746,7 +5710,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos1 = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_9($scope$s, $scope$pos0, $scope$d, $scope$pos1, $scope$n);
                 }
@@ -5780,7 +5744,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos1 = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_10($scope$s, $scope$pos0, $scope$d, $scope$pos1, $scope$n);
                 }
@@ -5803,7 +5767,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_11();
                 }
@@ -5826,7 +5790,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_12();
                 }
@@ -5852,7 +5816,7 @@ export class Parser {
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_13($scope$pos, $scope$ee);
                 }
@@ -5875,7 +5839,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_14();
                 }
@@ -5898,7 +5862,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_15();
                 }
@@ -5924,7 +5888,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_16($scope$pos, $scope$ee);
                 }
@@ -5943,7 +5907,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:i)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_17();
                 }
@@ -5962,7 +5926,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:r)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_18();
                 }
@@ -5981,7 +5945,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_19();
                 }
@@ -6000,7 +5964,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_20();
                 }
@@ -6023,7 +5987,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_21($scope$r, $scope$pos, $scope$n);
                 }
@@ -6141,7 +6105,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_1($scope$pos, $scope$ee);
                 }
@@ -6163,7 +6127,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_2($scope$pos, $scope$ee);
                 }
@@ -6189,7 +6153,7 @@ export class Parser {
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_3($scope$pos, $scope$ee);
                 }
@@ -6216,7 +6180,7 @@ export class Parser {
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_4($scope$dd, $scope$pos, $scope$ee);
                 }
@@ -6242,7 +6206,7 @@ export class Parser {
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_5($scope$pos, $scope$ee);
                 }
@@ -6268,7 +6232,7 @@ export class Parser {
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_6($scope$pos, $scope$ee);
                 }
@@ -6294,7 +6258,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_7($scope$pos, $scope$ee);
                 }
@@ -6321,7 +6285,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$dd = this.matchdd($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_8($scope$pos, $scope$ee, $scope$dd);
                 }
@@ -6347,7 +6311,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_9($scope$pos, $scope$ee);
                 }
@@ -6373,7 +6337,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_10($scope$pos, $scope$ee);
                 }
@@ -6392,7 +6356,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_11();
                 }
@@ -6411,7 +6375,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_12();
                 }
@@ -6430,7 +6394,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_13();
                 }
@@ -6453,7 +6417,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_14($scope$dd, $scope$pos, $scope$ee);
                 }
@@ -6469,7 +6433,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$qq = this.matchqq($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_15($scope$qq);
                 }
@@ -6484,7 +6448,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_16();
                 }
@@ -6499,7 +6463,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_17();
                 }
@@ -6515,7 +6479,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$qq = this.matchqq($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_18($scope$qq);
                 }
@@ -6530,7 +6494,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_19();
                 }
@@ -6545,7 +6509,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_20();
                 }
@@ -6574,7 +6538,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_1();
                 }
@@ -6593,7 +6557,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:af\')`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_2();
                 }
@@ -6606,7 +6570,7 @@ export class Parser {
                 let $$res: Nullable<ExchangeInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:exx)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_3();
                 }
@@ -6627,7 +6591,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_4();
                 }
@@ -6648,7 +6612,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_5();
                 }
@@ -6669,7 +6633,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_6();
                 }
@@ -6694,7 +6658,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ldir)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_1();
                 }
@@ -6707,7 +6671,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ldi)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_2();
                 }
@@ -6720,7 +6684,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:lddr)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_3();
                 }
@@ -6733,7 +6697,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ldd)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_4();
                 }
@@ -6746,7 +6710,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:cpir)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_5();
                 }
@@ -6759,7 +6723,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_6> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:cpi)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_6();
                 }
@@ -6772,7 +6736,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_7> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:cpdr)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_7();
                 }
@@ -6785,7 +6749,7 @@ export class Parser {
                 let $$res: Nullable<BlockInstruction_8> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:cpd)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_8();
                 }
@@ -6846,7 +6810,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$0($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_1($scope$r);
                 }
@@ -6865,7 +6829,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$1($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_2($scope$pos, $scope$n);
                 }
@@ -6885,7 +6849,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_3();
                 }
@@ -6913,7 +6877,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_4($scope$s, $scope$pos, $scope$d);
                 }
@@ -6941,7 +6905,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_5($scope$s, $scope$pos, $scope$d);
                 }
@@ -6958,7 +6922,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$7($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_6($scope$r);
                 }
@@ -6977,7 +6941,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$8($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_7($scope$pos, $scope$n);
                 }
@@ -6997,7 +6961,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_8();
                 }
@@ -7025,7 +6989,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_9($scope$s, $scope$pos, $scope$d);
                 }
@@ -7053,7 +7017,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_10($scope$s, $scope$pos, $scope$d);
                 }
@@ -7070,7 +7034,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$14($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_11($scope$r);
                 }
@@ -7089,7 +7053,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$15($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_12($scope$pos, $scope$n);
                 }
@@ -7109,7 +7073,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_13();
                 }
@@ -7137,7 +7101,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_14($scope$s, $scope$pos, $scope$d);
                 }
@@ -7165,7 +7129,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_15($scope$s, $scope$pos, $scope$d);
                 }
@@ -7182,7 +7146,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$21($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_16($scope$r);
                 }
@@ -7201,7 +7165,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$22($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_17($scope$pos, $scope$n);
                 }
@@ -7221,7 +7185,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_18();
                 }
@@ -7249,7 +7213,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_19($scope$s, $scope$pos, $scope$d);
                 }
@@ -7277,7 +7241,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_20($scope$s, $scope$pos, $scope$d);
                 }
@@ -7294,7 +7258,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$28($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_21($scope$r);
                 }
@@ -7313,7 +7277,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$29($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_22($scope$pos, $scope$n);
                 }
@@ -7333,7 +7297,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_23();
                 }
@@ -7361,7 +7325,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_24($scope$s, $scope$pos, $scope$d);
                 }
@@ -7389,7 +7353,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_25($scope$s, $scope$pos, $scope$d);
                 }
@@ -7406,7 +7370,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$35($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_26($scope$r);
                 }
@@ -7425,7 +7389,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$36($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_27($scope$pos, $scope$n);
                 }
@@ -7445,7 +7409,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_28();
                 }
@@ -7473,7 +7437,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_29($scope$s, $scope$pos, $scope$d);
                 }
@@ -7501,7 +7465,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_30($scope$s, $scope$pos, $scope$d);
                 }
@@ -7518,7 +7482,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$42($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_31($scope$r);
                 }
@@ -7537,7 +7501,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$43($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_32($scope$pos, $scope$n);
                 }
@@ -7557,7 +7521,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_33();
                 }
@@ -7585,7 +7549,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_34($scope$s, $scope$pos, $scope$d);
                 }
@@ -7613,7 +7577,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_35($scope$s, $scope$pos, $scope$d);
                 }
@@ -7630,7 +7594,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$49($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_36($scope$r);
                 }
@@ -7649,7 +7613,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$50($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_37($scope$pos, $scope$n);
                 }
@@ -7669,7 +7633,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_38();
                 }
@@ -7697,7 +7661,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_39($scope$s, $scope$pos, $scope$d);
                 }
@@ -7725,7 +7689,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_40($scope$s, $scope$pos, $scope$d);
                 }
@@ -8545,7 +8509,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_1($scope$r);
                 }
@@ -8564,7 +8528,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_2();
                 }
@@ -8591,7 +8555,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_3($scope$s, $scope$pos, $scope$d);
                 }
@@ -8618,7 +8582,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_4($scope$s, $scope$pos, $scope$d);
                 }
@@ -8634,7 +8598,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_5($scope$r);
                 }
@@ -8653,7 +8617,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_6();
                 }
@@ -8680,7 +8644,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_7($scope$s, $scope$pos, $scope$d);
                 }
@@ -8707,7 +8671,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_8($scope$s, $scope$pos, $scope$d);
                 }
@@ -8777,7 +8741,7 @@ export class Parser {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:daa)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_1();
                 }
@@ -8790,7 +8754,7 @@ export class Parser {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:cpl)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_2();
                 }
@@ -8803,7 +8767,7 @@ export class Parser {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:neg)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_3();
                 }
@@ -8816,7 +8780,7 @@ export class Parser {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ccf)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_4();
                 }
@@ -8829,7 +8793,7 @@ export class Parser {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:scf)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_5();
                 }
@@ -8851,7 +8815,7 @@ export class Parser {
                 let $$res: Nullable<CpuControlGroupInstruction_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:nop)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_1();
                 }
@@ -8864,7 +8828,7 @@ export class Parser {
                 let $$res: Nullable<CpuControlGroupInstruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:halt)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_2();
                 }
@@ -8877,7 +8841,7 @@ export class Parser {
                 let $$res: Nullable<CpuControlGroupInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:di)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_3();
                 }
@@ -8890,7 +8854,7 @@ export class Parser {
                 let $$res: Nullable<CpuControlGroupInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ei)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_4();
                 }
@@ -8906,7 +8870,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:im)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$m = this.regexAccept(String.raw`(?:[012])`, $$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_5($scope$m);
                 }
@@ -8941,7 +8905,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_1($scope$ss);
                 }
@@ -8961,7 +8925,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_2($scope$ss);
                 }
@@ -8981,7 +8945,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_3($scope$ss);
                 }
@@ -9001,7 +8965,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pp = this.matchpp($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_4($scope$pp);
                 }
@@ -9021,7 +8985,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$rr = this.matchrr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_5($scope$rr);
                 }
@@ -9037,7 +9001,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_6($scope$ss);
                 }
@@ -9052,7 +9016,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_7();
                 }
@@ -9067,7 +9031,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_8();
                 }
@@ -9083,7 +9047,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_9($scope$ss);
                 }
@@ -9098,7 +9062,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_10();
                 }
@@ -9113,7 +9077,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_11();
                 }
@@ -9164,7 +9128,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rlca)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_1();
                 }
@@ -9177,7 +9141,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rla)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_2();
                 }
@@ -9190,7 +9154,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rrca)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_3();
                 }
@@ -9203,7 +9167,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rra)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_4();
                 }
@@ -9219,7 +9183,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:rlc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_5($scope$r);
                 }
@@ -9238,7 +9202,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_6();
                 }
@@ -9265,7 +9229,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_7($scope$s, $scope$pos, $scope$d);
                 }
@@ -9292,7 +9256,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_8($scope$s, $scope$pos, $scope$d);
                 }
@@ -9308,7 +9272,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:rl)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_9($scope$r);
                 }
@@ -9327,7 +9291,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_10();
                 }
@@ -9354,7 +9318,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_11($scope$s, $scope$pos, $scope$d);
                 }
@@ -9381,7 +9345,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_12($scope$s, $scope$pos, $scope$d);
                 }
@@ -9397,7 +9361,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:rrc)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_13($scope$r);
                 }
@@ -9416,7 +9380,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_14();
                 }
@@ -9443,7 +9407,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_15($scope$s, $scope$pos, $scope$d);
                 }
@@ -9470,7 +9434,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_16($scope$s, $scope$pos, $scope$d);
                 }
@@ -9486,7 +9450,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:rr)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_17($scope$r);
                 }
@@ -9505,7 +9469,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_18();
                 }
@@ -9532,7 +9496,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_19($scope$s, $scope$pos, $scope$d);
                 }
@@ -9559,7 +9523,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_20($scope$s, $scope$pos, $scope$d);
                 }
@@ -9575,7 +9539,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:sla)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_21($scope$r);
                 }
@@ -9594,7 +9558,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_22();
                 }
@@ -9621,7 +9585,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_23($scope$s, $scope$pos, $scope$d);
                 }
@@ -9648,7 +9612,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_24($scope$s, $scope$pos, $scope$d);
                 }
@@ -9664,7 +9628,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:sra)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_25($scope$r);
                 }
@@ -9683,7 +9647,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_26();
                 }
@@ -9710,7 +9674,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_27($scope$s, $scope$pos, $scope$d);
                 }
@@ -9737,7 +9701,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_28($scope$s, $scope$pos, $scope$d);
                 }
@@ -9753,7 +9717,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:srl)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_29($scope$r);
                 }
@@ -9772,7 +9736,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_30();
                 }
@@ -9799,7 +9763,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_31($scope$s, $scope$pos, $scope$d);
                 }
@@ -9826,7 +9790,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_32($scope$s, $scope$pos, $scope$d);
                 }
@@ -9839,7 +9803,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_33> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rld)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_33();
                 }
@@ -9852,7 +9816,7 @@ export class Parser {
                 let $$res: Nullable<RotateShiftInstruction_34> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rrd)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_34();
                 }
@@ -10057,7 +10021,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_1($scope$b, $scope$r);
                 }
@@ -10081,7 +10045,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_2($scope$b);
                 }
@@ -10113,7 +10077,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_3($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10145,7 +10109,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_4($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10166,7 +10130,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_5($scope$b, $scope$r);
                 }
@@ -10190,7 +10154,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_6($scope$b);
                 }
@@ -10222,7 +10186,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_7($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10254,7 +10218,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_8($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10275,7 +10239,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_9($scope$b, $scope$r);
                 }
@@ -10299,7 +10263,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_10($scope$b);
                 }
@@ -10331,7 +10295,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_11($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10363,7 +10327,7 @@ export class Parser {
                     && ($scope$d = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_12($scope$b, $scope$s, $scope$pos, $scope$d);
                 }
@@ -10502,7 +10466,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_1($scope$pos, $scope$ee);
                 }
@@ -10525,7 +10489,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_2($scope$cc, $scope$pos, $scope$ee);
                 }
@@ -10543,7 +10507,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_3($scope$pos, $scope$label);
                 }
@@ -10561,7 +10525,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_4($scope$pos, $scope$e);
                 }
@@ -10584,7 +10548,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_5($scope$jj, $scope$pos, $scope$label);
                 }
@@ -10607,7 +10571,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_6($scope$jj, $scope$pos, $scope$e);
                 }
@@ -10626,7 +10590,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_7();
                 }
@@ -10645,7 +10609,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_8();
                 }
@@ -10664,7 +10628,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_9();
                 }
@@ -10682,7 +10646,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_10($scope$pos, $scope$label);
                 }
@@ -10700,7 +10664,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_11($scope$pos, $scope$e);
                 }
@@ -10724,7 +10688,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CallInstruction_1($scope$pos, $scope$ee);
                 }
@@ -10747,7 +10711,7 @@ export class Parser {
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CallInstruction_2($scope$cc, $scope$pos, $scope$ee);
                 }
@@ -10769,7 +10733,7 @@ export class Parser {
                 let $$res: Nullable<ReturnInstruction_1> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ret)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_1();
                 }
@@ -10785,7 +10749,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:ret)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$cc = this.matchcc($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_2($scope$cc);
                 }
@@ -10798,7 +10762,7 @@ export class Parser {
                 let $$res: Nullable<ReturnInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:reti)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_3();
                 }
@@ -10811,7 +10775,7 @@ export class Parser {
                 let $$res: Nullable<ReturnInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:retn)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_4();
                 }
@@ -10827,7 +10791,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:rst)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$p = this.matchp($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_5($scope$p);
                 }
@@ -10859,7 +10823,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_1($scope$r);
                 }
@@ -10885,7 +10849,7 @@ export class Parser {
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_2($scope$pos, $scope$n);
                 }
@@ -10898,7 +10862,7 @@ export class Parser {
                 let $$res: Nullable<InputInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ini)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_3();
                 }
@@ -10911,7 +10875,7 @@ export class Parser {
                 let $$res: Nullable<InputInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:inir)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_4();
                 }
@@ -10924,7 +10888,7 @@ export class Parser {
                 let $$res: Nullable<InputInstruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ind)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_5();
                 }
@@ -10937,7 +10901,7 @@ export class Parser {
                 let $$res: Nullable<InputInstruction_6> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:indr)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_6();
                 }
@@ -10969,7 +10933,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_1($scope$r);
                 }
@@ -10995,7 +10959,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_2($scope$pos, $scope$n);
                 }
@@ -11008,7 +10972,7 @@ export class Parser {
                 let $$res: Nullable<OutputInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:outi)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_3();
                 }
@@ -11021,7 +10985,7 @@ export class Parser {
                 let $$res: Nullable<OutputInstruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:otir)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_4();
                 }
@@ -11034,7 +10998,7 @@ export class Parser {
                 let $$res: Nullable<OutputInstruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:outd)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_5();
                 }
@@ -11047,7 +11011,7 @@ export class Parser {
                 let $$res: Nullable<OutputInstruction_6> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:otdr)`, $$dpth + 1, $$cr) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_6();
                 }
@@ -11115,7 +11079,6 @@ export class Parser {
             () => this.matchByteValue_1($$dpth + 1, $$cr),
             () => this.matchByteValue_2($$dpth + 1, $$cr),
             () => this.matchByteValue_3($$dpth + 1, $$cr),
-            () => this.matchByteValue_4($$dpth + 1, $$cr),
         ]);
     }
     public matchByteValue_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteValue_1> {
@@ -11147,27 +11110,14 @@ export class Parser {
     public matchByteValue_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteValue_3> {
         return this.run<ByteValue_3>($$dpth,
             () => {
-                let $scope$s: Nullable<ZX81Str>;
-                let $$res: Nullable<ByteValue_3> = null;
-                if (true
-                    && ($scope$s = this.matchZX81Str($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new ByteValue_3($scope$s);
-                }
-                return $$res;
-            });
-    }
-    public matchByteValue_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteValue_4> {
-        return this.run<ByteValue_4>($$dpth,
-            () => {
                 let $scope$pos: Nullable<PosInfo>;
                 let $scope$e: Nullable<Expression>;
-                let $$res: Nullable<ByteValue_4> = null;
+                let $$res: Nullable<ByteValue_3> = null;
                 if (true
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ByteValue_4($scope$pos, $scope$e);
+                    $$res = new ByteValue_3($scope$pos, $scope$e);
                 }
                 return $$res;
             });
@@ -11207,7 +11157,7 @@ export class Parser {
                     && ($scope$pos0 = this.mark()) !== null
                     && ($scope$data0 = this.matchByteValue($$dpth + 1, $$cr)) !== null
                     && ($scope$data = this.loop<DataDirective_$0>(() => this.matchDataDirective_$0($$dpth + 1, $$cr), true)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DataDirective_1($scope$pos0, $scope$data0, $scope$data);
                 }
@@ -11227,7 +11177,7 @@ export class Parser {
                     && ($scope$pos0 = this.mark()) !== null
                     && ($scope$data0 = this.matchWordValue($$dpth + 1, $$cr)) !== null
                     && ($scope$data = this.loop<DataDirective_$1>(() => this.matchDataDirective_$1($$dpth + 1, $$cr), true)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DataDirective_2($scope$pos0, $scope$data0, $scope$data);
                 }
@@ -11248,7 +11198,7 @@ export class Parser {
                     && ($scope$pos0 = this.mark()) !== null
                     && ($scope$nn = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && (($scope$data = this.matchDataDirective_$2($$dpth + 1, $$cr)) || true)
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DataDirective_3($scope$pos0, $scope$nn, $scope$data);
                 }
@@ -11324,13 +11274,15 @@ export class Parser {
     public matchSimpleEscapeSequence($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence> {
         return this.run<SimpleEscapeSequence>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
                 let $scope$raw: Nullable<SimpleEscapeSequence_$0>;
                 let $$res: Nullable<SimpleEscapeSequence> = null;
                 if (true
+                    && ($scope$pos = this.mark()) !== null
                     && this.regexAccept(String.raw`(?:\\)`, $$dpth + 1, $$cr) !== null
                     && ($scope$raw = this.matchSimpleEscapeSequence_$0($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new SimpleEscapeSequence($scope$raw);
+                    $$res = new SimpleEscapeSequence($scope$pos, $scope$raw);
                 }
                 return $$res;
             });
@@ -11339,53 +11291,13 @@ export class Parser {
         return this.choice<SimpleEscapeSequence_$0>([
             () => this.matchSimpleEscapeSequence_$0_1($$dpth + 1, $$cr),
             () => this.matchSimpleEscapeSequence_$0_2($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_3($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_4($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_5($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_6($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_7($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_8($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_9($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_10($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_11($$dpth + 1, $$cr),
-            () => this.matchSimpleEscapeSequence_$0_12($$dpth + 1, $$cr),
         ]);
     }
     public matchSimpleEscapeSequence_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_1> {
-        return this.regexAccept(String.raw`(?:\')`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_2> {
         return this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr);
     }
-    public matchSimpleEscapeSequence_$0_3($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_3> {
-        return this.regexAccept(String.raw`(?:\?)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_4($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_4> {
-        return this.regexAccept(String.raw`(?:\\)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_5($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_5> {
-        return this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_6($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_6> {
-        return this.regexAccept(String.raw`(?:b)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_7($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_7> {
-        return this.regexAccept(String.raw`(?:e)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_8($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_8> {
-        return this.regexAccept(String.raw`(?:f)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_9($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_9> {
+    public matchSimpleEscapeSequence_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_2> {
         return this.regexAccept(String.raw`(?:n)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_10($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_10> {
-        return this.regexAccept(String.raw`(?:t)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_11($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_11> {
-        return this.regexAccept(String.raw`(?:r)`, $$dpth + 1, $$cr);
-    }
-    public matchSimpleEscapeSequence_$0_12($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_12> {
-        return this.regexAccept(String.raw`(?:v)`, $$dpth + 1, $$cr);
     }
     public matchOctalEscapeSequence($$dpth: number, $$cr?: ErrorTracker): Nullable<OctalEscapeSequence> {
         return this.run<OctalEscapeSequence>($$dpth,
@@ -11479,14 +11391,16 @@ export class Parser {
     public matchStr($$dpth: number, $$cr?: ErrorTracker): Nullable<Str> {
         return this.run<Str>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
                 let $scope$chars: Nullable<Str_$0[]>;
                 let $$res: Nullable<Str> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:\")`, $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
                     && ($scope$chars = this.loop<Str_$0>(() => this.matchStr_$0($$dpth + 1, $$cr), true)) !== null
                     && this.regexAccept(String.raw`(?:\")`, $$dpth + 1, $$cr) !== null
                 ) {
-                    $$res = new Str($scope$chars);
+                    $$res = new Str($scope$pos, $scope$chars);
                 }
                 return $$res;
             });
@@ -11503,23 +11417,6 @@ export class Parser {
     public matchStr_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<Str_$0_2> {
         return this.matchEscapeSequence($$dpth + 1, $$cr);
     }
-    public matchZX81Str($$dpth: number, $$cr?: ErrorTracker): Nullable<ZX81Str> {
-        return this.run<ZX81Str>($$dpth,
-            () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$chars: Nullable<string>;
-                let $$res: Nullable<ZX81Str> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:zx81\")`, $$dpth + 1, $$cr) !== null
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$chars = this.regexAccept(String.raw`(?:[ £\$:\?()><=+\-\*;/,.0-9A-Za-z]*)`, $$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:\")`, $$dpth + 1, $$cr) !== null
-                ) {
-                    $$res = new ZX81Str($scope$pos, $scope$chars);
-                }
-                return $$res;
-            });
-    }
     public matchComment($$dpth: number, $$cr?: ErrorTracker): Nullable<Comment> {
         return this.regexAccept(String.raw`(?:(//|;)[^\r\n]*)`, $$dpth + 1, $$cr);
     }
@@ -11532,7 +11429,6 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\.?org)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$address = this.matchnn($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.OriginDirective, address: $scope$address};
                 }
@@ -11584,7 +11480,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\.?include)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncludeDirective($scope$pos, $scope$name);
                 }
@@ -11602,7 +11498,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
                     && (($scope$sld = this.matchOutputDirective_$0($$dpth + 1, $$cr)) || true)
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputDirective($scope$name, $scope$sld);
                 }
@@ -11636,7 +11532,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\.?device)`, $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$raw = this.regexAccept(String.raw`(?:[a-zA-Z][0-9a-zA-Z]*)`, $$dpth + 1, $$cr)) !== null
-                    && this.noConsume<_eos>(() => this.match_eos($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DeviceDirective($scope$raw);
                 }
