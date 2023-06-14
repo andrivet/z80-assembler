@@ -61,12 +61,15 @@ function computeLabels(address: number, infos: LinesInfo[]): number {
  * @param lines The lines (i.e. the AST)
  */
 function computeEqualities(lines: Lines) {
-  // For each line
+  // For each line...
+  // Pour chaque ligne...
   for (const line of lines) {
-    // If it is an equality, add the label and its value (an expression)
+    // If it is an equality, add the label and its value (an expression).
+    // Si c'est une égalité, on ajoute l'étiquette avec sa valeur (une expression).
     if(line.kind === ASTKinds.LineEqual)
       addLabelExpression(line.label.pos, line.label.name, line.equal.e);
-    // If it is a statement, and it contains an inclusion, compute recursively the labels for those lines
+    // If it is a statement, and it contains an inclusion, compute recursively the labels for those lines.
+    // Si c'est une déclaration, et qu'elle contient une inclusion, on calcule récursivement les étiquettes pour ces lignes.
     else if(line.kind === ASTKinds.LineStatement && line.statement?.kind === ASTKinds.Statement_1)
       computeEqualities(line.statement.inc.info.lines);
   }
@@ -80,12 +83,16 @@ function computeEqualities(lines: Lines) {
  */
 function computeVariableLabels(address: number, lines: Lines): number {
   // For each line...
+  // Pour chaque ligne...
   for (const line of lines) {
-    // If it is not a line statement, the address remains the same
+    // If it is not a line statement, the address remains the same.
+    // Si ce n'est pas une ligne de déclaration, l'adresse ne change pas.
     if(line.kind !== ASTKinds.LineStatement) continue;
-    // If the line starts with a label, record it (and its address)
+    // If the line starts with a label, record it (and its address).
+    // Si la ligne débute avec une étiquette, on s'en souvient (avec son adresse).
     if(line.label) addLabel(line.label.pos, line.label.name, address);
-    // If it is a statement, compute the new address (after the statement)
+    // If it is a statement, compute the new address (after the statement).
+    // Si c'est une déclaration, on calcule la nouvelle adresse (qui suit cette déclaration).
     if(line.statement) address = computeAddress(address, line.statement);
   }
   return address;
@@ -99,19 +106,23 @@ function computeVariableLabels(address: number, lines: Lines): number {
  */
 function computeAddress(address: number, statement: Statement): number {
   switch(statement.kind) {
-      // If it is an include statement, compute recursively the labels for those lines
-      case ASTKinds.Statement_1:
-        return computeLabels(address, [statement.info]);
+    case ASTKinds.Statement_1:
+      // If it is an include statement, compute recursively the labels for those lines.
+      // Si c'est une inclusion, on calcule récursivement les étiquettes pour ces lignes.
+      return computeLabels(address, [statement.info]);
 
-      // If it is an instruction, increment the address by the number of bytes that will be generated
-      case ASTKinds.Statement_2:
-        return address + statement.elements.reduce((r: number, c) => r + getByteSize(c), 0);
+    case ASTKinds.Statement_2:
+      // If it is an instruction, increment the address by the number of bytes that will be generated.
+      // Si c'est une instruction, on incrémente l'adresse par le nombre d'octets qui vont être générés.
+      return address + statement.elements.reduce((r: number, c) => r + getByteSize(c), 0);
 
+    case ASTKinds.Statement_3:
       // If it is a directive, take either the address set by the directive (origin) or
-      // increment the address by the number of bytes that will be generated
-      case ASTKinds.Statement_3:
-        return statement.address ?  statement.address :
-          address + statement.elements.reduce((r: number, c) => r + getByteSize(c), 0);
+      // increment the address by the number of bytes that will be generated.
+      // Si c'est une directive, on prend l'adresse donnée par cette directive (origin) ou
+      // on incrémente l'adresse par le nombre d'octets qui vont être générés.
+      return statement.address ?  statement.address :
+        address + statement.elements.reduce((r: number, c) => r + getByteSize(c), 0);
   }
 }
 
@@ -129,10 +140,10 @@ interface GenerationData {
  * @return An array of bytes (numbers), debug data and the next address
  */
 function generate(mainfile: string, address: number, infos: LinesInfo[]): GenerationData {
-  // Generate the SLD header
+  // Generate the SLD header.
+  // On génère l'entête SLD.
   const header = '|SLD.data.version|1\n' +
     `${mainfile}|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0\n`;
-  // Start with an empty array of bytes
   const generated = generateLines(address, infos);
   return {bytes: generated.bytes, sld: header + generated.sld, address: address};
 }
@@ -144,16 +155,22 @@ function generate(mainfile: string, address: number, infos: LinesInfo[]): Genera
  * @return An array of bytes (numbers), debug data and the next address
  */
 function generateLines(address: number, infos: LinesInfo[]): GenerationData {
-  // Start with an empty array of bytes
+  // Start with an empty array of bytes.
+  // On débute avec un tableau vide d'octets.
   let bytes: bytes = [];
   let sld = '';
 
+  // For each file...
+  // Pour chaque fichier...
   for(const info of infos) {
-    // Each file starts at line 0
+    // Each file starts at line 1.
+    // Chaque fichier démarre à la ligne 1.
     let lineNumber = 1;
     // For each line...
+    // Pour chaque ligne...
     for (const line of info.lines) {
-      // If it is not a statement, take the next line
+      // If it is not a statement, take the next line.
+      // Si ce n'est pas une déclaration, on passe à la ligne suivante,
       if (line.kind !== ASTKinds.LineStatement || !line.statement) {
         lineNumber += 1; // Next line
         continue;
@@ -161,23 +178,26 @@ function generateLines(address: number, infos: LinesInfo[]): GenerationData {
 
       switch (line.statement?.kind) {
         case ASTKinds.Statement_1: {
-            // If it is an include, generate the bytes for those lines and concatenate the result with the already computed bytes
-            const generated = generateLines(address, [line.statement.info]);
-            bytes = bytes.concat(generated.bytes);
-            sld += generated.sld;
-            address = generated.address;
-          }
-          break;
+          // If it is an include, generate the bytes for those lines and concatenate the result with the already computed bytes.
+          // Si c'est une inclusion, on génère les octets pour ces lignes et on concatène le résultat avec les octets déjà générés.
+          const generated = generateLines(address, [line.statement.info]);
+          bytes = bytes.concat(generated.bytes);
+          sld += generated.sld;
+          address = generated.address;
+        }
+        break;
 
         case ASTKinds.Statement_2:
         case ASTKinds.Statement_3: {
-            // Otherwise, generate bytes for the AST elements of the line and concatenate the result with the already computed bytes
-            bytes = bytes.concat(generateElements(address, line.statement.elements));
-            sld += generateSld(info.filename, lineNumber, address, line);
-            // Compute the address after the line
-            address = computeAddress(address, line.statement);
-          }
-          break;
+          // Generate bytes for the AST elements of the line and concatenate the result with the already computed bytes.
+          // Génère les octets pour les éléments de la ligne et concatène le résultat avec les octets déjà générés.
+          bytes = bytes.concat(generateElements(address, line.statement.elements));
+          sld += generateSld(info.filename, lineNumber, address, line);
+          // Compute the address after the line.
+          // On calcule l'adresse après cette ligne.
+          address = computeAddress(address, line.statement);
+        }
+        break;
       }
       lineNumber += 1; // Next line
     }
@@ -192,8 +212,9 @@ function generateLines(address: number, infos: LinesInfo[]): GenerationData {
  */
 function generateElements(address: number, elements: AstElements): bytes {
   // The element is either concrete (i.e. the raw byte) or abstract. In the later case, ask the abstract
-  // AST element to generate its machine code.
-  // Concatenate all the generated bytes.
+  // AST element to generate its machine code. Concatenate all the generated bytes.
+  // L'élément est soit concrêt (l'octet brut) ou abstrait. Dans ce dernier cas, on demande à l'élément
+  // abstrait de générer son code machine. On concatène tous les octets générés.
   return elements.reduce((r: bytes, c: AstElement) =>
     r.concat(isAbstract(c) ? c.generate(address) : [c]), [] as bytes)
 }
@@ -207,7 +228,8 @@ function generateElements(address: number, elements: AstElements): bytes {
  * @return The debugging information (in Source Level Debugging format)
  */
 function generateSld(filename: string, lineNumber: number, address: number, line: Line): string {
-  // Generate SLD for labels and for instruction tracing
+  // Generate SLD for labels and for instruction tracing.
+  // On génère le SLD pour les étiquettes et les instructions.
   return generateSldLabel(filename, lineNumber, line) +
          generateSldTrace(filename, lineNumber, line, address);
 }
@@ -219,19 +241,24 @@ function generateSld(filename: string, lineNumber: number, address: number, line
  * @param line The AST line
  */
 function generateSldLabel(filename: string, lineNumber: number, line: Line): string {
-  // If there is no label on the line, there is nothing to generate
+  // If there is no label on the line, there is nothing to generate.
+  // S'il n'y a pas d'étiquette sur la ligne, il n'y a rien à générer.
   if(!line.label) return '';
-  // Get the value associated with the label
+  // Get the value associated with the label.
+  // On obtient la valeur associée à l'étiquette.
   const value = getLabelValue(line.label.name, false);
   // Is this label used in the program?
+  // Est-ce que cette étiquette est utilisée dans le programme ?
   const isUsed = isLabelUsed(line.label.name);
 
   // Generate a SLD line like:
+  // Génère une ligne SLD comme:
   // ./includes/zx81-characters.asm|3||0|-1|0|L|,_SPC,,+equ,+used
   if(line.kind === ASTKinds.LineEqual)
       return `${filename}|${lineNumber}||0|-1|${value}|L|,${line.label.name},,+equ${isUsed ? ',+used' : ''}\n`;
 
   // Generate a SLD line like:
+  // Génère une ligne SLD comme:
   // ./includes/zx81-system-variables.asm|12||0|0|16393|L|,VERSN,
   return `${filename}|${lineNumber}||0|0|${value}|L|,${line.label.name},${isUsed ? ',+used' : ''}\n`;
 }
@@ -244,10 +271,12 @@ function generateSldLabel(filename: string, lineNumber: number, line: Line): str
  * @param address The current address (i.e. the address of the line)
  */
 function generateSldTrace(filename: string, lineNumber: number, line: Line, address: number): string {
-  // If it is not a statement, there is nothing to generate
+  // If it is not a statement, there is nothing to generate.
+  // Si ce n'est pas une déclaration, il n'y a rien à gànérer.
   if(line.kind !== ASTKinds.LineStatement) return '';
 
   // Generate a SLD line like:
+  // Génère une ligne SLD comme:
   // main.zx81|23||0|0|16531|T|
   return line.statement?.kind === ASTKinds.Statement_2 ? `${filename}|${lineNumber}||0|0|${address}|T|\n` : '';
 }

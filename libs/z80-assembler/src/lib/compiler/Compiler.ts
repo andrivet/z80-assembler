@@ -79,7 +79,7 @@ const parseData: ParseDate = {
  * @param filename Filename for the binary.
  *                 Nom de fichier pour le binaire.
  * @param sld Filename for the SLD.
- *            Nom de fihcier pour le SLD.
+ *            Nom de fichier pour le SLD.
  */
 function setOutputName(filename: string, sld?: string) {
   parseData.outputName = filename;
@@ -225,6 +225,7 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
  * Processing of the AST after the parsing. This is used to inject code specific to the ZX81.
  * Traitement de l'AST après analyse. C'est utilisé pour injecter du code spécifique au ZX81.
  * @param info The parsed AST (lines).
+ *             L'AST analysée (les lignes).
  */
 function postProcessing(info: LinesInfo): LinesInfo[] {
   if(parseData.deviceName !== 'zx81') return [info];

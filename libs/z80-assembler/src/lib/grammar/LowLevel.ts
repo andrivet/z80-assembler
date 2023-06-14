@@ -21,8 +21,11 @@ import {byte} from "../types/Types";
 
 /**
  * Compute the binary representation of the r argument.
- * @param r The argument of the opcode
+ * Calcule la représentation binaire de l'argument r.
+ * @param r The argument of the opcode.
+ *          L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function r_bits(r: string, offset = 0): byte {
   switch(r.toLowerCase()) {
@@ -39,8 +42,11 @@ export function r_bits(r: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the dd argument.
- * @param dd The argument of the opcode
+ * Calcule la représentation binaire de l'argument dd.
+ * @param dd The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function dd_bits(dd: string, offset = 0): byte {
   switch(dd.toLowerCase()) {
@@ -54,8 +60,11 @@ export function dd_bits(dd: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the qq argument.
- * @param qq The argument of the opcode
+ * Calcule la représentation binaire de l'argument qq.
+ * @param qq The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function qq_bits(qq: string, offset = 0): byte {
   switch(qq.toLowerCase()) {
@@ -69,8 +78,11 @@ export function qq_bits(qq: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the ss argument.
- * @param ss The argument of the opcode
+ * Calcule la représentation binaire de l'argument ss.
+ * @param ss The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function ss_bits(ss: string, offset = 0): byte {
   switch(ss.toLowerCase()) {
@@ -84,8 +96,11 @@ export function ss_bits(ss: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the pp argument.
- * @param pp The argument of the opcode
+ * Calcule la représentation binaire de l'argument pp.
+ * @param pp The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function pp_bits(pp: string, offset = 0): byte {
   switch(pp.toLowerCase()) {
@@ -99,8 +114,11 @@ export function pp_bits(pp: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the rr argument.
- * @param rr The argument of the opcode
+ * Calcule la représentation binaire de l'argument rr.
+ * @param rr The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function rr_bits(rr: string, offset = 0): byte {
   switch(rr.toLowerCase()) {
@@ -114,8 +132,11 @@ export function rr_bits(rr: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the cc argument.
- * @param cc The argument of the opcode
+ * Calcule la représentation binaire de l'argument cc.
+ * @param cc The argument of the opcode.
+ *           L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function cc_bits(cc: string, offset = 0): byte {
   switch(cc.toLowerCase()) {
@@ -134,7 +155,9 @@ export function cc_bits(cc: string, offset = 0): byte {
 
 /**
  * Compute the binary representation of the jj argument.
- * @param jj The argument of the opcode
+ * Calcule la représentation binaire de l'argument jj.
+ * @param jj The argument of the opcode.
+ *           L'argument du code assembleur.
  */
 export function jj_bits(jj = ''): byte {
   switch(jj.toLowerCase()) {
@@ -149,8 +172,11 @@ export function jj_bits(jj = ''): byte {
 
 /**
  * Compute the binary representation of the p argument.
- * @param p The argument of the opcode
+ * Calcule la représentation binaire de l'argument p.
+ * @param p The argument of the opcode.
+ *          L'argument du code assembleur.
  * @param offset The number of bits to shift to the left.
+ *               Le nombre de bits à décaler vers la gauche.
  */
 export function p_bits(p: number, offset = 0): byte {
   if(p < 0 || p > 0x38 || p % 8 !== 0)
@@ -160,7 +186,9 @@ export function p_bits(p: number, offset = 0): byte {
 
 /**
  * Compute the binary representation of the mode argument.
- * @param mode The argument of the opcode
+ * Calcule la représentation binaire de l'argument mode.
+ * @param mode The argument of the opcode.
+ *             L'argument du code assembleur.
  */
 export function imode(mode: string): byte {
   switch (mode) {

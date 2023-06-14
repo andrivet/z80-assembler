@@ -23,30 +23,38 @@ import {parseData} from "./Compiler";
 
 /**
  * A label, i.e. a name associated with a value or an address.
+ * Une étiquette, c.-à-d. un nom associé à une valeur ou une adresse.
  */
 interface Label {
-  // Expression associated with the label
+  // Expression associated with the label.
+  // L'expression associée à cette étiquette.
   expression: Expression | null;
-  // The value  associated with the label
+  // The value associated with the label.
+  // La valeur associée à cette étiquette.
   value: number;
   // Is the value known, or it has to be computed?
+  // Est-ce que la valeur est connue, ou elle doit être calculée.
   known: boolean;
   // Is the label used in the program or only declared?
+  // Est-ce que l'étiquette est utilisée dans le programme ou seulement déclarée ?
   used: boolean;
 }
 
 /**
  * Labels are stored as a map.
+ * Les étiquettes sont stoquées dans une table d'associations.
  */
 type Labels = Map<string, Label>;
 
 /**
- * A global variable with all the labels of the program compiled.
+ * A global variable with all the labels of the program.
+ * Une variable globale avec toutes les étiquettes du programme.
  */
 const labels: Labels = new Map<string, Label>();
 
 /**
  * Reset the labels.
+ * Supprime toutes les étiquettes.
  */
 function resetLabels() {
   labels.clear();
@@ -54,84 +62,114 @@ function resetLabels() {
 
 /**
  * Add a label.
+ * Ajoute une étiquette.
  * @param pos The position of the label in the source code.
+ *            La position de l'étiquette dans le code source.
  * @param name The name of the label.
- * @param value The value of the label (if known) or null (if unknown)
+ *             Le nom de l'étiquette.
+ * @param value The value of the label (if known) or null (if unknown).
+ *              La valeur de l'étiquette (si connue) ou null (si inconnue).
  */
 function addLabel(pos: PosInfo, name: string, value: number | null) {
   // Do we have already a label with this name?
+  // Est-ce que l'on a déjà une étiquette avec ce nom ?
   const label = labels.get(name);
   if(!label) {
-    // No, so create a new label and record it
+    // No, so create a new label and record it.
+    // Non, alors on crée une nouvelle étiquette et on s'en souvient.
     labels.set(name, {expression: null, value: value ?? 0, known: value != null, used: false});
     return;
   }
 
-  // Yes, we already have a label with this name.
-  // Is its value known?
+  // Yes, we already have a label with this name. Is its value known and it is the same?
+  // Oui, on a déjà une étiquette avec ce nom. Est-ce que sa valeur est connue et est la même?
   if(label.known && label.value != value) {
+    // The values are not the same, so raise a compilation error.
+    // Les valeurs ne sont pas les mêmes alors lève une error de compilation.
     throw new CompilationError(parseData.fileName, pos,
       `The value of the label '${name}' is redefined (old value: ${label.value}, new value: ${value})`);
   }
 
-  // Set the value
+  // Set the value.
+  // Fixe la valeur.
   label.value = value ?? 0;
-  // If the value is not null, it is known
+  // If the value is not null, it is known.
+  // Si la valeur n'est pas nulle, est est connue.
   label.known = value != null;
 }
 
 /**
  * Add a label and its associated expression.
+ * Ajoute une étiquette et son expression associée.
  * @param _ The position of the label in the source code.
+ *          La position de l'étiquette dans le code source.
  * @param name The name of the label.
+ *             Le nom de l'étiquette.
  * @param expression The expression that gives that value of the label.
+ *                   L'expression qui donne la valeur de l'étiquette.
  */
 function addLabelExpression(_: PosInfo, name: string, expression: Expression) {
   // Do we have already a label with this name?
+  // Est-ce que l'on a déjà une étiquette avec ce nom ?
   const label = labels.get(name);
   if(!label) {
-    // No, so create a new label and record it
+    // No, so create a new label and record it.
+    // Non, alors on crée une nouvelle étiquette et on s'en souvient.
     labels.set(name, {expression: expression, value: 0, known: false, used: false});
     return;
   }
 
-  // Yes, we already have a label with this name.
-  // If the value is already known, nothing more to do
+  // Yes, we already have a label with this name. If the value is already known, nothing more to do.
+  // Oui, on a déjà une étiquette avec ce nom. Si la valeur est connue, il n'y a rien d'autre à faire.
   if(label.known) return;
-  // If the value is unknown, record the expression
+  // If the value is unknown, record the expression.
+  // Si la valeur est inconnue, on se souvient de l'expression.
   label.expression = expression;
 }
 
 /**
  * Get the value associated with a label.
+ * Obtient la valeur associée avec une étiquette.
  * @param name The name of the label.
+ *             Le nom de l'étiquette.
  * @param setUsed Set the used flag or not.
+ *                Est-ce que l'on doit lever le drapeau d'utilisation ?
  * @return The value associated with a label or null if it is unknown.
+ *         La valeur associée avec l'étiquette ou null si elle est inconnue.
  */
 function getLabelValue(name: string, setUsed = true): number | null {
   // Do we have a label with this name?
+  // Est-ce que l'on a déjà une étiquette avec ce nom ?
   const label = labels.get(name);
   if(!label) {
-    // No, so create a new label and record it as unknown
+    // No, so create a new label and record it as unknown.
+    // Non, alors on crée une nouvelle étiquette et on s'en souvient. La valeur est inconnue.
     labels.set(name, {expression: null, value: 0, known: false, used: true});
-    return null; // Value unknown
+    return null; // Value unknown. Valeur inconnue.
   }
 
   // Yes, we have a label with this name.
+  // Oui, on a une étiquette avec ce nom.
 
-  // If setUsed, record that this label is used in the program
+  // If setUsed, record that this label is used in the program.
+  // Si setUsed est vrai, on enregistre que cette étiquette est utilisée dans le programme.
   if(setUsed) label.used = true;
-  // If the value is already known, return it
+  // If the value is already known, return it.
+  // Si la valeur est connue, on la retourne.
   if(label.known) return label.value;
   // If the value is unknown and there is no expression, we do not know how to compute the value so return null.
+  // Si la valeur est inconnue et qu'il n'y a pas d'expression, on ne sait pas comment calculer cette valeur donc on retourn null.
   if(label.expression == null) return null;
 
   // The value is currently unknown, but we have an expression to compute it. So try to compute it.
+  // La valeur est actuellement inconnue mais on a une expression pour la calculer. Donc on essaie de la calculer.
   const value = label.expression.eval();
   // It was not possible to compute the value yet, so return null.
+  // S'il n'est pas encore possible de calculer la valeur, on retourne null.
   if(value == null) return null;
 
   // We were able to compute the value so record it, and it is now known.
+  // On a pu calculer la valeur donc on s'en souvient et la valeur est maintenant connue.
   label.value = value;
   label.known = true;
   return value;
@@ -139,8 +177,11 @@ function getLabelValue(name: string, setUsed = true): number | null {
 
 /**
  * Is a label used in the program or only declared?
+ * Est-ce qu'une étiquette a été utilisée ou seulement déclarée ?
  * @param name The name of the label.
- * @return true if the label is used, false if it is unused or undeclared.
+ *             Le nom de l'étiquette.
+ * @return true if the label is used, false otherwise.
+ *         true si l'étiquette a été utilisée, false sinon.
  */
 function isLabelUsed(name: string) {
   const label = labels.get(name);
@@ -149,6 +190,7 @@ function isLabelUsed(name: string) {
 
 /**
  * Get the list of labels with an unknown value.
+ * Retourne la liste des étiquettes avec une valeur inconnue.
  */
 function getUnknownLabels(): string[] {
   return [...labels.entries()]
