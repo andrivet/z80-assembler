@@ -33,7 +33,7 @@ interface Chunk {
 
 /**
  * Format bytes to display them.
- * Formatte des octets pour les afficher.
+ * Formate des octets pour les afficher.
  * @param bytes An array of bytes.
  *              Un tableau d'octets.
  * @param perLine Number of bytes per line.
@@ -42,8 +42,14 @@ interface Chunk {
 function formatBytes(bytes: number[], perLine: number): Chunk[] {
   let data: Chunk[] = [];
   let address = 0;
+  // For each byte...
+  // Pour chaque octet...
   while(address < bytes.length) {
+    // Cut a slice
+    // Couper un morceau
     const chunk = bytes.slice(address, address + perLine);
+    // Format the address and each byte
+    // Formate l'adresse et chaque octet
     data = data.concat({
       address: address.toString(16).padStart(4, '0'),
       bytes: chunk.map(b => b.toString(16).padStart(2, '0')).join(' ')

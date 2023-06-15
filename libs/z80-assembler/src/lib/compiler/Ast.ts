@@ -401,7 +401,7 @@ export function binaryOperation<
   Operation extends BinaryOperation,
   Inner extends Evaluable,
   Left extends InnerExpression<Inner>,
-  Right extends Evaluable>(left: Left | undefined, right: Right, op: Operation): EvalFunc {
+  Right extends Evaluable>(left: Left | null, right: Right, op: Operation): EvalFunc {
   return () => {
     // Evaluate the right side
     // Evalue le coté droit
@@ -446,7 +446,7 @@ interface InnerOp<E extends Evaluable> extends InnerExpression<E>{ op: string; }
 export function binaryOperations<
   Inner extends Evaluable,
   Left extends InnerOp<Inner>,
-  Right extends Evaluable>(left: Left, right: Right, map: BinaryOperationsMap): EvalFunc {
+  Right extends Evaluable>(left: Left | null, right: Right, map: BinaryOperationsMap): EvalFunc {
   return () => {
     // Evaluate the right side
     // Evalue le coté droit
