@@ -185,7 +185,7 @@ test("Expression OR |", () => {
 });
 
 test("Expression with parenthesis at the beginning", () => {
-  const bytes = compileCode('LD A, 0 + ($55 + 2) % 28');
+  const bytes = compileCode('LD A, ($55 + 2) % 28');
   expect(bytes).toEqual([0x3E, 0x03]);
 });
 

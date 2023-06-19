@@ -208,12 +208,10 @@ Label :=
 LabelDeclaration :=
     !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.\$]*' '\:'?
 
-// Note: Top level expressions can't start with a parenthesis, otherwise it is ambiguous with dereferences
-// like LD HL, (0)
 
-// An expression can't start with an open parenthesis. it is a bitwise OR expression
+// An expression is a bitwise OR expression
 Expression :=
-    !'\(' e1=BitwiseOrExpression
+    e1=BitwiseOrExpression
     .eval = EvalFunc { return e1.eval; }
 
 // Precedences: unary, multiplicative, additive, shift, and, xor, or
@@ -382,6 +380,14 @@ Load8Instruction :=
 
 // 16-bit Load
 Load16Instruction :=
+    // LD IX, (nn)
+    'ld' __ 'ix' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x2A, value16LE(pos, ee)]; } |
+
+    // LD IY, (nn)
+    'ld' __ 'iy' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x2A, value16LE(pos, ee)]; } |
+
     // LD IX, nn
     'ld' __ 'ix' _ ',' _ pos=@ ee=Expression &eos
     .elements = AstElements { return [0xDD, 0x21, value16LE(pos, ee)]; } |
@@ -397,14 +403,6 @@ Load16Instruction :=
     // LD dd, (nn)
     'ld' __ dd=dd _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &eos
     .elements = AstElements { return [0xED, 0b01001011 | dd_bits(dd, 4), value16LE(pos, ee)]; } |
-
-    // LD IX, (nn)
-    'ld' __ 'ix' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x2A, value16LE(pos, ee)]; } |
-
-    // LD IY, (nn)
-    'ld' __ 'iy' _ ',' _ '\(' _ pos=@ ee=Expression _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x2A, value16LE(pos, ee)]; } |
 
     // LD (nn), HL
     'ld' __ '\(' _ pos=@ ee=Expression _ '\)' _ ',' _ 'hl' &eos
@@ -526,14 +524,6 @@ BlockInstruction :=
 
 // 8-bit Arithmetic
 ArithmeticLogic8Instruction :=
-    // ADD A, r
-    'add' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10000000 | r_bits(r)]; } |
-
-    // ADD A, n
-    'add' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xC6, value8(pos, n)]; } |
-
     // ADD A, (HL)
     'add' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
     .elements = AstElements { return [0x86]; } |
@@ -546,13 +536,13 @@ ArithmeticLogic8Instruction :=
     'add' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0x86, svalue8(pos, s, d)]; } |
 
-    // ADC A, r
-    'adc' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10001000 | r_bits(r)]; } |
+    // ADD A, r
+    'add' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10000000 | r_bits(r)]; } |
 
-    // ADC A, n
-    'adc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xCE, value8(pos, n)]; } |
+    // ADD A, n
+    'add' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xC6, value8(pos, n)]; } |
 
     // ADC A, (HL)
     'adc' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -566,13 +556,13 @@ ArithmeticLogic8Instruction :=
     'adc' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0x8E, svalue8(pos, s, d)]; } |
 
-    // SUB A, r
-    'sub' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10010000 | r_bits(r)]; } |
+    // ADC A, r
+    'adc' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10001000 | r_bits(r)]; } |
 
-    // SUB A, n
-    'sub' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xD6, value8(pos, n)]; } |
+    // ADC A, n
+    'adc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xCE, value8(pos, n)]; } |
 
     // SUB A, (HL)
     'sub' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -586,13 +576,13 @@ ArithmeticLogic8Instruction :=
     'sub' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0x96, svalue8(pos, s, d)]; } |
 
-    // SBC A, r
-    'sbc' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10011000 | r_bits(r)]; } |
+    // SUB A, r
+    'sub' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10010000 | r_bits(r)]; } |
 
-    // SBC A, n
-    'sbc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xDE, value8(pos, n)]; } |
+    // SUB A, n
+    'sub' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xD6, value8(pos, n)]; } |
 
     // SBC A, (HL)
     'sbc' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -606,13 +596,13 @@ ArithmeticLogic8Instruction :=
     'sbc' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0x9E, svalue8(pos, s, d)]; } |
 
-    // AND A, r
-    'and' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10100000 | r_bits(r)]; } |
+    // SBC A, r
+    'sbc' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10011000 | r_bits(r)]; } |
 
-    // AND A, n
-    'and' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xE6, value8(pos, n)]; } |
+    // SBC A, n
+    'sbc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xDE, value8(pos, n)]; } |
 
     // AND A, (HL)
     'and' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -626,13 +616,13 @@ ArithmeticLogic8Instruction :=
     'and' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xA6, svalue8(pos, s, d)]; } |
 
-    // OR A, r
-    'or' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10110000 | r_bits(r)]; } |
+    // AND A, r
+    'and' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10100000 | r_bits(r)]; } |
 
-    // OR A, n
-    'or' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xF6, value8(pos, n)]; } |
+    // AND A, n
+    'and' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xE6, value8(pos, n)]; } |
 
     // OR A, (HL)
     'or' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -646,13 +636,13 @@ ArithmeticLogic8Instruction :=
     'or' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xB6, svalue8(pos, s, d)]; } |
 
-    // XOR A, r
-    'xor' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10101000 | r_bits(r)]; } |
+    // OR A, r
+    'or' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10110000 | r_bits(r)]; } |
 
-    // XOR A, n
-    'xor' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xEE, value8(pos, n)]; } |
+    // OR A, n
+    'or' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xF6, value8(pos, n)]; } |
 
     // XOR A, (HL)
     'xor' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -666,13 +656,13 @@ ArithmeticLogic8Instruction :=
     'xor' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xAE, svalue8(pos, s, d)]; } |
 
-    // CP A, r
-    'cp' __ {'a' _ ',' _}? r=r &eos
-    .elements = AstElements { return [0b10111000 | r_bits(r)]; } |
+    // XOR A, r
+    'xor' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10101000 | r_bits(r)]; } |
 
-    // CP A, n
-    'cp' __ {'a' _ ',' _}? pos=@ n=Expression &eos
-    .elements = AstElements { return [0xFE, value8(pos, n)]; } |
+    // XOR A, n
+    'xor' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xEE, value8(pos, n)]; } |
 
     // CP A, (HL)
     'cp' __ {'a' _ ',' _}? '\(' _ 'hl'_ '\)' &eos
@@ -684,7 +674,16 @@ ArithmeticLogic8Instruction :=
 
     // CP (IY+d)
     'cp' __ {'a' _ ',' _}? '\(' _ 'iy' _ s={'\+' | '\-'} _ pos=@ d=Expression _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xBE, svalue8(pos, s, d)]; }
+    .elements = AstElements { return [0xFD, 0xBE, svalue8(pos, s, d)]; } |
+
+    // CP A, r
+    'cp' __ {'a' _ ',' _}? r=r &eos
+    .elements = AstElements { return [0b10111000 | r_bits(r)]; } |
+
+    // CP A, n
+    'cp' __ {'a' _ ',' _}? pos=@ n=Expression &eos
+    .elements = AstElements { return [0xFE, value8(pos, n)]; }
+
 
 // 8-bit Increment and Decrement
 IncrementDecrement8Instruction :=
@@ -1007,6 +1006,18 @@ Offset :=
 
 // Jumps
 JumpInstruction :=
+    // JP (HL)
+    'jp' __ '\(' _ 'hl' _ '\)' &eos
+    .elements = AstElements { return [0xE9]; } |
+
+    // JP (IX)
+    'jp' __ '\(' _ 'ix' _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xE9]; } |
+
+    // JP (IY)
+    'jp' __ '\(' _ 'iy' _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xE9]; } |
+
     // JP nn
     'jp' __ pos=@ ee=Expression &eos
     .elements = AstElements { return [0xC3, value16LE(pos, ee)]; } |
@@ -1030,18 +1041,6 @@ JumpInstruction :=
     // JR jj, e
     'jr' __ jj=jj _ ',' _ pos=@ e=Expression &eos
     .elements = AstElements { return [jj_bits(jj), jrOffset(pos, e)]; } |
-
-    // JP (HL)
-    'jp' __ '\(' _ 'hl' _ '\)' &eos
-    .elements = AstElements { return [0xE9]; } |
-
-    // JP (IX)
-    'jp' __ '\(' _ 'ix' _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xE9]; } |
-
-    // JP (IY)
-    'jp' __ '\(' _ 'iy' _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xE9]; } |
 
     // DJNZ label
     'djnz' __ pos=@ label=Label &eos
