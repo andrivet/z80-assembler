@@ -180,7 +180,7 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
 
   const asmLinter = linter(view => {
     return props.errors == null ? [] : props.errors?.map(value => {
-      const from = view.state.doc.line(value.pos.line).from + value.pos.offset;
+      const from = view.state.doc.line(value.position.pos.line).from + value.position.pos.offset;
       return {
         from: from,
         to: from + 1,
