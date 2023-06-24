@@ -195,7 +195,7 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
     // Est-ce que des étiquettes n'ont pas de valeur ?
     const unknowns = getUnknownLabels().join(', ');
     if(unknowns.length > 0)
-      throw new CompilationError(parseData.fileName, {line: 1, offset: 0, overallPos: 0},
+      throw new CompilationError({filename: parseData.fileName, pos: {line: 1, offset: 0, overallPos: 0}},
         `Unknown value for labels: ${unknowns}`);
 
     const generated = generate(filepath, 0, parsed);

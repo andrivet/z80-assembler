@@ -37,13 +37,13 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
   // Convert the string to a number.
   // Conversion de la chaine en nombre.
   let v = parseInt(str, base);
-  if(isNaN(v)) throw new CompilationError(parseData.fileName, pos,
+  if(isNaN(v)) throw new CompilationError({filename: parseData.fileName, pos: pos},
     `Number '${str}' is invalid in base ${base}.`)
   switch(nbBytes) {
     case 1:
       // Must be able to fit this number into 8 bits.
       // On doit pouvoir représenter ce nombre sur 8 bits.
-      if(v > 255 || v < -256) throw new CompilationError(parseData.fileName, pos,
+      if(v > 255 || v < -256) throw new CompilationError({filename: parseData.fileName, pos: pos},
         `Number '${str}' does not fit into a byte.`);
       // If negative, take the 2-complement.
       // S'il est négatif, on prend son complément à 2.
@@ -53,7 +53,7 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
     case 2:
       // Must be able to fit this number into 16 bits.
       // On doit pouvoir représenter ce nombre sur 16 bits.
-      if(v > 65535 || v < -65536) throw new CompilationError(parseData.fileName, pos,
+      if(v > 65535 || v < -65536) throw new CompilationError({filename: parseData.fileName, pos: pos},
         `Number '${str}' does not fit into a word.`);
       // If negative, take the 2-complement.
       // S'il est négatif, on prend son complément à 2.
@@ -61,7 +61,7 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
       break;
 
     default:
-      throw new CompilationError(parseData.fileName, pos,
+      throw new CompilationError({filename: parseData.fileName, pos: pos},
         `Invalid number of bytes (${nbBytes})`);
   }
 
@@ -79,7 +79,8 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
 export function parseSimpleEscape(pos: PosInfo, c: string): number[] {
   switch(c) {
     case '"': return [0x0B];
-    default:  throw new CompilationError(parseData.fileName, pos,`Invalid escape: \\${c}`);
+    default:  throw new CompilationError({filename: parseData.fileName, pos: pos},
+      `Invalid escape: \\${c}`);
   }
 }
 
@@ -93,7 +94,7 @@ export function parseSimpleEscape(pos: PosInfo, c: string): number[] {
  */
 export function parseOctalEscape(pos: PosInfo, value: string): number[] {
   const v = parseInt(value, 8);
-  if(v > 255) throw new CompilationError(parseData.fileName, pos,
+  if(v > 255) throw new CompilationError({filename: parseData.fileName, pos: pos},
     `Number '${value}' in octal escape sequence does not fit into a byte.`);
   return [v];
 }
@@ -108,7 +109,7 @@ export function parseOctalEscape(pos: PosInfo, value: string): number[] {
  */
 export function parseHexadecimalEscape(pos: PosInfo, value: string): number[] {
   const v = parseInt(value, 16);
-  if(v > 255) throw new CompilationError(parseData.fileName, pos,
+  if(v > 255) throw new CompilationError({filename: parseData.fileName, pos: pos},
     `Number '${value}' in hexadecimal escape sequence does not fit into a byte.`);
   return [v];
 }
@@ -144,7 +145,7 @@ export function parseZX81Char(pos: PosInfo, c: string): [number] {
   if(c >= '0' && c < '9') return [c.charCodeAt(0) - 0x30 + 0x1C];
   // Is it possible to convert this symbol?
   // Est-il possible de convertir ce symbole ?
-  if(!zx81chars.has(c)) throw new CompilationError(parseData.fileName, pos,
+  if(!zx81chars.has(c)) throw new CompilationError({filename: parseData.fileName, pos: pos},
     `Invalid ZX81 character: ${c}`);
   // eslint-disable-next-line
   return [zx81chars.get(c)!];

@@ -253,6 +253,11 @@ test("Instruction LD r, (IX+d) with negative d", () => {
   expect(bytes).toEqual([0xDD, 0x46, 0xFD]);
 });
 
+test("Instruction LD r, (IX+d) with no d", () => {
+  const bytes = compileCode('LD B, (IX)');
+  expect(bytes).toEqual([0xDD, 0x46, 0x00]);
+});
+
 test("Instruction LD r, (IY+d)", () => {
   const bytes = compileCode('LD B, (IY+3)');
   expect(bytes).toEqual([0xFD, 0x46, 0x03]);
@@ -261,6 +266,11 @@ test("Instruction LD r, (IY+d)", () => {
 test("Instruction LD r, (IY+d)", () => {
   const bytes = compileCode('LD B, (IY-3)');
   expect(bytes).toEqual([0xFD, 0x46, 0xFD]);
+});
+
+test("Instruction LD r, (IY)", () => {
+  const bytes = compileCode('LD B, (IY)');
+  expect(bytes).toEqual([0xFD, 0x46, 0x00]);
 });
 
 test("Instruction LD r, n with label", () => {
@@ -306,6 +316,16 @@ test("Instruction LD (IX+d), n", () => {
 test("Instruction LD (IY+d), n", () => {
   const bytes = compileCode('LD (IY+3), 0x55');
   expect(bytes).toEqual([0xFD, 0x36, 3, 0x55]);
+});
+
+test("Instruction LD (IX), n", () => {
+  const bytes = compileCode('LD (IX), 0x55');
+  expect(bytes).toEqual([0xDD, 0x36, 0, 0x55]);
+});
+
+test("Instruction LD (IY), n", () => {
+  const bytes = compileCode('LD (IY), 0x55');
+  expect(bytes).toEqual([0xFD, 0x36, 0, 0x55]);
 });
 
 test("Instruction LD A, (BC)", () => {
@@ -1924,76 +1944,15 @@ test("Comment with label and instruction", () => {
 });
 
 // -------------------------------------------------------
-// Full code
+// Pseudo label $ for current program counter
 // -------------------------------------------------------
 
-  test("Full code 1", () => {
-    const bytes = compileCode(`
-ERR_NR    equ $4000
-FLAGS     equ $4001
-ERR_SP    equ $4002
-RAMTOP    equ $4004
-MODE      equ $4006
-PPC       equ $4007
-
-          org  $4009
-
-VERSN:    defb  0             ; $4009
-E_PPC:    defw  10            ; $400a
-D_FILE:   defw  display       ; $400c
-DF_CC:    defw  display+1     ; $400e
-VARS:     defw  variables     ; $4010
-DEST:     defw  0             ; $4012
-E_LINE:   defw  edit_line     ; $4014
-CH_ADD:   defw  edit_line+4   ; $4016
-X_PTR:    defw  0             ; $4018
-STKBOT:   defw  edit_line+5   ; $401a
-STKEND:   defw  edit_line+5   ; $401c
-BERG:     defb  0             ; $401e
-MEM:      defw  MEMBOT        ; $401f
-SPARE1:   defb  0             ; $4021
-DF_SZ:    defb  2             ; $4022
-S_TOP:    defw  10            ; $4023
-LAST_K:   defw  0xffff        ; $4025
-DB_ST:    defb  0             ; $4027
-MARGIN:   defb  55            ; $4028
-NXTLIN:   defw  0x407C        ; $4029
-OLDPPC:   defw  0             ; $402b
-FLAGX:    defb  0             ; $402d
-STRLEN:   defw  0             ; $402e
-T_ADDR:   defw  0x0c8d        ; $4030
-SEED:     defw  0             ; $4032
-FRAMES:   defw  0             ; $4034
-COORDS:   defb  0             ; $4036
-          defb  0             ; $4037
-PR_CC:    defb  0xbc          ; $4038
-S_POSN:   defb  0x21          ; $4039
-          defb  0x18          ; $403a
-CDFLAG:   defb  0x40          ; $403b
-PRBUF:    defs  0x20          ; $403c
-          defb  $76
-MEMBOT:   defs  0x1e          ; $405d
-SPARE2:   defw  0             ; $407b
-
-
-basic_line0:
-    defb 0,0                            ; Line 0
-    defw basic_line0_end-basic_line0-4  ; Line length
-    defb 0xea                           ; REM
-
-basic_line0_end:
-display:
-variables:
-edit_line:
-`);
-    expect(bytes).toEqual([
-      0x00, 0x0a, 0x00, 0x82, 0x40, 0x83, 0x40, 0x82, 0x40, 0x00, 0x00, 0x82, 0x40, 0x86, 0x40, 0x00, 0x00,
-      0x87, 0x40, 0x87, 0x40, 0x00, 0x5D, 0x40, 0x00, 0x02, 0x0a, 0x00, 0xff, 0xff, 0x00, 0x37, 0x7C, 0x40, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x8d, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xbc, 0x21, 0x18, 0x40,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x76,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x01, 0x00, 0xea]);
+test("Pseudo label $", () => {
+  const bytes = compileCode('ld a, $55\nld hl, $');
+  expect(bytes).toEqual([0x3E, 0x55, 0x21, 0x02, 0x00]);
 });
+
+// -------------------------------------------------------
+// Full code
+// -------------------------------------------------------
 

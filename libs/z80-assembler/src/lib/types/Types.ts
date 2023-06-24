@@ -18,7 +18,7 @@
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  *
  */
-import {Line} from "../grammar/z80";
+import {Line, PosInfo} from "../grammar/z80";
 import {CompilationError} from "./Error";
 
 
@@ -72,4 +72,12 @@ interface CompilationInfo {
   errs: CompilationError[];
 }
 
-export {byte, bytes, Address, LinesInfo, CompilationInfo}
+/**
+ * Position in a source file.
+ */
+interface Position {
+  filename: string;
+  pos: PosInfo;
+}
+
+export {byte, bytes, Address, LinesInfo, CompilationInfo, Position}

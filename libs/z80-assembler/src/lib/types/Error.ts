@@ -17,7 +17,8 @@
  * License:			GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
-import {MatchAttempt, PosInfo, SyntaxErr} from "../grammar/z80";
+import {MatchAttempt, SyntaxErr} from "../grammar/z80";
+import {Position} from "./Types";
 
 /**
  * A compilation error.
@@ -27,14 +28,12 @@ class CompilationError extends Error {
   /**
    * Constructor.
    * Constructeur.
-   * @param filename Filename where the error occurred.
-   *                 Fichier où s'est produite l'erreur.
-   * @param pos Position (line, offset) where the error occurred.
-   *            Position (line, décalage) où s'est produite l'erreur.
+   * @param position Position (filename, line, offset) where the error occurred.
+   *                 Position (fichier, line, décalage) où s'est produite l'erreur.
    * @param message Description of the error.
    *                Description de l'erreur.
    */
-  constructor(public readonly filename: string, public readonly pos: PosInfo, message: string) {
+  constructor(public readonly position: Position, message: string) {
     super(message);
   }
 
@@ -43,7 +42,7 @@ class CompilationError extends Error {
    * Formate l'erreur.
    */
   override toString() {
-    return `File '${this.filename}', Line ${this.pos.line}:${this.pos.offset+1} - ${this.message}`;
+    return `File '${this.position.filename}', Line ${this.position.pos.line}:${this.position.pos.offset+1} - ${this.message}`;
   }
 
   /**
@@ -91,7 +90,7 @@ class CompilationError extends Error {
    *          L'erreur de syntaxe.
    */
   static fromSyntaxErr(filename: string, e: SyntaxErr): CompilationError {
-    return new CompilationError(filename, e.pos, this.formatError(e));
+    return new CompilationError({filename: filename, pos: e.pos}, this.formatError(e));
   }
 
   /**
@@ -111,7 +110,7 @@ class CompilationError extends Error {
     if(e instanceof SyntaxErr) return this.fromSyntaxErr(filename, e);
     // Something else?
     // Quelque chose d'autre ?
-    return new CompilationError(filename, {line: 1, offset: 0, overallPos: 0}, e.toString());
+    return new CompilationError({filename: filename, pos: {line: 1, offset: 0, overallPos: 0}}, e.toString());
   }
 
   /**
@@ -121,7 +120,7 @@ class CompilationError extends Error {
    *            L'erreur à vérifier.
    */
   static is(err: any): err is CompilationError { // eslint-disable-line
-    return (err as CompilationError).filename !== undefined;
+    return (err as CompilationError).position !== undefined;
   }
 
   /**
@@ -132,7 +131,7 @@ class CompilationError extends Error {
    */
   static isArray(err: any): err is CompilationError[] { // eslint-disable-line
     const errs = err as CompilationError[];
-    return errs.length !== undefined && (errs.length === 0 || errs[0].filename !== undefined);
+    return errs.length !== undefined && (errs.length === 0 || errs[0].position !== undefined);
   }
 }
 

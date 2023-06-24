@@ -21,6 +21,7 @@ import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
 import {bytes, LinesInfo} from '../types/Types';
 import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "./Labels";
 import {AstElement, AstElements, getByteSize, isAbstract} from "./Ast";
+import {parseData} from "./Compiler";
 
 
 /**
@@ -90,7 +91,7 @@ function computeVariableLabels(address: number, lines: Lines): number {
     if(line.kind !== ASTKinds.LineStatement) continue;
     // If the line starts with a label, record it (and its address).
     // Si la ligne débute avec une étiquette, on s'en souvient (avec son adresse).
-    if(line.label) addLabel(line.label.pos, line.label.name, address);
+    if(line.label) addLabel({filename: parseData.fileName, pos: line.label.pos}, line.label.name, address);
     // If it is a statement, compute the new address (after the statement).
     // Si c'est une déclaration, on calcule la nouvelle adresse (qui suit cette déclaration).
     if(line.statement) address = computeAddress(address, line.statement);
@@ -246,7 +247,8 @@ function generateSldLabel(filename: string, lineNumber: number, line: Line): str
   if(!line.label) return '';
   // Get the value associated with the label.
   // On obtient la valeur associée à l'étiquette.
-  const value = getLabelValue(line.label.name, false);
+  const value = getLabelValue(0, line.label.name, {filename: filename,
+      pos: {line: lineNumber, offset: 0, overallPos: 0}}, false, true);
   // Is this label used in the program?
   // Est-ce que cette étiquette est utilisée dans le programme ?
   const isUsed = isLabelUsed(line.label.name);
