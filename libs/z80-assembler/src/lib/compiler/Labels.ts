@@ -53,12 +53,18 @@ type Labels = Map<string, Label>;
  */
 const labels: Labels = new Map<string, Label>();
 
+let getLabelValueRecursion = 0;
+
 /**
  * Reset the labels.
  * Supprime toutes les étiquettes.
  */
 function resetLabels() {
   labels.clear();
+}
+
+function resetLabelsRecursion() {
+  getLabelValueRecursion = 0;
 }
 
 /**
@@ -135,12 +141,15 @@ function addLabelExpression(_: PosInfo, name: string, expression: Expression) {
  * @param name The name of the label.
  *             Le nom de l'étiquette.
  * @param pos Where this label is used.
- * @param mode Options when getting the value.
- *             Options lorsque l'on récupère la valeur.
+ * @param setUsed If set, mark the label as used.
+ * @param mustExist If set, the value of the label has to be known (not null).
  * @return The value associated with a label or null if it is unknown.
  *         La valeur associée avec l'étiquette ou null si elle est inconnue.
  */
 function getLabelValue(pc: Address, name: string, pos: Position, setUsed: boolean, mustExist: boolean): number | null {
+  if(getLabelValueRecursion > 20)
+    throw new CompilationError(pos, `Label '${name}' is undetermined (too many recursions)`);
+
   // Pseudo label $
   if(name === '$') return pc;
 
@@ -173,7 +182,9 @@ function getLabelValue(pc: Address, name: string, pos: Position, setUsed: boolea
 
   // The value is currently unknown, but we have an expression to compute it. So try to compute it.
   // La valeur est actuellement inconnue mais on a une expression pour la calculer. Donc on essaie de la calculer.
+  getLabelValueRecursion += 1;
   const value = label.expression.eval(pc, mustExist);
+  getLabelValueRecursion -= 1;
   // It was not possible to compute the value yet, so return null.
   // S'il n'est pas encore possible de calculer la valeur, on retourne null.
   if(value == null) {
@@ -211,4 +222,4 @@ function getUnknownLabels(): string[] {
     .map(([name]) => name);
 }
 
-export {resetLabels, addLabel, addLabelExpression, getLabelValue, isLabelUsed, getUnknownLabels}
+export {resetLabels, resetLabelsRecursion, addLabel, addLabelExpression, getLabelValue, isLabelUsed, getUnknownLabels}

@@ -1726,6 +1726,10 @@ test("Circular Labels", () => {
   compileWithError('label1 equ label2\nlabel2 equ label3\nlabel3 equ label1\nld a, label1');
 });
 
+test("Circular equalities", () => {
+  compileWithError('label1 equ label1\ndb label1');
+});
+
 test("Labels with computation EQU", () => {
   const bytes = compileCode(`
 before equ 0

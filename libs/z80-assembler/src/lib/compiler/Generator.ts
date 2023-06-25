@@ -19,7 +19,7 @@
  */
 import {ASTKinds, Line, Lines, Statement} from "../grammar/z80";
 import {bytes, LinesInfo} from '../types/Types';
-import {addLabel, addLabelExpression, getLabelValue, isLabelUsed} from "./Labels";
+import {addLabel, addLabelExpression, getLabelValue, isLabelUsed, resetLabelsRecursion} from "./Labels";
 import {AstElement, AstElements, getByteSize, isAbstract} from "./Ast";
 import {parseData} from "./Compiler";
 
@@ -65,6 +65,7 @@ function computeEqualities(lines: Lines) {
   // For each line...
   // Pour chaque ligne...
   for (const line of lines) {
+    resetLabelsRecursion();
     // If it is an equality, add the label and its value (an expression).
     // Si c'est une égalité, on ajoute l'étiquette avec sa valeur (une expression).
     if(line.kind === ASTKinds.LineEqual)
