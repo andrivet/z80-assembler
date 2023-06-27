@@ -21,7 +21,7 @@ import {Parser, PosInfo} from "../grammar/z80";
 import {CompilationInfo, LinesInfo} from "../types/Types";
 import {CompilationError} from "../types/Error";
 import {computeLabels, generate} from "./Generator";
-import {getUnknownLabels, resetLabels} from "./Labels";
+import {resetLabels} from "./Labels";
 import {
   assetBasicEnd,
   assetBasicLine1,
@@ -191,13 +191,6 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
     // Compute the value of the labels.
     // Calcul de la valeur des étiquettes.
     computeLabels(0, parsed);
-    // Do we have labels with unknown values?
-    // Est-ce que des étiquettes n'ont pas de valeur ?
-    const unknowns = getUnknownLabels().join(', ');
-    if(unknowns.length > 0)
-      throw new CompilationError({filename: parseData.fileName, pos: {line: 1, offset: 0, overallPos: 0}},
-        `Unknown value for labels: ${unknowns}`);
-
     const generated = generate(filepath, 0, parsed);
 
     // Generate the bytes, the SLD and return them.

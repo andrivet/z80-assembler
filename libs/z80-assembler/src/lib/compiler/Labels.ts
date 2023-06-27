@@ -212,14 +212,4 @@ function isLabelUsed(name: string) {
   return label?.used;
 }
 
-/**
- * Get the list of labels with an unknown value.
- * Retourne la liste des étiquettes avec une valeur inconnue.
- */
-function getUnknownLabels(): string[] {
-  return [...labels.entries()]
-    .filter(([, label]) => !label.known && label.value == null)
-    .map(([name]) => name);
-}
-
-export {resetLabels, resetLabelsRecursion, addLabel, addLabelExpression, getLabelValue, isLabelUsed, getUnknownLabels}
+export {resetLabels, resetLabelsRecursion, addLabel, addLabelExpression, getLabelValue, isLabelUsed}
