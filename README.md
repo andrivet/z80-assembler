@@ -12,6 +12,7 @@ A Z80 assembler entirely written in Typescript and derived from a PEG grammar.
 
 ![z80-assembler-app](assets/images/z80-assembler-app.png)
 
+This assembler is also used in the [ZX81 Debugger](https://github.com/andrivet/ZX81-Debugger).
 
 ## How to build from source
 
@@ -65,29 +66,10 @@ Click on a category to see the corresponding opcodes:
 
 ![Z80](assets/images/opcodes-load8.png)
 
-## Z80 opcodes
+## Z80 assembly
 
-This assembler supports all the official Z80 opcodes as defined in Zilog Z80 CPU User Manual.
+The format of assembly source file is described in [Z80 Assembly Source Code Format](./docs/assembly.md).
 
-## Pseudo instructions
-
-This assembler supports the following pseudo-instructions:
-
-* **equ** (or **.equ**): Define a value for a label
-* **org** (or **.org**): Set the current address to compile the code.
-* **include** (or **.include**): Include another assembly file.
-* **device** (or **.device**): Set the current target (device).
-* **byte** (or **db**, **dm**, **defb**, **defm**): Define a list of byte values
-* **word** (or **dw**, **defw**): Define a list of word values
-* **block** (or **defs**, **ds**): Define a block of byte values.
-
-
-## Limitations
-
-* No support for non-official Z80 opcodes
-* No support for fake instructions like `LD BC, DE`. The actual corresponding opcodes are `LD B, D` and  `LD C, E`.
-* No support for structures
-* No support for conditional assembly and macros
 
 ## Licence
 
