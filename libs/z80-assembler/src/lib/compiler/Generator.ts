@@ -161,6 +161,7 @@ function generateLines(address: number, infos: LinesInfo[]): GenerationData {
   // On débute avec un tableau vide d'octets.
   let bytes: bytes = [];
   let sld = '';
+  let end = false;
 
   // For each file...
   // Pour chaque fichier...
@@ -201,9 +202,18 @@ function generateLines(address: number, infos: LinesInfo[]): GenerationData {
         }
         break;
       }
+
+      // Special case for end directive
+      if(line.statement.kind === ASTKinds.Statement_3 && line.statement.dir.kind === ASTKinds.Directive_5) {
+        end = true;
+        break;
+      }
+
+      if(end) break;
       lineNumber += 1; // Next line
     }
   }
+
   return {bytes: bytes, sld: sld, address: address};
 }
 

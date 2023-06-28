@@ -78,7 +78,8 @@ export function parseNumber(pos: PosInfo, str: string, base: number, nbBytes: nu
  */
 export function parseSimpleEscape(pos: PosInfo, c: string): number[] {
   switch(c) {
-    case '"': return [0x0B];
+    case 'n':  return [0x0B];
+    case '"':  return [0x0B];
     default:  throw new CompilationError({filename: parseData.fileName, pos: pos},
       `Invalid escape: \\${c}`);
   }

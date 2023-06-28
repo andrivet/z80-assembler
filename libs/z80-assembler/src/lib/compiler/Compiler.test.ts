@@ -74,15 +74,56 @@ test("Loading hexadecimal with 0x", () => {
   expect(bytes).toEqual([0x3e, 0x55]);
 });
 
+test("Loading hexadecimal with 0X", () => {
+  const bytes = compileCode(' ld a, 0X55');
+  expect(bytes).toEqual([0x3e, 0x55]);
+});
+
 test("Loading hexadecimal with h", () => {
   const bytes = compileCode(' ld a, 55h');
   expect(bytes).toEqual([0x3e, 0x55]);
+});
+
+test("Loading hexadecimal with H", () => {
+  const bytes = compileCode(' ld a, 55H');
+  expect(bytes).toEqual([0x3e, 0x55]);
+});
+
+test("Loading hexadecimal with only letters", () => {
+  const bytes = compileCode(' ld a, abh');
+  expect(bytes).toEqual([0x3e, 0xab]);
+});
+
+test("Loading hexadecimal with letters prefixed with 0", () => {
+  const bytes = compileCode(' ld a, 0abh');
+  expect(bytes).toEqual([0x3e, 0xab]);
+});
+
+test("Loading hexadecimal with mix of cases", () => {
+  const bytes = compileCode(' ld a, Abh');
+  expect(bytes).toEqual([0x3e, 0xab]);
 });
 
 test("Loading binary with 0b", () => {
   const bytes = compileCode(' ld a, 0b10101010');
   expect(bytes).toEqual([0x3e, 0xAA]);
 });
+
+test("Loading binary with 0B", () => {
+  const bytes = compileCode(' ld a, 0B10101010');
+  expect(bytes).toEqual([0x3e, 0xAA]);
+});
+
+test("Loading binary with b suffix", () => {
+  const bytes = compileCode(' ld a, 10101010b');
+  expect(bytes).toEqual([0x3e, 0xAA]);
+});
+
+test("Loading binary with B suffix", () => {
+  const bytes = compileCode(' ld a, 10101010B');
+  expect(bytes).toEqual([0x3e, 0xAA]);
+});
+
 
 test("Loading binary with %", () => {
   const bytes = compileCode(' ld a, %10101010');
@@ -99,13 +140,28 @@ test("Loading octal with 0o", () => {
   expect(bytes).toEqual([0x3e, 0x55]);
 });
 
+test("Loading octal with 0O", () => {
+  const bytes = compileCode(' ld a, 0O125');
+  expect(bytes).toEqual([0x3e, 0x55]);
+});
+
 test("Loading octal with q", () => {
   const bytes = compileCode(' ld a, 125q');
   expect(bytes).toEqual([0x3e, 0x55]);
 });
 
+test("Loading octal with Q", () => {
+  const bytes = compileCode(' ld a, 125Q');
+  expect(bytes).toEqual([0x3e, 0x55]);
+});
+
 test("Loading octal with o", () => {
   const bytes = compileCode(' ld a, 125o');
+  expect(bytes).toEqual([0x3e, 0x55]);
+});
+
+test("Loading octal with O", () => {
+  const bytes = compileCode(' ld a, 125O');
   expect(bytes).toEqual([0x3e, 0x55]);
 });
 
@@ -1684,15 +1740,6 @@ test("Instruction OTDR", () => {
   expect(bytes).toEqual([0xED, 0xBB]);
 });
 
-test("Statement EQU", () => {
-  const bytes = compileCode('label1 EQU $55\nDB label1');
-  expect(bytes).toEqual([0x55]);
-});
-
-test("Statement EQU with colon", () => {
-  const bytes = compileCode('label1: EQU $55\nDB label1');
-  expect(bytes).toEqual([0x55]);
-});
 
 // -------------------------------------------------------
 // Labels
@@ -1771,6 +1818,11 @@ test("Declaring string", () => {
   expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
 });
 
+test("Declaring string with simple quotes", () => {
+  const bytes = compileCode('db \'HELLO WORLD\'');
+  expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
+});
+
 test("Declaring strings", () => {
   const bytes = compileCode('db "HELLO", "WORLD"');
   expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x3C, 0x34, 0x37, 0x31, 0x29]);
@@ -1824,9 +1876,39 @@ test("Declaring block with length dependent of the size", () => {
 // Directives
 // -------------------------------------------------------
 
+test("Directive EQU", () => {
+  const bytes = compileCode('label1 EQU $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
+});
+
+test("Directive EQU with colon", () => {
+  const bytes = compileCode('label1: EQU $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
+});
+
+test("Directive EQU with dot", () => {
+  const bytes = compileCode('label1 .EQU $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
+});
+
+test("Directive EQU with period and colon", () => {
+  const bytes = compileCode('label1: .EQU $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
+});
+
 test("Origin directive", () => {
   const bytes = compileCode('org $5544\nlabel1:\nld hl, label1');
   expect(bytes).toEqual([0x21, 0x44, 0x55]);
+});
+
+test("Directive EQU with equal symbol", () => {
+  const bytes = compileCode('label1 = $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
+});
+
+test("Directive EQU with colon and equal symbol", () => {
+  const bytes = compileCode('label1: = $55\nDB label1');
+  expect(bytes).toEqual([0x55]);
 });
 
 test("Origin directive with dot", () => {
@@ -1915,6 +1997,11 @@ test("Device", () => {
 test("Device with dot", () => {
   const bytes = compileCode('.device test');
   expect(bytes).toEqual([]);
+});
+
+test("End Directive", () => {
+  const bytes = compileCode('ld a,1\nend\nld a,2');
+  expect(bytes).toEqual([0x3E, 0x01]);
 });
 
 

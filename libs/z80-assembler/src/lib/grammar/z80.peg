@@ -108,17 +108,18 @@ decimal :=
 
 // A binary value with the different allowed syntaxes
 binary :=
-    {'0b' | '%'} raw='[0-1]+'
+    {'0b' | '%'} raw='[0-1]+' |
+    raw='[0-1]+' 'b'
 
 // An octal value with the different allowed syntaxes
 octal :=
-    {'0q' | '0o'} raw='[0-7]+' |
+    {'0q' | '0o' | '@'} raw='[0-7]+' |
     raw='[0-7]+' {'q' | 'o'}
 
 // An hexadecimal value with the different allowed syntaxes
 hexadecimal :=
     {'0x' | '\$' | '#'} raw='[0-9a-f]+' |
-    raw='[0-9][0-9a-f]?' 'h'
+    raw='[0-9a-f]+' 'h'
 
 // Different names used in the Z80 CPU User Manual for 8-bit values
 d := n
@@ -168,7 +169,7 @@ Statement :=
 
 // An equality directive is 'equ' (or an alias) followed by an expression
 EqualDirective :=
-    '\.?equ|eq' __ e=Expression
+    '\.?equ|eq|=' __ e=Expression
 
 // A directive is either a data directive, an origin directive, an output directive or a device directive
 Directive :=
@@ -186,12 +187,16 @@ Directive :=
 
     directive=DeviceDirective
     .elements = AstElements { return []; }
+    .address = Address { return null; } |
+
+    directive=EndDirective
+    .elements = AstElements { return []; }
     .address = Address { return null; }
 
 // Names not allowed for a label
 ForbiddenNames :=
-    'block|.\?equ|\.?org|\.?include|\.?output|\.?device' |
-    'byte|call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|word' |
+    '.\?block|.\?equ|\.?org|\.?include|\.?output|\.?device|\.?end|.\?byte' |
+    'call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|.\?word' |
     'adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla' |
     'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor' |
     'cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
@@ -202,11 +207,11 @@ ForbiddenLabel :=
 
 // A label can't have a forbidden name. It is a name of the special pseudo label $ (PC).
 Label :=
-    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.\$]*|\$'
+    !ForbiddenLabel pos=@ name='[a-z_\.][a-z0-9_!\?#@\.\$]*|\$'
 
 // A label declaration can't have a forbidden name. It is a name optionally followed by a ':' character.
 LabelDeclaration :=
-    !ForbiddenLabel pos=@ name='[a-z_][a-z0-9_!\?#@\.\$]*' '\:'?
+    !ForbiddenLabel pos=@ name='[a-z_\.][a-z0-9_!\?#@\.\$]*' '\:'?
 
 
 // An expression is a bitwise OR expression
@@ -271,6 +276,14 @@ PrimaryExpression :=
 Reg8 :=
     reg=r &'[^a-z0-9_!\?#@\.]'
 
+// IX register with an (optional) offset
+IX :=
+  'ix' offset={ _ s={'\+' | '\-'} _ pos=@ d=Expression }?
+
+// IY register with an (optional) offset
+IY :=
+  'iy' offset={ _ s={'\+' | '\-'} _ pos=@ d=Expression }?
+
 // An instruction
 Instruction :=
     Load8Instruction |
@@ -301,36 +314,36 @@ Load8Instruction :=
     .elements = AstElements { return [0b01000110 | r_bits(r, 3)]; } |
 
     // LD r, (IX+d)
-    'ld' __ r=r _ ',' _ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0b01000110 | r_bits(r, 3), index(o)]; } |
+    'ld' __ r=r _ ',' _ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0b01000110 | r_bits(r, 3), index(i.offset)]; } |
 
     // LD r, (IY+d)
-    'ld' __ r=r _ ',' _ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0b01000110 | r_bits(r, 3), index(o)]; } |
+    'ld' __ r=r _ ',' _ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0b01000110 | r_bits(r, 3), index(i.offset)]; } |
 
     // LD (HL), r
     'ld' __ '\(' _ 'hl' _ '\)' _ ',' _ r=r &eos
     .elements = AstElements { return [0b01110000 | r_bits(r)]; } |
 
     // LD (IX+d), r
-    'ld' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' _ ',' _ r=r &eos
-    .elements = AstElements { return [0xDD, 0b01110000 | r_bits(r), index(o)]; } |
+    'ld' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0b01110000 | r_bits(r), index(i.offset)]; } |
 
     // LD (IY+d), r
-    'ld' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' _ ',' _ r=r &eos
-    .elements = AstElements { return [0xFD, 0b01110000 | r_bits(r), index(o)]; } |
+    'ld' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0b01110000 | r_bits(r), index(i.offset)]; } |
 
     // LD (HL), n
     'ld' __ '\(' 'hl' '\)' _ ',' _ pos=@ n=Expression &eos
     .elements = AstElements { return [0x36, value8(pos, n)]; } |
 
     // LD (IX+d), n
-    'ld' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' _ ',' _ pos=@ n=Expression &eos
-    .elements = AstElements { return [0xDD, 0x36, index(o), value8(pos, n)]; } |
+    'ld' __ '\(' _ i=IX _ '\)' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xDD, 0x36, index(i.offset), value8(pos, n)]; } |
 
     // LD (IY+d), n
-    'ld' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression}? _ '\)' _ ',' _ pos=@ n=Expression &eos
-    .elements = AstElements { return [0xFD, 0x36, index(o), value8(pos, n)]; } |
+    'ld' __ '\(' _ i=IY _ '\)' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xFD, 0x36, index(i.offset), value8(pos, n)]; } |
 
     // LD A, (BC)
     'ld' __ 'a' _ ',' _ '\(' _ 'bc' _ '\)' &eos
@@ -529,12 +542,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0x86]; } |
 
     // ADD A, (IX+d)
-    'add' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x86, index(o)]; } |
+    'add' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x86, index(i.offset)]; } |
 
     // ADD A, (IY+d)
-    'add' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x86, index(o)]; } |
+    'add' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x86, index(i.offset)]; } |
 
     // ADD A, r
     'add' __ {'a' _ ',' _}? r=r &eos
@@ -549,12 +562,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0x8E]; } |
 
     // ADC (IX+d)
-    'adc' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x8E, index(o)]; } |
+    'adc' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x8E, index(i.offset)]; } |
 
     // ADC (IY+d)
-    'adc' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x8E, index(o)]; } |
+    'adc' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x8E, index(i.offset)]; } |
 
     // ADC A, r
     'adc' __ {'a' _ ',' _}? r=r &eos
@@ -569,12 +582,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0x96]; } |
 
     // SUB (IX+d)
-    'sub' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x96, index(o)]; } |
+    'sub' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x96, index(i.offset)]; } |
 
     // SUB (IY+d)
-    'sub' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x96, index(o)]; } |
+    'sub' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x96, index(i.offset)]; } |
 
     // SUB A, r
     'sub' __ {'a' _ ',' _}? r=r &eos
@@ -589,12 +602,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0x9E]; } |
 
     // SBC (IX+d)
-    'sbc' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x9E, index(o)]; } |
+    'sbc' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x9E, index(i.offset)]; } |
 
     // SBC (IY+d)
-    'sbc' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x9E, index(o)]; } |
+    'sbc' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x9E, index(i.offset)]; } |
 
     // SBC A, r
     'sbc' __ {'a' _ ',' _}? r=r &eos
@@ -609,12 +622,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0xA6]; } |
 
     // AND (IX+d)
-    'and' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xA6, index(o)]; } |
+    'and' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xA6, index(i.offset)]; } |
 
     // AND (IY+d)
-    'and' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xA6, index(o)]; } |
+    'and' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xA6, index(i.offset)]; } |
 
     // AND A, r
     'and' __ {'a' _ ',' _}? r=r &eos
@@ -629,12 +642,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0xB6]; } |
 
     // OR (IX+d)
-    'or' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xB6, index(o)]; } |
+    'or' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xB6, index(i.offset)]; } |
 
     // OR (IY+d)
-    'or' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xB6, index(o)]; } |
+    'or' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xB6, index(i.offset)]; } |
 
     // OR A, r
     'or' __ {'a' _ ',' _}? r=r &eos
@@ -649,12 +662,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0xAE]; } |
 
     // XOR (IX+d)
-    'xor' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xAE, index(o)]; } |
+    'xor' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xAE, index(i.offset)]; } |
 
     // XOR (IY+d)
-    'xor' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xAE, index(o)]; } |
+    'xor' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xAE, index(i.offset)]; } |
 
     // XOR A, r
     'xor' __ {'a' _ ',' _}? r=r &eos
@@ -669,12 +682,12 @@ ArithmeticLogic8Instruction :=
     .elements = AstElements { return [0xBE]; } |
 
     // CP (IX+d)
-    'cp' __ {'a' _ ',' _}? '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xBE, index(o)]; } |
+    'cp' __ {'a' _ ',' _}? '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xBE, index(i.offset)]; } |
 
     // CP (IY+d)
-    'cp' __ {'a' _ ',' _}? '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xBE, index(o)]; } |
+    'cp' __ {'a' _ ',' _}? '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xBE, index(i.offset)]; } |
 
     // CP A, r
     'cp' __ {'a' _ ',' _}? r=r &eos
@@ -696,12 +709,12 @@ IncrementDecrement8Instruction :=
     .elements = AstElements { return [0x34]; } |
 
     // INC (IX+d)
-    'inc' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x34, index(o)]; } |
+    'inc' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x34, index(i.offset)]; } |
 
     // INC (IY+d)
-    'inc' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x34, index(o)]; } |
+    'inc' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x34, index(i.offset)]; } |
 
     // DEC r
     'dec' __ r=r &eos
@@ -712,12 +725,12 @@ IncrementDecrement8Instruction :=
     .elements = AstElements { return [0x35]; } |
 
     // DEC (IX+d)
-    'dec' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0x35, index(o)]; } |
+    'dec' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0x35, index(i.offset)]; } |
 
     // DEC (IY+d)
-    'dec' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0x35, index(o)]; }
+    'dec' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0x35, index(i.offset)]; }
 
 // General Purpose Arithmetic Instructions
 GeneralPurposeArithmeticInstruction :=
@@ -836,12 +849,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x06]; } |
 
     // RLC (IX+d)
-    'rlc' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x06]; } |
+    'rlc' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x06]; } |
 
     // RLC (IY+d)
-    'rlc' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x06]; } |
+    'rlc' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x06]; } |
 
     // RL r
     'rl' __ r=r &eos
@@ -852,12 +865,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x16]; } |
 
     // RL (IX+d)
-    'rl' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x16]; } |
+    'rl' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x16]; } |
 
     // RL (IY+d)
-    'rl' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x16]; } |
+    'rl' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x16]; } |
 
     // RRC r
     'rrc' __ r=r &eos
@@ -868,12 +881,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x0E]; } |
 
     // RRC (IX+d)
-    'rrc' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x0E]; } |
+    'rrc' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x0E]; } |
 
     // RRC (IY+d)
-    'rrc' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x0E]; } |
+    'rrc' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x0E]; } |
 
     // RR r
     'rr' __ r=r &eos
@@ -884,12 +897,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x1E]; } |
 
     // RR (IX+d)
-    'rr' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x1E]; } |
+    'rr' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x1E]; } |
 
     // RR (IY+d)
-    'rr' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x1E]; } |
+    'rr' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x1E]; } |
 
     // SLA r
     'sla' __ r=r &eos
@@ -900,12 +913,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x26]; } |
 
     // SLA (IX+d)
-    'sla' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x26]; } |
+    'sla' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x26]; } |
 
     // SLA (IY+d)
-    'sla' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x26]; } |
+    'sla' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x26]; } |
 
     // SRA r
     'sra' __ r=r &eos
@@ -916,12 +929,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x2E]; } |
 
     // SRA (IX+d)
-    'sra' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x2E]; } |
+    'sra' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x2E]; } |
 
     // SRA (IY+d)
-    'sra' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x2E]; } |
+    'sra' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x2E]; } |
 
     // SRL r
     'srl' __ r=r &eos
@@ -932,12 +945,12 @@ RotateShiftInstruction :=
     .elements = AstElements { return [0xCB, 0x3E]; } |
 
     // SRL (IX+d)
-    'srl' __ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0x3E]; } |
+    'srl' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x3E]; } |
 
     // SRL (IY+d)
-    'srl' __ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0x3E]; } |
+    'srl' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x3E]; } |
 
     // RLD
     'rld' &eos
@@ -958,12 +971,12 @@ BitManipulationInstruction :=
     .elements = AstElements { return [0xCB, 0b01000110 | (b.value << 3)]; } |
 
     // BIT b, (IX+d)
-    'bit' __ b=b _ ',' _ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0b01000110 | (b.value << 3)]; } |
+    'bit' __ b=b _ ',' _ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0b01000110 | (b.value << 3)]; } |
 
     // BIT b, (IY+d)
-    'bit' __ b=b _ ',' _ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0b01000110 | (b.value << 3)]; } |
+    'bit' __ b=b _ ',' _ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0b01000110 | (b.value << 3)]; } |
 
     // SET b, r
     'set' __ b=b _ ',' _ r=r &eos
@@ -974,12 +987,12 @@ BitManipulationInstruction :=
     .elements = AstElements { return [0xCB, 0b11000110 | (b.value << 3)]; } |
 
     // SET b, (IX+d)
-    'set' __ b=b _ ',' _ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0b11000110 | (b.value << 3)]; } |
+    'set' __ b=b _ ',' _ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0b11000110 | (b.value << 3)]; } |
 
     // SET b, (IY+d)
-    'set' __ b=b _ ',' _ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0b11000110 | (b.value << 3)]; } |
+    'set' __ b=b _ ',' _ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0b11000110 | (b.value << 3)]; } |
 
     // RES b, r
     'res' __ b=b _ ',' _ r=r &eos
@@ -990,12 +1003,12 @@ BitManipulationInstruction :=
     .elements = AstElements { return [0xCB, 0b10000110 | (b.value << 3)]; } |
 
     // RES b, (IX+d)
-    'res' __ b=b _ ',' _ '\(' _ 'ix' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xDD, 0xCB, index(o), 0b10000110 | (b.value << 3)]; } |
+    'res' __ b=b _ ',' _ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0b10000110 | (b.value << 3)]; } |
 
     // RES b, (IY+d)
-    'res' __ b=b _ ',' _ '\(' _ 'iy' o={ _ s={'\+' | '\-'} _ pos=@ d=Expression }? _ '\)' &eos
-    .elements = AstElements { return [0xFD, 0xCB, index(o), 0b10000110 | (b.value << 3)]; }
+    'res' __ b=b _ ',' _ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0b10000110 | (b.value << 3)]; }
 
 Offset :=
     pos=@ label=Label
@@ -1138,20 +1151,20 @@ OutputInstruction :=
 
 // Byte directive
 ByteDirective :=
-    'db' | 'dm' | 'byte' | 'defb' | 'defm'
+    'db' | 'dm' | '.\?byte' | 'defb' | 'defm'
 
 // Word directive
 WordDirective :=
-    'dw' | 'word' | 'defw'
+    'dw' | '.\?word' | 'defw'
 
 // Block directive
 BlockDirective :=
-    'block' | 'defs' | 'ds'
+    '.\?block' | 'defs' | 'ds'
 
 // A Byte directive contains either characters, strings, or expressions
 ByteValue :=
-    c=Char              .elements = AstElements { return c.elements; } |
-    s=Str               .elements = AstElements { return s.elements; } |
+    s=QuottedStr        .elements = AstElements { return s.elements; } |
+    s=DoubleQuottedStr  .elements = AstElements { return s.elements; } |
     pos=@ e=Expression  .elements = AstElements { return [value8(pos, e)]; }
 
 // A Word directive contains expressions
@@ -1193,24 +1206,24 @@ HexadecimalEscapeSequence :=
     '\\x' pos=@ raw='[0-9a-f]{1,2}'
     .elements = AstElements { return parseHexadecimalEscape(pos, raw); }
 
-// A simple character is not a quote, a backslash or a newline
-SimpleChar :=
+// A character that is not a quote, a backslash or a newline
+NoQuoteChar :=
     pos=@ raw='[^\'\\\n]'
     .elements = AstElements { return parseZX81Char(pos, raw); }
 
-// A string character is not a double-quote, a backslash or a newline
-StringChar :=
+// A character is not a double-quote, a backslash or a newline
+NoDoubleQuoteChar :=
     pos=@ raw='[^\"\\\n]'
     .elements = AstElements { return parseZX81Char(pos, raw); }
 
-// A character literal is enclosed in quotes and is either a simple character or an escape sequence
-Char :=
-    '\'' char={SimpleChar | EscapeSequence} '\''
-    .elements = AstElements { return char.elements; }
+// A string literal enclosed in double-quotes and containing either simple characters or escape sequences
+QuottedStr :=
+    '\'' pos=@ chars={NoQuoteChar | EscapeSequence}+ '\''
+    .elements = AstElements { return chars.reduce((r, c) => { return r.concat(c.elements); }, [] as AstElements); }
 
 // A string literal is enclosed in double-quotes and contains either simple characters or escape sequences
-Str :=
-    '\"' pos=@ chars={StringChar | EscapeSequence}* '\"'
+DoubleQuottedStr :=
+    '\"' pos=@ chars={NoDoubleQuoteChar | EscapeSequence}+ '\"'
     .elements = AstElements { return chars.reduce((r, c) => { return r.concat(c.elements); }, [] as AstElements); }
 
 
@@ -1242,3 +1255,7 @@ OutputDirective :=
 DeviceDirective :=
     '\.?device' __ raw='[a-zA-Z][0-9a-zA-Z]*' &eos
     .void = void { setDevice(raw); }
+
+// A End directive will stop the parsing by eating all the characters
+EndDirective :=
+  '\.?end' &eos '.*'
