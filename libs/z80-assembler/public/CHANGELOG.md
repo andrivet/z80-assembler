@@ -2,7 +2,7 @@
 
 ## 1.3.0 - June 28, 2023
 
-* **1** - Allow (IX) and (IY) without on explicit offset. 
+* **1** - Allow (IX) and (IY) without an explicit offset. 
 * **2** - Define the pseudo value $ for PC.
 * **3** - Be more specific when an expression can't be evaluated.
 * **5** - Recursive labels are now properly detected (max 20 recursions).
