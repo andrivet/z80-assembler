@@ -333,117 +333,64 @@ The following labels are created for system variables at the start of the RAM:
 
 The following labels are defined for ZX81 printable characters:
 
-| Label | Value | Character                   |
-|-------|-------|-----------------------------|
-| __    | 00h   | ![](./images/ZX81-0x00.png) |
-| _SPC  | 00h   | ![](./images/ZX81-0x00.png) |
-| _DQT  | 0bh   | ![](./images/ZX81-0x0B.png) |
-| _PND  | 0ch   | ![](./images/ZX81-0x0C.png) |
-| _DLR  | 0dh   | ![](./images/ZX81-0x0D.png) |
-| _CLN  | 0eh   | ![](./images/ZX81-0x0E.png) |
-| _QMK  | 0fh   | ![](./images/ZX81-0x0F.png) |
-| _OBR  | 10h   | ![](./images/ZX81-0x10.png) |
-| _CBR  | 11h   | ![](./images/ZX81-0x11.png) |
-| _GTH  | 12h   | ![](./images/ZX81-0x12.png) |
-| _LTH  | 13h   | ![](./images/ZX81-0x13.png) |
-| _EQU  | 14h   | ![](./images/ZX81-0x14.png) |
-| _PLS  | 15h   | ![](./images/ZX81-0x15.png) |
-| _MNS  | 16h   | ![](./images/ZX81-0x16.png) |
-| _ASK  | 17h   | ![](./images/ZX81-0x17.png) |
-| _SLS  | 18h   | ![](./images/ZX81-0x18.png) |
-| _SMC  | 19h   | ![](./images/ZX81-0x19.png) |
-| _CMA  | 1ah   | ![](./images/ZX81-0x1A.png) |
-| _FST  | 1bh   | ![](./images/ZX81-0x1B.png) |
-| _0    | 1ch   | ![](./images/ZX81-0x1C.png) |
-| _1    | 1dh   | ![](./images/ZX81-0x1D.png) |
-| _2    | 1eh   | ![](./images/ZX81-0x1E.png) |
-| _3    | 1fh   | ![](./images/ZX81-0x1F.png) |
-| _4    | 20h   | ![](./images/ZX81-0x20.png) |
-| _5    | 21h   | ![](./images/ZX81-0x21.png) |
-| _6    | 22h   | ![](./images/ZX81-0x22.png) |
-| _7    | 23h   | ![](./images/ZX81-0x23.png) |
-| _8    | 24h   | ![](./images/ZX81-0x24.png) |
-| _9    | 25h   | ![](./images/ZX81-0x25.png) |
-| _A    | 26h   | ![](./images/ZX81-0x26.png) |
-| _B    | 27h   | ![](./images/ZX81-0x27.png) |
-| _C    | 28h   | ![](./images/ZX81-0x28.png) |
-| _D    | 29h   | ![](./images/ZX81-0x29.png) |
-| _E    | 2ah   | ![](./images/ZX81-0x2A.png) |
-| _F    | 2bh   | ![](./images/ZX81-0x2B.png) |
-| _G    | 2ch   | ![](./images/ZX81-0x2C.png) |
-| _H    | 2dh   | ![](./images/ZX81-0x2D.png) |
-| _I    | 2eh   | ![](./images/ZX81-0x2E.png) |
-| _J    | 2fh   | ![](./images/ZX81-0x2F.png) |
-| _K    | 30h   | ![](./images/ZX81-0x30.png) |
-| _L    | 31h   | ![](./images/ZX81-0x31.png) |
-| _M    | 32h   | ![](./images/ZX81-0x32.png) |
-| _N    | 33h   | ![](./images/ZX81-0x33.png) |
-| _O    | 34h   | ![](./images/ZX81-0x34.png) |
-| _P    | 35h   | ![](./images/ZX81-0x35.png) |
-| _Q    | 36h   | ![](./images/ZX81-0x36.png) |
-| _R    | 37h   | ![](./images/ZX81-0x37.png) |
-| _S    | 38h   | ![](./images/ZX81-0x38.png) |
-| _T    | 39h   | ![](./images/ZX81-0x39.png) |
-| _U    | 3ah   | ![](./images/ZX81-0x3A.png) |
-| _V    | 3bh   | ![](./images/ZX81-0x3B.png) |
-| _W    | 3ch   | ![](./images/ZX81-0x3C.png) |
-| _X    | 3dh   | ![](./images/ZX81-0x3D.png) |
-| _Y    | 3eh   | ![](./images/ZX81-0x3E.png) |
-| _Z    | 3fh   | ![](./images/ZX81-0x3F.png) |
-| _SPCV | 80h   | ![](./images/ZX81-0x80.png) |
-| _DQTV | 8bh   | ![](./images/ZX81-0x8B.png) |
-| _PNDV | 8ch   | ![](./images/ZX81-0x8C.png) |
-| _DLRV | 8dh   | ![](./images/ZX81-0x8D.png) |
-| _CLNV | 8eh   | ![](./images/ZX81-0x8E.png) |
-| _QMKV | 8fh   | ![](./images/ZX81-0x8F.png) |
-| _OBRV | 90h   | ![](./images/ZX81-0x90.png) |
-| _CBRV | 91h   | ![](./images/ZX81-0x91.png) |
-| _GTHV | 92h   | ![](./images/ZX81-0x92.png) |
-| _LTHV | 93h   | ![](./images/ZX81-0x93.png) |
-| _EQUV | 94h   | ![](./images/ZX81-0x94.png) |
-| _PLSV | 95h   | ![](./images/ZX81-0x95.png) |
-| _MNSV | 96h   | ![](./images/ZX81-0x96.png) |
-| _ASKV | 97h   | ![](./images/ZX81-0x97.png) |
-| _SLSV | 98h   | ![](./images/ZX81-0x98.png) |
-| _SMCV | 99h   | ![](./images/ZX81-0x99.png) |
-| _CMAV | 9ah   | ![](./images/ZX81-0x9A.png) |
-| _FSTV | 9bh   | ![](./images/ZX81-0x9B.png) |
-| _0V   | 9ch   | ![](./images/ZX81-0x9C.png) |
-| _1V   | 9dh   | ![](./images/ZX81-0x9D.png) |
-| _2V   | 9eh   | ![](./images/ZX81-0x9E.png) |
-| _3V   | 9fh   | ![](./images/ZX81-0x9F.png) |
-| _4V   | a0h   | ![](./images/ZX81-0xA0.png) |
-| _5V   | a1h   | ![](./images/ZX81-0xA1.png) |
-| _6V   | a2h   | ![](./images/ZX81-0xA2.png) |
-| _7V   | a3h   | ![](./images/ZX81-0xA3.png) |
-| _8V   | a4h   | ![](./images/ZX81-0xA4.png) |
-| _9V   | a5h   | ![](./images/ZX81-0xA5.png) |
-| _AV   | a6h   | ![](./images/ZX81-0xA6.png) |
-| _BV   | a7h   | ![](./images/ZX81-0xA7.png) |
-| _CV   | a8h   | ![](./images/ZX81-0xA8.png) |
-| _DV   | a9h   | ![](./images/ZX81-0xA9.png) |
-| _EV   | aah   | ![](./images/ZX81-0xAA.png) |
-| _FV   | abh   | ![](./images/ZX81-0xAB.png) |
-| _GV   | ach   | ![](./images/ZX81-0xAC.png) |
-| _HV   | adh   | ![](./images/ZX81-0xAD.png) |
-| _IV   | aeh   | ![](./images/ZX81-0xAE.png) |
-| _JV   | afh   | ![](./images/ZX81-0xAF.png) |
-| _KV   | b0h   | ![](./images/ZX81-0xB0.png) |
-| _LV   | b1h   | ![](./images/ZX81-0xB1.png) |
-| _MV   | b2h   | ![](./images/ZX81-0xB2.png) |
-| _NV   | b3h   | ![](./images/ZX81-0xB3.png) |
-| _OV   | b4h   | ![](./images/ZX81-0xB4.png) |
-| _PV   | b5h   | ![](./images/ZX81-0xB5.png) |
-| _QV   | b6h   | ![](./images/ZX81-0xB6.png) |
-| _RV   | b7h   | ![](./images/ZX81-0xB7.png) |
-| _SV   | b8h   | ![](./images/ZX81-0xB8.png) |
-| _TV   | b9h   | ![](./images/ZX81-0xB9.png) |
-| _UV   | bah   | ![](./images/ZX81-0xBA.png) |
-| _VV   | bbh   | ![](./images/ZX81-0xBB.png) |
-| _WV   | bch   | ![](./images/ZX81-0xBC.png) |
-| _XV   | bdh   | ![](./images/ZX81-0xBD.png) |
-| _YV   | beh   | ![](./images/ZX81-0xBE.png) |
-| _ZV   | bfh   | ![](./images/ZX81-0xBF.png) |
+| Label | Value | Character                   | | Label | Value | Character                   |
+|-------|-------|-----------------------------|-|-------|-------|-----------------------------|
+| __    | 00h   | ![](./images/ZX81-0x00.png) | |       |       |                             |
+| _SPC  | 00h   | ![](./images/ZX81-0x00.png) | | _SPCV | 80h   | ![](./images/ZX81-0x80.png) |
+| _DQT  | 0bh   | ![](./images/ZX81-0x0B.png) | | _DQTV | 8bh   | ![](./images/ZX81-0x8B.png) |
+| _PND  | 0ch   | ![](./images/ZX81-0x0C.png) | | _PNDV | 8ch   | ![](./images/ZX81-0x8C.png) |
+| _DLR  | 0dh   | ![](./images/ZX81-0x0D.png) | | _DLRV | 8dh   | ![](./images/ZX81-0x8D.png) |
+| _CLN  | 0eh   | ![](./images/ZX81-0x0E.png) | | _CLNV | 8eh   | ![](./images/ZX81-0x8E.png) |
+| _QMK  | 0fh   | ![](./images/ZX81-0x0F.png) | | _QMKV | 8fh   | ![](./images/ZX81-0x8F.png) |
+| _OBR  | 10h   | ![](./images/ZX81-0x10.png) | | _OBRV | 90h   | ![](./images/ZX81-0x90.png) |
+| _CBR  | 11h   | ![](./images/ZX81-0x11.png) | | _CBRV | 91h   | ![](./images/ZX81-0x91.png) |
+| _GTH  | 12h   | ![](./images/ZX81-0x12.png) | | _GTHV | 92h   | ![](./images/ZX81-0x92.png) |
+| _LTH  | 13h   | ![](./images/ZX81-0x13.png) | | _LTHV | 93h   | ![](./images/ZX81-0x93.png) |
+| _EQU  | 14h   | ![](./images/ZX81-0x14.png) | | _EQUV | 94h   | ![](./images/ZX81-0x94.png) |
+| _PLS  | 15h   | ![](./images/ZX81-0x15.png) | | _PLSV | 95h   | ![](./images/ZX81-0x95.png) |
+| _MNS  | 16h   | ![](./images/ZX81-0x16.png) | | _MNSV | 96h   | ![](./images/ZX81-0x96.png) |
+| _ASK  | 17h   | ![](./images/ZX81-0x17.png) | | _ASKV | 97h   | ![](./images/ZX81-0x97.png) |
+| _SLS  | 18h   | ![](./images/ZX81-0x18.png) | | _SLSV | 98h   | ![](./images/ZX81-0x98.png) |
+| _SMC  | 19h   | ![](./images/ZX81-0x19.png) | | _SMCV | 99h   | ![](./images/ZX81-0x99.png) |
+| _CMA  | 1ah   | ![](./images/ZX81-0x1A.png) | | _CMAV | 9ah   | ![](./images/ZX81-0x9A.png) |
+| _FST  | 1bh   | ![](./images/ZX81-0x1B.png) | | _FSTV | 9bh   | ![](./images/ZX81-0x9B.png) |
+| _0    | 1ch   | ![](./images/ZX81-0x1C.png) | | _0V   | 9ch   | ![](./images/ZX81-0x9C.png) |
+| _1    | 1dh   | ![](./images/ZX81-0x1D.png) | | _1V   | 9dh   | ![](./images/ZX81-0x9D.png) |
+| _2    | 1eh   | ![](./images/ZX81-0x1E.png) | | _2V   | 9eh   | ![](./images/ZX81-0x9E.png) |
+| _3    | 1fh   | ![](./images/ZX81-0x1F.png) | | _3V   | 9fh   | ![](./images/ZX81-0x9F.png) |
+| _4    | 20h   | ![](./images/ZX81-0x20.png) | | _4V   | a0h   | ![](./images/ZX81-0xA0.png) |
+| _5    | 21h   | ![](./images/ZX81-0x21.png) | | _5V   | a1h   | ![](./images/ZX81-0xA1.png) |
+| _6    | 22h   | ![](./images/ZX81-0x22.png) | | _6V   | a2h   | ![](./images/ZX81-0xA2.png) |
+| _7    | 23h   | ![](./images/ZX81-0x23.png) | | _7V   | a3h   | ![](./images/ZX81-0xA3.png) |
+| _8    | 24h   | ![](./images/ZX81-0x24.png) | | _8V   | a4h   | ![](./images/ZX81-0xA4.png) |
+| _9    | 25h   | ![](./images/ZX81-0x25.png) | | _9V   | a5h   | ![](./images/ZX81-0xA5.png) |
+| _A    | 26h   | ![](./images/ZX81-0x26.png) | | _AV   | a6h   | ![](./images/ZX81-0xA6.png) |
+| _B    | 27h   | ![](./images/ZX81-0x27.png) | | _BV   | a7h   | ![](./images/ZX81-0xA7.png) |
+| _C    | 28h   | ![](./images/ZX81-0x28.png) | | _CV   | a8h   | ![](./images/ZX81-0xA8.png) |
+| _D    | 29h   | ![](./images/ZX81-0x29.png) | | _DV   | a9h   | ![](./images/ZX81-0xA9.png) |
+| _E    | 2ah   | ![](./images/ZX81-0x2A.png) | | _EV   | aah   | ![](./images/ZX81-0xAA.png) |
+| _F    | 2bh   | ![](./images/ZX81-0x2B.png) | | _FV   | abh   | ![](./images/ZX81-0xAB.png) |
+| _G    | 2ch   | ![](./images/ZX81-0x2C.png) | | _GV   | ach   | ![](./images/ZX81-0xAC.png) |
+| _H    | 2dh   | ![](./images/ZX81-0x2D.png) | | _HV   | adh   | ![](./images/ZX81-0xAD.png) |
+| _I    | 2eh   | ![](./images/ZX81-0x2E.png) | | _IV   | aeh   | ![](./images/ZX81-0xAE.png) |
+| _J    | 2fh   | ![](./images/ZX81-0x2F.png) | | _JV   | afh   | ![](./images/ZX81-0xAF.png) |
+| _K    | 30h   | ![](./images/ZX81-0x30.png) | | _KV   | b0h   | ![](./images/ZX81-0xB0.png) |
+| _L    | 31h   | ![](./images/ZX81-0x31.png) | | _LV   | b1h   | ![](./images/ZX81-0xB1.png) |
+| _M    | 32h   | ![](./images/ZX81-0x32.png) | | _MV   | b2h   | ![](./images/ZX81-0xB2.png) |
+| _N    | 33h   | ![](./images/ZX81-0x33.png) | | _NV   | b3h   | ![](./images/ZX81-0xB3.png) |
+| _O    | 34h   | ![](./images/ZX81-0x34.png) | | _OV   | b4h   | ![](./images/ZX81-0xB4.png) |
+| _P    | 35h   | ![](./images/ZX81-0x35.png) | | _PV   | b5h   | ![](./images/ZX81-0xB5.png) |
+| _Q    | 36h   | ![](./images/ZX81-0x36.png) | | _QV   | b6h   | ![](./images/ZX81-0xB6.png) |
+| _R    | 37h   | ![](./images/ZX81-0x37.png) | | _RV   | b7h   | ![](./images/ZX81-0xB7.png) |
+| _S    | 38h   | ![](./images/ZX81-0x38.png) | | _SV   | b8h   | ![](./images/ZX81-0xB8.png) |
+| _T    | 39h   | ![](./images/ZX81-0x39.png) | | _TV   | b9h   | ![](./images/ZX81-0xB9.png) |
+| _U    | 3ah   | ![](./images/ZX81-0x3A.png) | | _UV   | bah   | ![](./images/ZX81-0xBA.png) |
+| _V    | 3bh   | ![](./images/ZX81-0x3B.png) | | _VV   | bbh   | ![](./images/ZX81-0xBB.png) |
+| _W    | 3ch   | ![](./images/ZX81-0x3C.png) | | _WV   | bch   | ![](./images/ZX81-0xBC.png) |
+| _X    | 3dh   | ![](./images/ZX81-0x3D.png) | | _XV   | bdh   | ![](./images/ZX81-0xBD.png) |
+| _Y    | 3eh   | ![](./images/ZX81-0x3E.png) | | _YV   | beh   | ![](./images/ZX81-0xBE.png) |
+| _Z    | 3fh   | ![](./images/ZX81-0x3F.png) | | _ZV   | bfh   | ![](./images/ZX81-0xBF.png) |
+
 
 The following labels are defined for ZX81 non-printable characters and keywords:
 
