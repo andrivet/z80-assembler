@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 - Ovember 19, 2024
+
+* Remove french comments
+
+
 ## 1.3.0 - June 28, 2023
 
 * **1** - Allow (IX) and (IY) without an explicit offset. 

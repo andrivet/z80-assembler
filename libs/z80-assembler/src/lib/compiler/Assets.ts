@@ -8,16 +8,6 @@
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
 
-/**
- * Assembler Z80 en Typescript
- *
- * Fichier:     Assets.ts
- * Description: Ressources utilisées par le compilateur and emballées par Vite
- * Author:			Sebastien Andrivet
- * License:			GPLv3
- * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
- */
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-nocheck
 
