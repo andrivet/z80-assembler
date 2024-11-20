@@ -107,9 +107,10 @@ octal :=
     raw='[0-7]+' {'q' | 'o'}
 
 // An hexadecimal value with the different allowed syntaxes
+// To avoid ambiguity, hexadecimal values are not allowed to be followed by an alphanumerical character
 hexadecimal :=
     {'0x' | '\$' | '#'} raw='[0-9a-f]+' |
-    raw='[0-9a-f]+' 'h'
+    raw='[0-9a-f]+' 'h' !'[0-9a-z]'
 
 // Different names used in the Z80 CPU User Manual for 8-bit values
 d := n
@@ -185,8 +186,8 @@ Directive :=
 
 // Names not allowed for a label
 ForbiddenNames :=
-    '.\?block|.\?equ|\.?org|\.?include|\.?output|\.?device|\.?end|.\?byte' |
-    'call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|.\?word' |
+    '\.?block|\.?equ|\.?org|\.?include|\.?output|\.?device|\.?end|\.?byte' |
+    'call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|\.?word' |
     'adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla' |
     'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor' |
     'cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
@@ -195,7 +196,7 @@ ForbiddenNames :=
 ForbiddenLabel :=
     ForbiddenNames '[ \t:\r\n]'
 
-// A label can't have a forbidden name. It is a name of the special pseudo label $ (PC).
+// A label can't have a forbidden name. It is a name or the special pseudo label $ (PC).
 Label :=
     !ForbiddenLabel pos=@ name='[a-z_\.][a-z0-9_!\?#@\.\$]*|\$'
 
@@ -1141,15 +1142,15 @@ OutputInstruction :=
 
 // Byte directive
 ByteDirective :=
-    'db' | 'dm' | '.\?byte' | 'defb' | 'defm'
+    'db' | 'dm' | '\.?byte' | 'defb' | 'defm'
 
 // Word directive
 WordDirective :=
-    'dw' | '.\?word' | 'defw'
+    'dw' | '\.?word' | 'defw'
 
 // Block directive
 BlockDirective :=
-    '.\?block' | 'defs' | 'ds'
+    '\.?block' | 'defs' | 'ds'
 
 // A Byte directive contains either characters, strings, or expressions
 ByteValue :=

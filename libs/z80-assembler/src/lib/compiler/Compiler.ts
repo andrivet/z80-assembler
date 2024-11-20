@@ -25,7 +25,7 @@ import {
 /**
  * Type of the internal data.
  */
-interface ParseDate {
+interface ParseData {
   // The name of the output file as declared by the output directive.
   outputName: string,
   // The name of the SLD file as declared by the output directive.
@@ -45,7 +45,7 @@ interface ParseDate {
  * Unfortunately, tsPEG does not allow to declare a context for the parsing.
  * So instead, we use this ugly global.
  */
-const parseData: ParseDate = {
+const parseData: ParseData = {
   outputName: "",
   sldName: "",
   deviceName: "",

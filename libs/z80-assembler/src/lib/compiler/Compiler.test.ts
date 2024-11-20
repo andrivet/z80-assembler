@@ -161,7 +161,6 @@ test("Loading octal with O", () => {
   expect(bytes).toEqual([0x3e, 0x55]);
 });
 
-
 test("Loading label with colon", () => {
   const bytes = compileCode('ld a, 1\nlabel1:\nld a, label1');
   expect(bytes).toEqual([0x3e, 0x01, 0x3e, 0x02]);
@@ -170,6 +169,12 @@ test("Loading label with colon", () => {
 test("Loading label without colon", () => {
   const bytes = compileCode('ld a, 1\nlabel1\nld a, label1');
   expect(bytes).toEqual([0x3e, 0x01, 0x3e, 0x02]);
+});
+
+// "chances" starts wich "ch", that cam be confused with C in hexadecimal
+test("Loading ambiguous label", () => {
+  const bytes = compileCode('chances eq 0x44\nld a, chances');
+  expect(bytes).toEqual([0x3e, 0x44]);
 });
 
 // -------------------------------------------------------
@@ -393,6 +398,16 @@ test("Instruction LD A, (DE)", () => {
 test("Instruction LD A, (nn)", () => {
   const bytes = compileCode('LD A, (0x1234)');
   expect(bytes).toEqual([0x3A, 0x34, 0x12]);
+});
+
+test("Instruction LD A, (label)", () => {
+  const bytes = compileCode('CHANCES EQ 0x44\nLD A, (CHANCES)');
+  expect(bytes).toEqual([0x3A, 0x44, 0x00]);
+});
+
+test("Instruction LD A, (hex) with ambiguity", () => {
+  const bytes = compileCode('CH EQ 0x44\nLD A, (CH)');
+  expect(bytes).toEqual([0x3A, 0x0C, 0x00]);
 });
 
 test("Instruction LD (BC), A", () => {
@@ -1795,6 +1810,15 @@ test("Label redefined", () => {
   compileWithError('lbl: db $00\nlbl: db $01\ndb lbl');
 });
 
+test("Label forbidden", () => {
+  compileWithError('equ: db $00\nld a, 0x44');
+});
+
+test("Label almost forbidden", () => {
+  const bytes = compileCode('_equ: db $00\nld a, 0x44');
+  expect(bytes).toEqual([0x00, 0x3E, 0x44]);
+});
+
 // -------------------------------------------------------
 // Data
 // -------------------------------------------------------
@@ -2115,8 +2139,3 @@ test.asm|4||0|-1|10|L|,size,,+equ
 test.asm|5||0|0|10|T|
 `);
 });
-
-// -------------------------------------------------------
-// Full code
-// -------------------------------------------------------
-

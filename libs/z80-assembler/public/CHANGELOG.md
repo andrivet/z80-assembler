@@ -1,10 +1,14 @@
 # Changelog
 
+## 1.3.2 - November 20, 2024
+
+* Fix bugs introduced in commit 4bcb12ea82d38f83ce2079f8635909d0c5b5c57a
+* Add more compilation tests
+
 ## 1.3.1 - November 20, 2024
 
 * Remove french comments
 * Fix issue #6 Labels are not generated in SLD when alone on a line
-
 
 ## 1.3.0 - June 28, 2023
 

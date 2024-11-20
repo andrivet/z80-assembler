@@ -4169,6 +4169,7 @@ export class Parser {
                 if (true
                     && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]+)`, $$dpth + 1, $$cr)) !== null
                     && this.regexAccept(String.raw`(?:h)`, $$dpth + 1, $$cr) !== null
+                    && this.negate(() => this.regexAccept(String.raw`(?:[0-9a-z])`, $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.hexadecimal_2, raw: $scope$raw};
                 }
@@ -4485,10 +4486,10 @@ export class Parser {
         ]);
     }
     public matchForbiddenNames_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_1> {
-        return this.regexAccept(String.raw`(?:.\?block|.\?equ|\.?org|\.?include|\.?output|\.?device|\.?end|.\?byte)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?block|\.?equ|\.?org|\.?include|\.?output|\.?device|\.?end|\.?byte)`, $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_2> {
-        return this.regexAccept(String.raw`(?:call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|.\?word)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|\.?word)`, $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_3> {
         return this.regexAccept(String.raw`(?:adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla)`, $$dpth + 1, $$cr);
@@ -9937,7 +9938,7 @@ export class Parser {
         return this.regexAccept(String.raw`(?:dm)`, $$dpth + 1, $$cr);
     }
     public matchByteDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_3> {
-        return this.regexAccept(String.raw`(?:.\?byte)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?byte)`, $$dpth + 1, $$cr);
     }
     public matchByteDirective_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_4> {
         return this.regexAccept(String.raw`(?:defb)`, $$dpth + 1, $$cr);
@@ -9956,7 +9957,7 @@ export class Parser {
         return this.regexAccept(String.raw`(?:dw)`, $$dpth + 1, $$cr);
     }
     public matchWordDirective_2($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective_2> {
-        return this.regexAccept(String.raw`(?:.\?word)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?word)`, $$dpth + 1, $$cr);
     }
     public matchWordDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective_3> {
         return this.regexAccept(String.raw`(?:defw)`, $$dpth + 1, $$cr);
@@ -9969,7 +9970,7 @@ export class Parser {
         ]);
     }
     public matchBlockDirective_1($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective_1> {
-        return this.regexAccept(String.raw`(?:.\?block)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?block)`, $$dpth + 1, $$cr);
     }
     public matchBlockDirective_2($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective_2> {
         return this.regexAccept(String.raw`(?:defs)`, $$dpth + 1, $$cr);

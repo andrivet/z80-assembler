@@ -179,7 +179,9 @@ function AppEditor(props: AppEditorProps, ref: React.ForwardedRef<AppEditorHandl
   }
 
   const asmLinter = linter(view => {
-    return props.errors == null ? [] : props.errors?.map(value => {
+    return props.errors == null ? [] : props.errors
+      ?.filter(value => codeFiles[currentFile].filepath === value.position.filename)
+      .map(value => {
       const from = view.state.doc.line(value.position.pos.line).from + value.position.pos.offset;
       return {
         from: from,
