@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.4.0 - Ovember 19, 2024
+## 1.3.1 - November 20, 2024
 
 * Remove french comments
+* Fix issue #6 Labels are not generated in SLD when alone on a line
 
 
 ## 1.3.0 - June 28, 2023
