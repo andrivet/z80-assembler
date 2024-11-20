@@ -101,7 +101,7 @@ function addLabelExpression(_: PosInfo, name: string, expression: Expression) {
 
 /**
  * Get the value associated with a label.
- * @param pc: Current program counter (PC).
+ * @param pc Current program counter (PC).
  * @param name The name of the label.
  * @param pos Where this label is used.
  * @param setUsed If set, mark the label as used.

@@ -144,6 +144,7 @@ function generateLines(address: number, infos: LinesInfo[]): GenerationData {
     for (const line of info.lines) {
       // If it is not a statement, take the next line.
       if (line.kind !== ASTKinds.LineStatement || !line.statement) {
+        sld += generateSld(info.filename, lineNumber, address, line);
         lineNumber += 1; // Next line
         continue;
       }
@@ -205,7 +206,7 @@ function generateElements(address: number, elements: AstElements): bytes {
  */
 function generateSld(filename: string, lineNumber: number, address: number, line: Line): string {
   // Generate SLD for labels and for instruction tracing.
-  return generateSldLabel(filename, lineNumber, line) +
+  return generateSldLabel(filename, lineNumber, line, address) +
          generateSldTrace(filename, lineNumber, line, address);
 }
 
@@ -214,12 +215,13 @@ function generateSld(filename: string, lineNumber: number, address: number, line
  * @param filename The current filename
  * @param lineNumber The current line number
  * @param line The AST line
+ * @param address Address for the line
  */
-function generateSldLabel(filename: string, lineNumber: number, line: Line): string {
+function generateSldLabel(filename: string, lineNumber: number, line: Line, address: number): string {
   // If there is no label on the line, there is nothing to generate.
   if(!line.label) return '';
   // Get the value associated with the label.
-  const value = getLabelValue(0, line.label.name, {filename: filename,
+  const value = getLabelValue(address, line.label.name, {filename: filename,
       pos: {line: lineNumber, offset: 0, overallPos: 0}}, false, true);
   // Is this label used in the program?
   const isUsed = isLabelUsed(line.label.name);

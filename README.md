@@ -18,7 +18,7 @@ This assembler is also used in the [ZX81 Debugger](https://github.com/andrivet/Z
 
 ```
 npm --legacy-peer-deps install
-./node_modules/.bin/nx run z80-assembler-app:build:production
+nx run z80-assembler-app:build:production
 ```
 
 Notes: 

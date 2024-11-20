@@ -8,7 +8,6 @@
  * License:		GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
- d
 import {
     r_bits,
     dd_bits,

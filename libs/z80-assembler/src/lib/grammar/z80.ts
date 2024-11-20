@@ -6,11 +6,10 @@
  *
  * File:        z80.peg
  * Description: PEG grammar of the Z80 assembly language
- * Author:			Sebastien Andrivet
- * License:			GPLv3
+ * Author:		Sebastien Andrivet
+ * License:		GPLv3
  * Copyrights: 	Copyright (C) 2023 Sebastien Andrivet
  */
-
 import {
     r_bits,
     dd_bits,

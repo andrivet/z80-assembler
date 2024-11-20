@@ -19,7 +19,7 @@ function compileCode(code: string) {
 
 function compileCodes(codes: {filename: string, code: string}[]) {
   const info = rawCompile(codes[0].filename, codes[0].code, (filename) =>
-    codes.find(c => c.filename === filename)!.code);
+    codes.find(c => c.filename === filename)?.code ?? '');
   expect(info.errs[0]?.toString()).toBeUndefined();
   return info.bytes;
 }
@@ -29,6 +29,11 @@ function compileWithError(code: string) {
   expect(info.errs[0]?.toString()).toBeDefined();
 }
 
+function compileWithSld(code: string) {
+  const info = rawCompile('test.asm', code, () => '');
+  expect(info.sld).toBeDefined();
+  return {bytes: info.bytes, sld: info.sld};
+}
 
 // -------------------------------------------------------
 // Numbers
@@ -2032,6 +2037,83 @@ test("Comment with label and instruction", () => {
 test("Pseudo label $", () => {
   const bytes = compileCode('ld a, $55\nld hl, $');
   expect(bytes).toEqual([0x3E, 0x55, 0x21, 0x02, 0x00]);
+});
+
+// -------------------------------------------------------
+// SLD
+// -------------------------------------------------------
+
+test("SLD with label alone on a line", () => {
+  const info = compileWithSld(`
+  ld a, $44
+start:
+  ld a, $55
+  ld b, $66
+  ld hl, start
+  `);
+  expect(info.bytes).toEqual([0x3E, 0x44, 0x3E, 0x55, 0x06, 0x66, 0x21, 0x02, 0x00]);
+  expect(info.sld).toEqual(`|SLD.data.version|1
+test.asm|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0
+test.asm|2||0|0|0|T|
+test.asm|3||0|0|2|L|,start,
+test.asm|4||0|0|2|T|
+test.asm|5||0|0|4|T|
+test.asm|6||0|0|6|T|
+`);
+});
+
+test("SLD with label in front of statement", () => {
+  const info = compileWithSld(`
+        ld a, $44
+start:  ld a, $55
+        ld b, $66
+        ld hl, start
+  `);
+  expect(info.bytes).toEqual([0x3E, 0x44, 0x3E, 0x55, 0x06, 0x66, 0x21, 0x02, 0x00]);
+  expect(info.sld).toEqual(`|SLD.data.version|1
+test.asm|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0
+test.asm|2||0|0|0|T|
+test.asm|3||0|0|2|L|,start,
+test.asm|3||0|0|2|T|
+test.asm|4||0|0|4|T|
+test.asm|5||0|0|6|T|
+`);
+});
+
+test("SLD with label alone on a line and $", () => {
+  const info = compileWithSld(`
+  ld a, $44
+start:
+  ld a, $55
+  ld b, $66
+  ld hl, $ - start
+  `);
+  expect(info.bytes).toEqual([0x3E, 0x44, 0x3E, 0x55, 0x06, 0x66, 0x21, 0x04, 0x00]);
+  expect(info.sld).toEqual(`|SLD.data.version|1
+test.asm|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0
+test.asm|2||0|0|0|T|
+test.asm|3||0|0|2|L|,start,
+test.asm|4||0|0|2|T|
+test.asm|5||0|0|4|T|
+test.asm|6||0|0|6|T|
+`);
+});
+
+test("SLD with $", () => {
+  const info = compileWithSld(`
+start:
+  ds 10, $44
+size eq $ - start
+  ld hl, size
+  `);
+  expect(info.bytes).toEqual([0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44,
+    0x21, 0x0A, 0x00]);
+  expect(info.sld).toEqual(`|SLD.data.version|1
+test.asm|1||0|-1|-1|Z|pages.size:65536,pages.count:32,slots.count:1,slots.adr:0
+test.asm|2||0|0|0|L|,start,
+test.asm|4||0|-1|10|L|,size,,+equ
+test.asm|5||0|0|10|T|
+`);
 });
 
 // -------------------------------------------------------
