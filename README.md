@@ -18,15 +18,13 @@ This assembler is also used in the [ZX81 Debugger](https://github.com/andrivet/Z
 
 ```
 npm --legacy-peer-deps install
-nx run z80-assembler-app:build:production
+npx nx run z80-assembler-app:build:production
 ```
 
 Notes: 
 
 * For the moment, you have to use `--legacy-peer-deps` because react-daisyui is not yet updated for DaisyUI 3.
 Once it is the case, this flag will no more be necessary.
-
-* If you have installed NX globally, you do not need to specify its path.
 
 ## How to run the application
 
