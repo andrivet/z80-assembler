@@ -1,9 +1,9 @@
 {
-  "name": "@z80-assembler/source",
-  "version": "1.3.2",
+  "name": "@andrivet/z80-assembler",
+  "version": "1.4.0",
   "license": "GPLv3",
   "homepage": "https://andrivet.github.io/z80-assembler",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@swc/helpers": "~0.5.1",
     "@uiw/react-codemirror": "^4.20.2",
