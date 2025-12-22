@@ -104,11 +104,11 @@ const zx81chars = new Map<string, number>([
  */
 export function parseZX81Char(pos: PosInfo, c: string): [number] {
   // Convert capital letters to their ZX81 counterparts.
-  if(c >= 'A' && c < 'Z') return [c.charCodeAt(0) - 0x41 + 0x26];
+  if(c >= 'A' && c <= 'Z') return [c.charCodeAt(0) - 0x41 + 0x26];
   // Convert lowercase letters to their uppercase and inverted ZX81 counterparts.
-  if(c >= 'a' && c < 'z') return [c.charCodeAt(0) - 0x61 + 0xA6];
+  if(c >= 'a' && c <= 'z') return [c.charCodeAt(0) - 0x61 + 0xA6];
   // Convert digits to their ZX81 counterparts.
-  if(c >= '0' && c < '9') return [c.charCodeAt(0) - 0x30 + 0x1C];
+  if(c >= '0' && c <= '9') return [c.charCodeAt(0) - 0x30 + 0x1C];
   // Is it possible to convert this symbol?
   if(!zx81chars.has(c)) throw new CompilationError({filename: parseData.fileName, pos: pos},
     `Invalid ZX81 character: ${c}`);
