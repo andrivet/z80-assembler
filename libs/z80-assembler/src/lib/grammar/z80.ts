@@ -3638,9 +3638,9 @@ export class NoDoubleQuoteChar {
 export class QuottedStr {
     public kind: ASTKinds.QuottedStr = ASTKinds.QuottedStr;
     public pos: PosInfo;
-    public chars: QuottedStr_$0[];
+    public chars: [QuottedStr_$0, ...QuottedStr_$0[]];
     public elements: AstElements;
-    constructor(pos: PosInfo, chars: QuottedStr_$0[]){
+    constructor(pos: PosInfo, chars: [QuottedStr_$0, ...QuottedStr_$0[]]){
         this.pos = pos;
         this.chars = chars;
         this.elements = ((): AstElements => {
@@ -3654,9 +3654,9 @@ export type QuottedStr_$0_2 = EscapeSequence;
 export class DoubleQuottedStr {
     public kind: ASTKinds.DoubleQuottedStr = ASTKinds.DoubleQuottedStr;
     public pos: PosInfo;
-    public chars: DoubleQuottedStr_$0[];
+    public chars: [DoubleQuottedStr_$0, ...DoubleQuottedStr_$0[]];
     public elements: AstElements;
-    constructor(pos: PosInfo, chars: DoubleQuottedStr_$0[]){
+    constructor(pos: PosInfo, chars: [DoubleQuottedStr_$0, ...DoubleQuottedStr_$0[]]){
         this.pos = pos;
         this.chars = chars;
         this.elements = ((): AstElements => {
@@ -3780,25 +3780,25 @@ export class Parser {
         ]);
     }
     public matchr_1($$dpth: number, $$cr?: ErrorTracker): Nullable<r_1> {
-        return this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr);
     }
     public matchr_2($$dpth: number, $$cr?: ErrorTracker): Nullable<r_2> {
-        return this.regexAccept(String.raw`(?:b)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:b)`, "", $$dpth + 1, $$cr);
     }
     public matchr_3($$dpth: number, $$cr?: ErrorTracker): Nullable<r_3> {
-        return this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr);
     }
     public matchr_4($$dpth: number, $$cr?: ErrorTracker): Nullable<r_4> {
-        return this.regexAccept(String.raw`(?:d)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:d)`, "", $$dpth + 1, $$cr);
     }
     public matchr_5($$dpth: number, $$cr?: ErrorTracker): Nullable<r_5> {
-        return this.regexAccept(String.raw`(?:e)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:e)`, "", $$dpth + 1, $$cr);
     }
     public matchr_6($$dpth: number, $$cr?: ErrorTracker): Nullable<r_6> {
-        return this.regexAccept(String.raw`(?:h)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:h)`, "", $$dpth + 1, $$cr);
     }
     public matchr_7($$dpth: number, $$cr?: ErrorTracker): Nullable<r_7> {
-        return this.regexAccept(String.raw`(?:l)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:l)`, "", $$dpth + 1, $$cr);
     }
     public matchdd($$dpth: number, $$cr?: ErrorTracker): Nullable<dd> {
         return this.choice<dd>([
@@ -3809,16 +3809,16 @@ export class Parser {
         ]);
     }
     public matchdd_1($$dpth: number, $$cr?: ErrorTracker): Nullable<dd_1> {
-        return this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr);
     }
     public matchdd_2($$dpth: number, $$cr?: ErrorTracker): Nullable<dd_2> {
-        return this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr);
     }
     public matchdd_3($$dpth: number, $$cr?: ErrorTracker): Nullable<dd_3> {
-        return this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr);
     }
     public matchdd_4($$dpth: number, $$cr?: ErrorTracker): Nullable<dd_4> {
-        return this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr);
     }
     public matchss($$dpth: number, $$cr?: ErrorTracker): Nullable<ss> {
         return this.matchdd($$dpth + 1, $$cr);
@@ -3832,16 +3832,16 @@ export class Parser {
         ]);
     }
     public matchqq_1($$dpth: number, $$cr?: ErrorTracker): Nullable<qq_1> {
-        return this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr);
     }
     public matchqq_2($$dpth: number, $$cr?: ErrorTracker): Nullable<qq_2> {
-        return this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr);
     }
     public matchqq_3($$dpth: number, $$cr?: ErrorTracker): Nullable<qq_3> {
-        return this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr);
     }
     public matchqq_4($$dpth: number, $$cr?: ErrorTracker): Nullable<qq_4> {
-        return this.regexAccept(String.raw`(?:af)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:af)`, "", $$dpth + 1, $$cr);
     }
     public matchpp($$dpth: number, $$cr?: ErrorTracker): Nullable<pp> {
         return this.choice<pp>([
@@ -3852,16 +3852,16 @@ export class Parser {
         ]);
     }
     public matchpp_1($$dpth: number, $$cr?: ErrorTracker): Nullable<pp_1> {
-        return this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr);
     }
     public matchpp_2($$dpth: number, $$cr?: ErrorTracker): Nullable<pp_2> {
-        return this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr);
     }
     public matchpp_3($$dpth: number, $$cr?: ErrorTracker): Nullable<pp_3> {
-        return this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr);
     }
     public matchpp_4($$dpth: number, $$cr?: ErrorTracker): Nullable<pp_4> {
-        return this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr);
     }
     public matchrr($$dpth: number, $$cr?: ErrorTracker): Nullable<rr> {
         return this.choice<rr>([
@@ -3872,16 +3872,16 @@ export class Parser {
         ]);
     }
     public matchrr_1($$dpth: number, $$cr?: ErrorTracker): Nullable<rr_1> {
-        return this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr);
     }
     public matchrr_2($$dpth: number, $$cr?: ErrorTracker): Nullable<rr_2> {
-        return this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr);
     }
     public matchrr_3($$dpth: number, $$cr?: ErrorTracker): Nullable<rr_3> {
-        return this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr);
     }
     public matchrr_4($$dpth: number, $$cr?: ErrorTracker): Nullable<rr_4> {
-        return this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr);
     }
     public matchn($$dpth: number, $$cr?: ErrorTracker): Nullable<n> {
         return this.choice<n>([
@@ -4025,8 +4025,8 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<decimal> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9]+)`, $$dpth + 1, $$cr)) !== null
-                    && ((this.regexAccept(String.raw`(?:d)`, $$dpth + 1, $$cr)) || true)
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9]+)`, "", $$dpth + 1, $$cr)) !== null
+                    && ((this.regexAccept(String.raw`(?:d)`, "", $$dpth + 1, $$cr)) || true)
                 ) {
                     $$res = {kind: ASTKinds.decimal, raw: $scope$raw};
                 }
@@ -4046,7 +4046,7 @@ export class Parser {
                 let $$res: Nullable<binary_1> = null;
                 if (true
                     && this.matchbinary_$0($$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-1]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-1]+)`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.binary_1, raw: $scope$raw};
                 }
@@ -4059,8 +4059,8 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<binary_2> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-1]+)`, $$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:b)`, $$dpth + 1, $$cr) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-1]+)`, "", $$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:b)`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.binary_2, raw: $scope$raw};
                 }
@@ -4074,10 +4074,10 @@ export class Parser {
         ]);
     }
     public matchbinary_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<binary_$0_1> {
-        return this.regexAccept(String.raw`(?:0b)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:0b)`, "", $$dpth + 1, $$cr);
     }
     public matchbinary_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<binary_$0_2> {
-        return this.regexAccept(String.raw`(?:%)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:%)`, "", $$dpth + 1, $$cr);
     }
     public matchoctal($$dpth: number, $$cr?: ErrorTracker): Nullable<octal> {
         return this.choice<octal>([
@@ -4092,7 +4092,7 @@ export class Parser {
                 let $$res: Nullable<octal_1> = null;
                 if (true
                     && this.matchoctal_$0($$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]+)`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.octal_1, raw: $scope$raw};
                 }
@@ -4105,7 +4105,7 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<octal_2> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]+)`, "", $$dpth + 1, $$cr)) !== null
                     && this.matchoctal_$1($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.octal_2, raw: $scope$raw};
@@ -4121,13 +4121,13 @@ export class Parser {
         ]);
     }
     public matchoctal_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$0_1> {
-        return this.regexAccept(String.raw`(?:0q)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:0q)`, "", $$dpth + 1, $$cr);
     }
     public matchoctal_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$0_2> {
-        return this.regexAccept(String.raw`(?:0o)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:0o)`, "", $$dpth + 1, $$cr);
     }
     public matchoctal_$0_3($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$0_3> {
-        return this.regexAccept(String.raw`(?:@)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:@)`, "", $$dpth + 1, $$cr);
     }
     public matchoctal_$1($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$1> {
         return this.choice<octal_$1>([
@@ -4136,10 +4136,10 @@ export class Parser {
         ]);
     }
     public matchoctal_$1_1($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$1_1> {
-        return this.regexAccept(String.raw`(?:q)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:q)`, "", $$dpth + 1, $$cr);
     }
     public matchoctal_$1_2($$dpth: number, $$cr?: ErrorTracker): Nullable<octal_$1_2> {
-        return this.regexAccept(String.raw`(?:o)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:o)`, "", $$dpth + 1, $$cr);
     }
     public matchhexadecimal($$dpth: number, $$cr?: ErrorTracker): Nullable<hexadecimal> {
         return this.choice<hexadecimal>([
@@ -4154,7 +4154,7 @@ export class Parser {
                 let $$res: Nullable<hexadecimal_1> = null;
                 if (true
                     && this.matchhexadecimal_$0($$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]+)`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.hexadecimal_1, raw: $scope$raw};
                 }
@@ -4167,9 +4167,9 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<hexadecimal_2> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]+)`, $$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:h)`, $$dpth + 1, $$cr) !== null
-                    && this.negate(() => this.regexAccept(String.raw`(?:[0-9a-z])`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]+)`, "", $$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:h)`, "", $$dpth + 1, $$cr) !== null
+                    && this.negate(() => this.regexAccept(String.raw`(?:[0-9a-z])`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.hexadecimal_2, raw: $scope$raw};
                 }
@@ -4184,13 +4184,13 @@ export class Parser {
         ]);
     }
     public matchhexadecimal_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<hexadecimal_$0_1> {
-        return this.regexAccept(String.raw`(?:0x)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:0x)`, "", $$dpth + 1, $$cr);
     }
     public matchhexadecimal_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<hexadecimal_$0_2> {
-        return this.regexAccept(String.raw`(?:\$)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\$)`, "", $$dpth + 1, $$cr);
     }
     public matchhexadecimal_$0_3($$dpth: number, $$cr?: ErrorTracker): Nullable<hexadecimal_$0_3> {
-        return this.regexAccept(String.raw`(?:#)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:#)`, "", $$dpth + 1, $$cr);
     }
     public matchd($$dpth: number, $$cr?: ErrorTracker): Nullable<d> {
         return this.matchn($$dpth + 1, $$cr);
@@ -4207,7 +4207,7 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<b> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7])`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7])`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new b($scope$raw);
                 }
@@ -4228,31 +4228,31 @@ export class Parser {
         ]);
     }
     public matchcc_1($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_1> {
-        return this.regexAccept(String.raw`(?:nz)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:nz)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_2($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_2> {
-        return this.regexAccept(String.raw`(?:z)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:z)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_3($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_3> {
-        return this.regexAccept(String.raw`(?:nc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:nc)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_4($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_4> {
-        return this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_5($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_5> {
-        return this.regexAccept(String.raw`(?:po)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:po)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_6($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_6> {
-        return this.regexAccept(String.raw`(?:pe)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:pe)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_7($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_7> {
-        return this.regexAccept(String.raw`(?:p)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:p)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_8($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_8> {
-        return this.regexAccept(String.raw`(?:m)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:m)`, "", $$dpth + 1, $$cr);
     }
     public matchcc_9($$dpth: number, $$cr?: ErrorTracker): Nullable<cc_9> {
-        return this.regexAccept(String.raw`(?:s)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:s)`, "", $$dpth + 1, $$cr);
     }
     public matchjj($$dpth: number, $$cr?: ErrorTracker): Nullable<jj> {
         return this.choice<jj>([
@@ -4263,31 +4263,31 @@ export class Parser {
         ]);
     }
     public matchjj_1($$dpth: number, $$cr?: ErrorTracker): Nullable<jj_1> {
-        return this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr);
     }
     public matchjj_2($$dpth: number, $$cr?: ErrorTracker): Nullable<jj_2> {
-        return this.regexAccept(String.raw`(?:nc)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:nc)`, "", $$dpth + 1, $$cr);
     }
     public matchjj_3($$dpth: number, $$cr?: ErrorTracker): Nullable<jj_3> {
-        return this.regexAccept(String.raw`(?:z)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:z)`, "", $$dpth + 1, $$cr);
     }
     public matchjj_4($$dpth: number, $$cr?: ErrorTracker): Nullable<jj_4> {
-        return this.regexAccept(String.raw`(?:nz)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:nz)`, "", $$dpth + 1, $$cr);
     }
     public match__($$dpth: number, $$cr?: ErrorTracker): Nullable<__> {
-        return this.regexAccept(String.raw`(?:[ \t]+)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:[ \t]+)`, "", $$dpth + 1, $$cr);
     }
     public match_($$dpth: number, $$cr?: ErrorTracker): Nullable<_> {
-        return this.regexAccept(String.raw`(?:[ \t]*)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:[ \t]*)`, "", $$dpth + 1, $$cr);
     }
     public matcheos($$dpth: number, $$cr?: ErrorTracker): Nullable<eos> {
-        return this.regexAccept(String.raw`(?:[ \t]*(;|\r\n|\n|//))`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:[ \t]*(;|\r\n|\n|//))`, "", $$dpth + 1, $$cr);
     }
     public matcheol($$dpth: number, $$cr?: ErrorTracker): Nullable<eol> {
-        return this.regexAccept(String.raw`(?:\r\n|\n)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\r\n|\n)`, "", $$dpth + 1, $$cr);
     }
     public matchLines($$dpth: number, $$cr?: ErrorTracker): Nullable<Lines> {
-        return this.loop<Line>(() => this.matchLine($$dpth + 1, $$cr), true);
+        return this.loop<Line>(() => this.matchLine($$dpth + 1, $$cr), 0, -1);
     }
     public matchLine($$dpth: number, $$cr?: ErrorTracker): Nullable<Line> {
         return this.choice<Line>([
@@ -4393,7 +4393,7 @@ export class Parser {
                 let $scope$e: Nullable<Expression>;
                 let $$res: Nullable<EqualDirective> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\.?equ|eq|=)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?equ|eq|=)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
                 ) {
@@ -4486,19 +4486,19 @@ export class Parser {
         ]);
     }
     public matchForbiddenNames_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_1> {
-        return this.regexAccept(String.raw`(?:\.?block|\.?equ|\.?org|\.?include|\.?output|\.?device|\.?end|\.?byte)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?block|\.?equ|\.?org|\.?include|\.?output|\.?device|\.?end|\.?byte)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_2> {
-        return this.regexAccept(String.raw`(?:call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|\.?word)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|\.?word)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_3> {
-        return this.regexAccept(String.raw`(?:adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_4> {
-        return this.regexAccept(String.raw`(?:rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_5> {
-        return this.regexAccept(String.raw`(?:cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenLabel($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenLabel> {
         return this.run<ForbiddenLabel>($$dpth,
@@ -4506,7 +4506,7 @@ export class Parser {
                 let $$res: Nullable<ForbiddenLabel> = null;
                 if (true
                     && this.matchForbiddenNames($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:[ \t:\r\n])`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:[ \t:\r\n])`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ForbiddenLabel, };
                 }
@@ -4522,7 +4522,7 @@ export class Parser {
                 if (true
                     && this.negate(() => this.matchForbiddenLabel($$dpth + 1, $$cr)) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_\.][a-z0-9_!\?#@\.\$]*|\$)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_\.][a-z0-9_!\?#@\.\$]*|\$)`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.Label, pos: $scope$pos, name: $scope$name};
                 }
@@ -4538,8 +4538,8 @@ export class Parser {
                 if (true
                     && this.negate(() => this.matchForbiddenLabel($$dpth + 1, $$cr)) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_\.][a-z0-9_!\?#@\.\$]*)`, $$dpth + 1, $$cr)) !== null
-                    && ((this.regexAccept(String.raw`(?:\:)`, $$dpth + 1, $$cr)) || true)
+                    && ($scope$name = this.regexAccept(String.raw`(?:[a-z_\.][a-z0-9_!\?#@\.\$]*)`, "", $$dpth + 1, $$cr)) !== null
+                    && ((this.regexAccept(String.raw`(?:\:)`, "", $$dpth + 1, $$cr)) || true)
                 ) {
                     $$res = {kind: ASTKinds.LabelDeclaration, pos: $scope$pos, name: $scope$name};
                 }
@@ -4609,7 +4609,7 @@ export class Parser {
                 if (true
                     && ($scope$e = this.matchBitwiseOrExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\|)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\|)`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseOrExpression_$0, e: $scope$e};
                 }
@@ -4666,7 +4666,7 @@ export class Parser {
                 if (true
                     && ($scope$e = this.matchBitwiseXOrExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\^)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\^)`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseXOrExpression_$0, e: $scope$e};
                 }
@@ -4723,7 +4723,7 @@ export class Parser {
                 if (true
                     && ($scope$e = this.matchBitwiseAndExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\&)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\&)`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.BitwiseAndExpression_$0, e: $scope$e};
                 }
@@ -4795,10 +4795,10 @@ export class Parser {
         ]);
     }
     public matchShiftExpression_$0_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ShiftExpression_$0_$0_1> {
-        return this.regexAccept(String.raw`(?:<<)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:<<)`, "", $$dpth + 1, $$cr);
     }
     public matchShiftExpression_$0_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ShiftExpression_$0_$0_2> {
-        return this.regexAccept(String.raw`(?:>>)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:>>)`, "", $$dpth + 1, $$cr);
     }
     public matchAdditiveExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<AdditiveExpression> {
         const fn = () => {
@@ -4865,10 +4865,10 @@ export class Parser {
         ]);
     }
     public matchAdditiveExpression_$0_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<AdditiveExpression_$0_$0_1> {
-        return this.regexAccept(String.raw`(?:\+)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\+)`, "", $$dpth + 1, $$cr);
     }
     public matchAdditiveExpression_$0_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<AdditiveExpression_$0_$0_2> {
-        return this.regexAccept(String.raw`(?:\-)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\-)`, "", $$dpth + 1, $$cr);
     }
     public matchMultiplicativeExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression> {
         const fn = () => {
@@ -4936,13 +4936,13 @@ export class Parser {
         ]);
     }
     public matchMultiplicativeExpression_$0_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression_$0_$0_1> {
-        return this.regexAccept(String.raw`(?:\*)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\*)`, "", $$dpth + 1, $$cr);
     }
     public matchMultiplicativeExpression_$0_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression_$0_$0_2> {
-        return this.regexAccept(String.raw`(?:%)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:%)`, "", $$dpth + 1, $$cr);
     }
     public matchMultiplicativeExpression_$0_$0_3($$dpth: number, $$cr?: ErrorTracker): Nullable<MultiplicativeExpression_$0_$0_3> {
-        return this.regexAccept(String.raw`(?:/)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:/)`, "", $$dpth + 1, $$cr);
     }
     public matchUnaryExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<UnaryExpression> {
         return this.choice<UnaryExpression>([
@@ -4987,13 +4987,13 @@ export class Parser {
         ]);
     }
     public matchUnaryExpression_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<UnaryExpression_$0_1> {
-        return this.regexAccept(String.raw`(?:~)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:~)`, "", $$dpth + 1, $$cr);
     }
     public matchUnaryExpression_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<UnaryExpression_$0_2> {
-        return this.regexAccept(String.raw`(?:\+)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\+)`, "", $$dpth + 1, $$cr);
     }
     public matchUnaryExpression_$0_3($$dpth: number, $$cr?: ErrorTracker): Nullable<UnaryExpression_$0_3> {
-        return this.regexAccept(String.raw`(?:\-)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\-)`, "", $$dpth + 1, $$cr);
     }
     public matchPrimaryExpression($$dpth: number, $$cr?: ErrorTracker): Nullable<PrimaryExpression> {
         return this.choice<PrimaryExpression>([
@@ -5036,9 +5036,9 @@ export class Parser {
                 let $scope$e: Nullable<BitwiseOrExpression>;
                 let $$res: Nullable<PrimaryExpression_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$e = this.matchBitwiseOrExpression($$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = new PrimaryExpression_3($scope$e);
                 }
@@ -5052,7 +5052,7 @@ export class Parser {
                 let $$res: Nullable<Reg8> = null;
                 if (true
                     && ($scope$reg = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<string>(() => this.regexAccept(String.raw`(?:[^a-z0-9_!\?#@\.])`, $$dpth + 1, $$cr)) !== null
+                    && this.noConsume<string>(() => this.regexAccept(String.raw`(?:[^a-z0-9_!\?#@\.])`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.Reg8, reg: $scope$reg};
                 }
@@ -5065,7 +5065,7 @@ export class Parser {
                 let $scope$offset: Nullable<Nullable<IX_$0>>;
                 let $$res: Nullable<IX> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && (($scope$offset = this.matchIX_$0($$dpth + 1, $$cr)) || true)
                 ) {
                     $$res = {kind: ASTKinds.IX, offset: $scope$offset};
@@ -5099,10 +5099,10 @@ export class Parser {
         ]);
     }
     public matchIX_$0_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<IX_$0_$0_1> {
-        return this.regexAccept(String.raw`(?:\+)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\+)`, "", $$dpth + 1, $$cr);
     }
     public matchIX_$0_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<IX_$0_$0_2> {
-        return this.regexAccept(String.raw`(?:\-)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\-)`, "", $$dpth + 1, $$cr);
     }
     public matchIY($$dpth: number, $$cr?: ErrorTracker): Nullable<IY> {
         return this.run<IY>($$dpth,
@@ -5110,7 +5110,7 @@ export class Parser {
                 let $scope$offset: Nullable<Nullable<IY_$0>>;
                 let $$res: Nullable<IY> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && (($scope$offset = this.matchIY_$0($$dpth + 1, $$cr)) || true)
                 ) {
                     $$res = {kind: ASTKinds.IY, offset: $scope$offset};
@@ -5144,10 +5144,10 @@ export class Parser {
         ]);
     }
     public matchIY_$0_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<IY_$0_$0_1> {
-        return this.regexAccept(String.raw`(?:\+)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\+)`, "", $$dpth + 1, $$cr);
     }
     public matchIY_$0_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<IY_$0_$0_2> {
-        return this.regexAccept(String.raw`(?:\-)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\-)`, "", $$dpth + 1, $$cr);
     }
     public matchInstruction($$dpth: number, $$cr?: ErrorTracker): Nullable<Instruction> {
         return this.choice<Instruction>([
@@ -5249,11 +5249,11 @@ export class Parser {
                 let $scope$r1: Nullable<Reg8>;
                 let $$res: Nullable<Load8Instruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r0 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r1 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -5269,15 +5269,15 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<Load8Instruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_2($scope$r);
@@ -5292,17 +5292,17 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<Load8Instruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_3($scope$r, $scope$i);
@@ -5317,17 +5317,17 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<Load8Instruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_4($scope$r, $scope$i);
@@ -5341,15 +5341,15 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<Load8Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -5366,15 +5366,15 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<Load8Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -5391,15 +5391,15 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<Load8Instruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -5416,13 +5416,13 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5441,15 +5441,15 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5468,15 +5468,15 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5492,17 +5492,17 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_11();
@@ -5515,17 +5515,17 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_12();
@@ -5540,18 +5540,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_13> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_13($scope$pos, $scope$ee);
@@ -5564,17 +5564,17 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:bc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_14();
@@ -5587,17 +5587,17 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_15> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_15();
@@ -5612,18 +5612,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_16($scope$pos, $scope$ee);
@@ -5636,13 +5636,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:i)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:i)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_17();
@@ -5655,13 +5655,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:r)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:r)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_18();
@@ -5674,13 +5674,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:i)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:i)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_19();
@@ -5693,13 +5693,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load8Instruction_20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:r)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:r)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load8Instruction_20();
@@ -5715,11 +5715,11 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5761,18 +5761,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_1($scope$pos, $scope$ee);
@@ -5787,18 +5787,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_2($scope$pos, $scope$ee);
@@ -5813,11 +5813,11 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5835,11 +5835,11 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -5857,18 +5857,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_5($scope$pos, $scope$ee);
@@ -5884,18 +5884,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$dd = this.matchdd($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_6($scope$dd, $scope$pos, $scope$ee);
@@ -5910,18 +5910,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_7($scope$pos, $scope$ee);
@@ -5937,16 +5937,16 @@ export class Parser {
                 let $scope$dd: Nullable<dd>;
                 let $$res: Nullable<Load16Instruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$dd = this.matchdd($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -5963,18 +5963,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_9($scope$pos, $scope$ee);
@@ -5989,18 +5989,18 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_10($scope$pos, $scope$ee);
@@ -6013,13 +6013,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_11();
@@ -6032,13 +6032,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_12();
@@ -6051,13 +6051,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_13> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_13();
@@ -6073,11 +6073,11 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<Load16Instruction_14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$dd = this.matchdd($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -6094,7 +6094,7 @@ export class Parser {
                 let $scope$qq: Nullable<qq>;
                 let $$res: Nullable<Load16Instruction_15> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:push)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$qq = this.matchqq($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -6109,9 +6109,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:push)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_16();
@@ -6124,9 +6124,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:push)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:push)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_17();
@@ -6140,7 +6140,7 @@ export class Parser {
                 let $scope$qq: Nullable<qq>;
                 let $$res: Nullable<Load16Instruction_18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:pop)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$qq = this.matchqq($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -6155,9 +6155,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:pop)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_19();
@@ -6170,9 +6170,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<Load16Instruction_20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:pop)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:pop)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new Load16Instruction_20();
@@ -6195,13 +6195,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ex)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ex)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:de)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_1();
@@ -6214,13 +6214,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ex)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ex)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:af)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:af)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:af\')`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:af\')`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_2();
@@ -6233,7 +6233,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:exx)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:exx)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_3();
@@ -6246,15 +6246,15 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ex)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ex)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_4();
@@ -6267,15 +6267,15 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ex)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ex)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_5();
@@ -6288,15 +6288,15 @@ export class Parser {
             () => {
                 let $$res: Nullable<ExchangeInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ex)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ex)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sp)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ExchangeInstruction_6();
@@ -6321,7 +6321,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ldir)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ldir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_1();
@@ -6334,7 +6334,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ldi)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ldi)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_2();
@@ -6347,7 +6347,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:lddr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:lddr)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_3();
@@ -6360,7 +6360,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ldd)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ldd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_4();
@@ -6373,7 +6373,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cpir)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cpir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_5();
@@ -6386,7 +6386,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cpi)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cpi)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_6();
@@ -6399,7 +6399,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cpdr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cpdr)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_7();
@@ -6412,7 +6412,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<BlockInstruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cpd)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cpd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BlockInstruction_8();
@@ -6469,14 +6469,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$0($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_1();
@@ -6490,14 +6490,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$1($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_2($scope$i);
@@ -6511,14 +6511,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$2($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_3($scope$i);
@@ -6532,7 +6532,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$3($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -6550,7 +6550,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$4($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -6567,14 +6567,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$5($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_6();
@@ -6588,14 +6588,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$6($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_7($scope$i);
@@ -6609,14 +6609,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$7($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_8($scope$i);
@@ -6630,7 +6630,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$8($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -6648,7 +6648,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$9($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -6665,14 +6665,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$10($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_11();
@@ -6686,14 +6686,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$11($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_12($scope$i);
@@ -6707,14 +6707,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_13> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$12($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_13($scope$i);
@@ -6728,7 +6728,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$13($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -6746,7 +6746,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_15> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$14($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -6763,14 +6763,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$15($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_16();
@@ -6784,14 +6784,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$16($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_17($scope$i);
@@ -6805,14 +6805,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$17($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_18($scope$i);
@@ -6826,7 +6826,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$18($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -6844,7 +6844,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$19($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -6861,14 +6861,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$20($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_21();
@@ -6882,14 +6882,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_22> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$21($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_22($scope$i);
@@ -6903,14 +6903,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_23> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$22($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_23($scope$i);
@@ -6924,7 +6924,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_24> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$23($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -6942,7 +6942,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_25> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$24($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -6959,14 +6959,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_26> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$25($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_26();
@@ -6980,14 +6980,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_27> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$26($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_27($scope$i);
@@ -7001,14 +7001,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_28> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$27($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_28($scope$i);
@@ -7022,7 +7022,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_29> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$28($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -7040,7 +7040,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_30> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$29($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -7057,14 +7057,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_31> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$30($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_31();
@@ -7078,14 +7078,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_32> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$31($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_32($scope$i);
@@ -7099,14 +7099,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_33> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$32($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_33($scope$i);
@@ -7120,7 +7120,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_34> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$33($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -7138,7 +7138,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_35> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$34($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -7155,14 +7155,14 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_36> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$35($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_36();
@@ -7176,14 +7176,14 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_37> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$36($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_37($scope$i);
@@ -7197,14 +7197,14 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_38> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$37($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_38($scope$i);
@@ -7218,7 +7218,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_39> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$38($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -7236,7 +7236,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_40> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$39($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -7253,9 +7253,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$0> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$0, };
@@ -7268,9 +7268,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$1, };
@@ -7283,9 +7283,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$2, };
@@ -7298,9 +7298,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$3, };
@@ -7313,9 +7313,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$4, };
@@ -7328,9 +7328,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$5, };
@@ -7343,9 +7343,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$6, };
@@ -7358,9 +7358,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$7, };
@@ -7373,9 +7373,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$8, };
@@ -7388,9 +7388,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$9, };
@@ -7403,9 +7403,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$10, };
@@ -7418,9 +7418,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$11, };
@@ -7433,9 +7433,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$12, };
@@ -7448,9 +7448,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$13> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$13, };
@@ -7463,9 +7463,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$14, };
@@ -7478,9 +7478,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$15> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$15, };
@@ -7493,9 +7493,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$16, };
@@ -7508,9 +7508,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$17, };
@@ -7523,9 +7523,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$18, };
@@ -7538,9 +7538,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$19, };
@@ -7553,9 +7553,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$20, };
@@ -7568,9 +7568,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$21, };
@@ -7583,9 +7583,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$22> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$22, };
@@ -7598,9 +7598,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$23> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$23, };
@@ -7613,9 +7613,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$24> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$24, };
@@ -7628,9 +7628,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$25> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$25, };
@@ -7643,9 +7643,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$26> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$26, };
@@ -7658,9 +7658,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$27> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$27, };
@@ -7673,9 +7673,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$28> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$28, };
@@ -7688,9 +7688,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$29> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$29, };
@@ -7703,9 +7703,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$30> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$30, };
@@ -7718,9 +7718,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$31> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$31, };
@@ -7733,9 +7733,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$32> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$32, };
@@ -7748,9 +7748,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$33> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$33, };
@@ -7763,9 +7763,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$34> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$34, };
@@ -7778,9 +7778,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$35> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$35, };
@@ -7793,9 +7793,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$36> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$36, };
@@ -7808,9 +7808,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$37> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$37, };
@@ -7823,9 +7823,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$38> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$38, };
@@ -7838,9 +7838,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_$39> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$39, };
@@ -7866,7 +7866,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<IncrementDecrement8Instruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -7881,13 +7881,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<IncrementDecrement8Instruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_2();
@@ -7901,13 +7901,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<IncrementDecrement8Instruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_3($scope$i);
@@ -7921,13 +7921,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<IncrementDecrement8Instruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_4($scope$i);
@@ -7941,7 +7941,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<IncrementDecrement8Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -7956,13 +7956,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<IncrementDecrement8Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_6();
@@ -7976,13 +7976,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<IncrementDecrement8Instruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_7($scope$i);
@@ -7996,13 +7996,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<IncrementDecrement8Instruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new IncrementDecrement8Instruction_8($scope$i);
@@ -8024,7 +8024,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:daa)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:daa)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_1();
@@ -8037,7 +8037,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cpl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:cpl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_2();
@@ -8050,7 +8050,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:neg)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:neg)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_3();
@@ -8063,7 +8063,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ccf)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ccf)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_4();
@@ -8076,7 +8076,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<GeneralPurposeArithmeticInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:scf)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:scf)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new GeneralPurposeArithmeticInstruction_5();
@@ -8098,7 +8098,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<CpuControlGroupInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:nop)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:nop)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_1();
@@ -8111,7 +8111,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<CpuControlGroupInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:halt)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:halt)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_2();
@@ -8124,7 +8124,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<CpuControlGroupInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:di)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:di)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_3();
@@ -8137,7 +8137,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<CpuControlGroupInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ei)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ei)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_4();
@@ -8151,9 +8151,9 @@ export class Parser {
                 let $scope$m: Nullable<string>;
                 let $$res: Nullable<CpuControlGroupInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:im)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:im)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$m = this.regexAccept(String.raw`(?:[012])`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$m = this.regexAccept(String.raw`(?:[012])`, "", $$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new CpuControlGroupInstruction_5($scope$m);
@@ -8182,11 +8182,11 @@ export class Parser {
                 let $scope$ss: Nullable<ss>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8202,11 +8202,11 @@ export class Parser {
                 let $scope$ss: Nullable<ss>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8222,11 +8222,11 @@ export class Parser {
                 let $scope$ss: Nullable<ss>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8242,11 +8242,11 @@ export class Parser {
                 let $scope$pp: Nullable<pp>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pp = this.matchpp($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8262,11 +8262,11 @@ export class Parser {
                 let $scope$rr: Nullable<rr>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:add)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$rr = this.matchrr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8282,7 +8282,7 @@ export class Parser {
                 let $scope$ss: Nullable<ss>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8297,9 +8297,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic16Instruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_7();
@@ -8312,9 +8312,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic16Instruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_8();
@@ -8328,7 +8328,7 @@ export class Parser {
                 let $scope$ss: Nullable<ss>;
                 let $$res: Nullable<ArithmeticLogic16Instruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$ss = this.matchss($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8343,9 +8343,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic16Instruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_10();
@@ -8358,9 +8358,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic16Instruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic16Instruction_11();
@@ -8411,7 +8411,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rlca)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rlca)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_1();
@@ -8424,7 +8424,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rla)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rla)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_2();
@@ -8437,7 +8437,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrca)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrca)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_3();
@@ -8450,7 +8450,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rra)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rra)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_4();
@@ -8464,7 +8464,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rlc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rlc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8479,13 +8479,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rlc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rlc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_6();
@@ -8499,13 +8499,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rlc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rlc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_7($scope$i);
@@ -8519,13 +8519,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rlc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rlc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_8($scope$i);
@@ -8539,7 +8539,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8554,13 +8554,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_10();
@@ -8574,13 +8574,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_11($scope$i);
@@ -8594,13 +8594,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_12($scope$i);
@@ -8614,7 +8614,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_13> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8629,13 +8629,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_14();
@@ -8649,13 +8649,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_15> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_15($scope$i);
@@ -8669,13 +8669,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_16($scope$i);
@@ -8689,7 +8689,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8704,13 +8704,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_18();
@@ -8724,13 +8724,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_19($scope$i);
@@ -8744,13 +8744,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_20($scope$i);
@@ -8764,7 +8764,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8779,13 +8779,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_22> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_22();
@@ -8799,13 +8799,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_23> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_23($scope$i);
@@ -8819,13 +8819,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_24> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_24($scope$i);
@@ -8839,7 +8839,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_25> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sra)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8854,13 +8854,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_26> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sra)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_26();
@@ -8874,13 +8874,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_27> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sra)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_27($scope$i);
@@ -8894,13 +8894,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_28> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sra)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_28($scope$i);
@@ -8914,7 +8914,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_29> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8929,13 +8929,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_30> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_30();
@@ -8949,13 +8949,13 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_31> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_31($scope$i);
@@ -8969,13 +8969,13 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_32> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_32($scope$i);
@@ -8988,7 +8988,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_33> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rld)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_33();
@@ -9001,7 +9001,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_34> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrd)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new RotateShiftInstruction_34();
@@ -9032,11 +9032,11 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<BitManipulationInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:bit)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bit)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9052,17 +9052,17 @@ export class Parser {
                 let $scope$b: Nullable<b>;
                 let $$res: Nullable<BitManipulationInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:bit)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bit)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_2($scope$b);
@@ -9077,17 +9077,17 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<BitManipulationInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:bit)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bit)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_3($scope$b, $scope$i);
@@ -9102,17 +9102,17 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<BitManipulationInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:bit)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bit)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_4($scope$b, $scope$i);
@@ -9127,11 +9127,11 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<BitManipulationInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:set)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:set)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9147,17 +9147,17 @@ export class Parser {
                 let $scope$b: Nullable<b>;
                 let $$res: Nullable<BitManipulationInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:set)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:set)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_6($scope$b);
@@ -9172,17 +9172,17 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<BitManipulationInstruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:set)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:set)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_7($scope$b, $scope$i);
@@ -9197,17 +9197,17 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<BitManipulationInstruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:set)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:set)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_8($scope$b, $scope$i);
@@ -9222,11 +9222,11 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<BitManipulationInstruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:res)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:res)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9242,17 +9242,17 @@ export class Parser {
                 let $scope$b: Nullable<b>;
                 let $$res: Nullable<BitManipulationInstruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:res)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:res)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_10($scope$b);
@@ -9267,17 +9267,17 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<BitManipulationInstruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:res)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:res)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_11($scope$b, $scope$i);
@@ -9292,17 +9292,17 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<BitManipulationInstruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:res)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:res)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$b = this.matchb($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new BitManipulationInstruction_12($scope$b, $scope$i);
@@ -9364,13 +9364,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<JumpInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_1();
@@ -9383,13 +9383,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<JumpInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:ix)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ix)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_2();
@@ -9402,13 +9402,13 @@ export class Parser {
             () => {
                 let $$res: Nullable<JumpInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:iy)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iy)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new JumpInstruction_3();
@@ -9423,7 +9423,7 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<JumpInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9442,11 +9442,11 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<JumpInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jp)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jp)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$cc = this.matchcc($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9464,7 +9464,7 @@ export class Parser {
                 let $scope$label: Nullable<Label>;
                 let $$res: Nullable<JumpInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
@@ -9482,7 +9482,7 @@ export class Parser {
                 let $scope$e: Nullable<Expression>;
                 let $$res: Nullable<JumpInstruction_7> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9501,11 +9501,11 @@ export class Parser {
                 let $scope$label: Nullable<Label>;
                 let $$res: Nullable<JumpInstruction_8> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$jj = this.matchjj($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
@@ -9524,11 +9524,11 @@ export class Parser {
                 let $scope$e: Nullable<Expression>;
                 let $$res: Nullable<JumpInstruction_9> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:jr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:jr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$jj = this.matchjj($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9546,7 +9546,7 @@ export class Parser {
                 let $scope$label: Nullable<Label>;
                 let $$res: Nullable<JumpInstruction_10> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:djnz)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:djnz)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$label = this.matchLabel($$dpth + 1, $$cr)) !== null
@@ -9564,7 +9564,7 @@ export class Parser {
                 let $scope$e: Nullable<Expression>;
                 let $$res: Nullable<JumpInstruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:djnz)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:djnz)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$e = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9588,7 +9588,7 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<CallInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:call)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:call)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9607,11 +9607,11 @@ export class Parser {
                 let $scope$ee: Nullable<Expression>;
                 let $$res: Nullable<CallInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:call)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:call)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$cc = this.matchcc($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$ee = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -9636,7 +9636,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<ReturnInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ret)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ret)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_1();
@@ -9650,7 +9650,7 @@ export class Parser {
                 let $scope$cc: Nullable<cc>;
                 let $$res: Nullable<ReturnInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ret)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ret)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$cc = this.matchcc($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9665,7 +9665,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<ReturnInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:reti)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:reti)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_3();
@@ -9678,7 +9678,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<ReturnInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:retn)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:retn)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ReturnInstruction_4();
@@ -9692,7 +9692,7 @@ export class Parser {
                 let $scope$p: Nullable<p>;
                 let $$res: Nullable<ReturnInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rst)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rst)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$p = this.matchp($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9718,15 +9718,15 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<InputInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:in)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:in)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_1($scope$r);
@@ -9741,18 +9741,18 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<InputInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:in)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:in)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_2($scope$pos, $scope$n);
@@ -9765,7 +9765,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ini)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ini)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_3();
@@ -9778,7 +9778,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inir)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_4();
@@ -9791,7 +9791,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ind)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ind)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_5();
@@ -9804,7 +9804,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:indr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:indr)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_6();
@@ -9828,13 +9828,13 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<OutputInstruction_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:out)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:out)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:c)`, $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9851,18 +9851,18 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<OutputInstruction_2> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:out)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:out)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_2($scope$pos, $scope$n);
@@ -9875,7 +9875,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:outi)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:outi)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_3();
@@ -9888,7 +9888,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:otir)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:otir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_4();
@@ -9901,7 +9901,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:outd)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:outd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_5();
@@ -9914,7 +9914,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:otdr)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:otdr)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_6();
@@ -9932,19 +9932,19 @@ export class Parser {
         ]);
     }
     public matchByteDirective_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_1> {
-        return this.regexAccept(String.raw`(?:db)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:db)`, "", $$dpth + 1, $$cr);
     }
     public matchByteDirective_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_2> {
-        return this.regexAccept(String.raw`(?:dm)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:dm)`, "", $$dpth + 1, $$cr);
     }
     public matchByteDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_3> {
-        return this.regexAccept(String.raw`(?:\.?byte)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?byte)`, "", $$dpth + 1, $$cr);
     }
     public matchByteDirective_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_4> {
-        return this.regexAccept(String.raw`(?:defb)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:defb)`, "", $$dpth + 1, $$cr);
     }
     public matchByteDirective_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteDirective_5> {
-        return this.regexAccept(String.raw`(?:defm)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:defm)`, "", $$dpth + 1, $$cr);
     }
     public matchWordDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective> {
         return this.choice<WordDirective>([
@@ -9954,13 +9954,13 @@ export class Parser {
         ]);
     }
     public matchWordDirective_1($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective_1> {
-        return this.regexAccept(String.raw`(?:dw)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:dw)`, "", $$dpth + 1, $$cr);
     }
     public matchWordDirective_2($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective_2> {
-        return this.regexAccept(String.raw`(?:\.?word)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?word)`, "", $$dpth + 1, $$cr);
     }
     public matchWordDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<WordDirective_3> {
-        return this.regexAccept(String.raw`(?:defw)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:defw)`, "", $$dpth + 1, $$cr);
     }
     public matchBlockDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective> {
         return this.choice<BlockDirective>([
@@ -9970,13 +9970,13 @@ export class Parser {
         ]);
     }
     public matchBlockDirective_1($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective_1> {
-        return this.regexAccept(String.raw`(?:\.?block)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:\.?block)`, "", $$dpth + 1, $$cr);
     }
     public matchBlockDirective_2($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective_2> {
-        return this.regexAccept(String.raw`(?:defs)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:defs)`, "", $$dpth + 1, $$cr);
     }
     public matchBlockDirective_3($$dpth: number, $$cr?: ErrorTracker): Nullable<BlockDirective_3> {
-        return this.regexAccept(String.raw`(?:ds)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:ds)`, "", $$dpth + 1, $$cr);
     }
     public matchByteValue($$dpth: number, $$cr?: ErrorTracker): Nullable<ByteValue> {
         return this.choice<ByteValue>([
@@ -10060,7 +10060,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos0 = this.mark()) !== null
                     && ($scope$data0 = this.matchByteValue($$dpth + 1, $$cr)) !== null
-                    && ($scope$data = this.loop<DataDirective_$0>(() => this.matchDataDirective_$0($$dpth + 1, $$cr), true)) !== null
+                    && ($scope$data = this.loop<DataDirective_$0>(() => this.matchDataDirective_$0($$dpth + 1, $$cr), 0, -1)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DataDirective_1($scope$pos0, $scope$data0, $scope$data);
@@ -10080,7 +10080,7 @@ export class Parser {
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$pos0 = this.mark()) !== null
                     && ($scope$data0 = this.matchWordValue($$dpth + 1, $$cr)) !== null
-                    && ($scope$data = this.loop<DataDirective_$1>(() => this.matchDataDirective_$1($$dpth + 1, $$cr), true)) !== null
+                    && ($scope$data = this.loop<DataDirective_$1>(() => this.matchDataDirective_$1($$dpth + 1, $$cr), 0, -1)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DataDirective_2($scope$pos0, $scope$data0, $scope$data);
@@ -10116,7 +10116,7 @@ export class Parser {
                 let $$res: Nullable<DataDirective_$0> = null;
                 if (true
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$inner = this.matchByteValue($$dpth + 1, $$cr)) !== null
                 ) {
@@ -10132,7 +10132,7 @@ export class Parser {
                 let $$res: Nullable<DataDirective_$1> = null;
                 if (true
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$inner = this.matchWordValue($$dpth + 1, $$cr)) !== null
                 ) {
@@ -10149,7 +10149,7 @@ export class Parser {
                 let $$res: Nullable<DataDirective_$2> = null;
                 if (true
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$pos1 = this.mark()) !== null
                     && ($scope$b = this.matchExpression($$dpth + 1, $$cr)) !== null
@@ -10183,7 +10183,7 @@ export class Parser {
                 let $$res: Nullable<SimpleEscapeSequence> = null;
                 if (true
                     && ($scope$pos = this.mark()) !== null
-                    && this.regexAccept(String.raw`(?:\\)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\\)`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$raw = this.matchSimpleEscapeSequence_$0($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new SimpleEscapeSequence($scope$pos, $scope$raw);
@@ -10198,10 +10198,10 @@ export class Parser {
         ]);
     }
     public matchSimpleEscapeSequence_$0_1($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_1> {
-        return this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:")`, "", $$dpth + 1, $$cr);
     }
     public matchSimpleEscapeSequence_$0_2($$dpth: number, $$cr?: ErrorTracker): Nullable<SimpleEscapeSequence_$0_2> {
-        return this.regexAccept(String.raw`(?:n)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:n)`, "", $$dpth + 1, $$cr);
     }
     public matchOctalEscapeSequence($$dpth: number, $$cr?: ErrorTracker): Nullable<OctalEscapeSequence> {
         return this.run<OctalEscapeSequence>($$dpth,
@@ -10210,9 +10210,9 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<OctalEscapeSequence> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\\)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\\)`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]{1,3})`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-7]{1,3})`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OctalEscapeSequence($scope$pos, $scope$raw);
                 }
@@ -10226,9 +10226,9 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<HexadecimalEscapeSequence> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\\x)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\\x)`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]{1,2})`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[0-9a-f]{1,2})`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new HexadecimalEscapeSequence($scope$pos, $scope$raw);
                 }
@@ -10243,7 +10243,7 @@ export class Parser {
                 let $$res: Nullable<NoQuoteChar> = null;
                 if (true
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^\'\\\n])`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^\'\\\n])`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new NoQuoteChar($scope$pos, $scope$raw);
                 }
@@ -10258,7 +10258,7 @@ export class Parser {
                 let $$res: Nullable<NoDoubleQuoteChar> = null;
                 if (true
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^\"\\\n])`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^\"\\\n])`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new NoDoubleQuoteChar($scope$pos, $scope$raw);
                 }
@@ -10269,13 +10269,13 @@ export class Parser {
         return this.run<QuottedStr>($$dpth,
             () => {
                 let $scope$pos: Nullable<PosInfo>;
-                let $scope$chars: Nullable<QuottedStr_$0[]>;
+                let $scope$chars: Nullable<[QuottedStr_$0, ...QuottedStr_$0[]]>;
                 let $$res: Nullable<QuottedStr> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\')`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\')`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$chars = this.loop<QuottedStr_$0>(() => this.matchQuottedStr_$0($$dpth + 1, $$cr), false)) !== null
-                    && this.regexAccept(String.raw`(?:\')`, $$dpth + 1, $$cr) !== null
+                    && ($scope$chars = this.loopPlus<QuottedStr_$0>(() => this.matchQuottedStr_$0($$dpth + 1, $$cr))) !== null
+                    && this.regexAccept(String.raw`(?:\')`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = new QuottedStr($scope$pos, $scope$chars);
                 }
@@ -10298,13 +10298,13 @@ export class Parser {
         return this.run<DoubleQuottedStr>($$dpth,
             () => {
                 let $scope$pos: Nullable<PosInfo>;
-                let $scope$chars: Nullable<DoubleQuottedStr_$0[]>;
+                let $scope$chars: Nullable<[DoubleQuottedStr_$0, ...DoubleQuottedStr_$0[]]>;
                 let $$res: Nullable<DoubleQuottedStr> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\")`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\")`, "", $$dpth + 1, $$cr) !== null
                     && ($scope$pos = this.mark()) !== null
-                    && ($scope$chars = this.loop<DoubleQuottedStr_$0>(() => this.matchDoubleQuottedStr_$0($$dpth + 1, $$cr), false)) !== null
-                    && this.regexAccept(String.raw`(?:\")`, $$dpth + 1, $$cr) !== null
+                    && ($scope$chars = this.loopPlus<DoubleQuottedStr_$0>(() => this.matchDoubleQuottedStr_$0($$dpth + 1, $$cr))) !== null
+                    && this.regexAccept(String.raw`(?:\")`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = new DoubleQuottedStr($scope$pos, $scope$chars);
                 }
@@ -10324,7 +10324,7 @@ export class Parser {
         return this.matchEscapeSequence($$dpth + 1, $$cr);
     }
     public matchComment($$dpth: number, $$cr?: ErrorTracker): Nullable<Comment> {
-        return this.regexAccept(String.raw`(?:(//|;)[^\r\n]*)`, $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:(//|;)[^\r\n]*)`, "", $$dpth + 1, $$cr);
     }
     public matchOriginDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<OriginDirective> {
         return this.run<OriginDirective>($$dpth,
@@ -10332,7 +10332,7 @@ export class Parser {
                 let $scope$address: Nullable<nn>;
                 let $$res: Nullable<OriginDirective> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\.?org)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?org)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$address = this.matchnn($$dpth + 1, $$cr)) !== null
                 ) {
@@ -10353,9 +10353,9 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<Filename_1> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^"\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:")`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:")`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^"\\:\*\?<>\|%#\$,]+)`, "", $$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:")`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.Filename_1, raw: $scope$raw};
                 }
@@ -10368,7 +10368,7 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<Filename_2> = null;
                 if (true
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[^ \t\r\n"\\:\*\?<>\|%#\$,]+)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[^ \t\r\n"\\:\*\?<>\|%#\$,]+)`, "", $$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = {kind: ASTKinds.Filename_2, raw: $scope$raw};
                 }
@@ -10383,7 +10383,7 @@ export class Parser {
                 let $$res: Nullable<IncludeDirective> = null;
                 if (true
                     && ($scope$pos = this.mark()) !== null
-                    && this.regexAccept(String.raw`(?:\.?include)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?include)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -10400,7 +10400,7 @@ export class Parser {
                 let $scope$sld: Nullable<Nullable<OutputDirective_$0>>;
                 let $$res: Nullable<OutputDirective> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\.?output)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?output)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
                     && (($scope$sld = this.matchOutputDirective_$0($$dpth + 1, $$cr)) || true)
@@ -10418,9 +10418,9 @@ export class Parser {
                 let $$res: Nullable<OutputDirective_$0> = null;
                 if (true
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:,)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:sld)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$name = this.matchFilename($$dpth + 1, $$cr)) !== null
                 ) {
@@ -10435,9 +10435,9 @@ export class Parser {
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<DeviceDirective> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\.?device)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?device)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$raw = this.regexAccept(String.raw`(?:[a-zA-Z][0-9a-zA-Z]*)`, $$dpth + 1, $$cr)) !== null
+                    && ($scope$raw = this.regexAccept(String.raw`(?:[a-zA-Z][0-9a-zA-Z]*)`, "", $$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new DeviceDirective($scope$raw);
@@ -10450,9 +10450,9 @@ export class Parser {
             () => {
                 let $$res: Nullable<EndDirective> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:\.?end)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\.?end)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                    && this.regexAccept(String.raw`(?:.*)`, $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:.*)`, "", $$dpth + 1, $$cr) !== null
                 ) {
                     $$res = {kind: ASTKinds.EndDirective, };
                 }
@@ -10481,10 +10481,14 @@ export class Parser {
     public mark(): PosInfo {
         return this.pos;
     }
-    private loop<T>(func: $$RuleType<T>, star: boolean = false): Nullable<T[]> {
+    // @ts-ignore: loopPlus may not be called
+    private loopPlus<T>(func: $$RuleType<T>): Nullable<[T, ...T[]]> {
+        return this.loop(func, 1, -1) as Nullable<[T, ...T[]]>;
+    }
+    private loop<T>(func: $$RuleType<T>, lb: number, ub: number): Nullable<T[]> {
         const mrk = this.mark();
         const res: T[] = [];
-        for (;;) {
+        while (ub === -1 || res.length < ub) {
             const preMrk = this.mark();
             const t = func();
             if (t === null || this.pos.overallPos === preMrk.overallPos) {
@@ -10492,7 +10496,7 @@ export class Parser {
             }
             res.push(t);
         }
-        if (star || res.length > 0) {
+        if (res.length >= lb) {
             return res;
         }
         this.reset(mrk);
@@ -10506,6 +10510,7 @@ export class Parser {
         this.reset(mrk);
         return null;
     }
+    // @ts-ignore: choice may not be called
     private choice<T>(fns: Array<$$RuleType<T>>): Nullable<T> {
         for (const f of fns) {
             const res = f();
@@ -10515,10 +10520,10 @@ export class Parser {
         }
         return null;
     }
-    private regexAccept(match: string, dpth: number, cr?: ErrorTracker): Nullable<string> {
+    private regexAccept(match: string, mods: string, dpth: number, cr?: ErrorTracker): Nullable<string> {
         return this.run<string>(dpth,
             () => {
-                const reg = new RegExp(match, "yi");
+                const reg = new RegExp(match, "yi" + mods);
                 const mrk = this.mark();
                 reg.lastIndex = mrk.overallPos;
                 const res = this.tryConsume(reg);
@@ -10554,12 +10559,14 @@ export class Parser {
         }
         return null;
     }
+    // @ts-ignore: noConsume may not be called
     private noConsume<T>(fn: $$RuleType<T>): Nullable<T> {
         const mrk = this.mark();
         const res = fn();
         this.reset(mrk);
         return res;
     }
+    // @ts-ignore: negate may not be called
     private negate<T>(fn: $$RuleType<T>): Nullable<boolean> {
         const mrk = this.mark();
         const oneg = this.negating;
@@ -10569,6 +10576,7 @@ export class Parser {
         this.reset(mrk);
         return res === null ? true : null;
     }
+    // @ts-ignore: Memoise may not be used
     private memoise<K>(rule: $$RuleType<K>, memo: Map<number, [Nullable<K>, PosInfo]>): Nullable<K> {
         const $scope$pos = this.mark();
         const $scope$memoRes = memo.get($scope$pos.overallPos);

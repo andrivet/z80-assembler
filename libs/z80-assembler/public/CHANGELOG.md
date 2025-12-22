@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.1 - December 22, 2025
+
+* Fix wrong publication
+
+## 1.4.0 - December 22, 2025
+
+* Fix #8: 'Invalid ZX81 character' when using '9', 'Z' or 'z' in a string.
+
 ## 1.3.2 - November 20, 2024
 
 * Fix bugs introduced in commit 4bcb12ea82d38f83ce2079f8635909d0c5b5c57a
