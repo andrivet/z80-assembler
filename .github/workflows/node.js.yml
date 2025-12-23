@@ -2,46 +2,55 @@ name: CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [20.x, 22.x, 24.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm ci --legacy-peer-deps
-    - name: Build
-      run: npx nx build z80-assembler-app --prod --baseHref=/z80-assembler/
-    - name: Run tests
-      run: npx nx test z80-assembler
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v4
-      with:
-        path: dist/apps/z80-assembler-app
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - run: npx nx test z80-assembler
+
+  build_pages:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - run: npx nx build z80-assembler-app --prod --baseHref=/z80-assembler/
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/apps/z80-assembler-app
 
   deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
+    needs: build_pages
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - id: deployment
+        uses: actions/deploy-pages@v4
