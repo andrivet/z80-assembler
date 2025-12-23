@@ -134,6 +134,7 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
   parseData.outputName = filepath.replace(/\..*$/, '') + '.P';
   parseData.sldName = parseData.outputName.replace(/\.P$/, '.sld');
   parseData.basePath = getBasePath(filepath);
+  parseData.fileName = filepath;
   parseData.getFileCode = getFileCode;
 
   try {
