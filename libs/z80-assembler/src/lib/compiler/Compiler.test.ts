@@ -1833,18 +1833,23 @@ test("Declaring bytes with expressions", () => {
   expect(bytes).toEqual([0x46, 0x02, 0x55]);
 });
 
-test("Declaring string", () => {
-  const bytes = compileCode('db "HELLO WORLD"');
+test("Declaring ZX81 string", () => {
+  const bytes = compileCode('device zx81raw\ndb "HELLO WORLD"');
   expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
 });
 
-test("Declaring string with simple quotes", () => {
-  const bytes = compileCode('db \'HELLO WORLD\'');
+test('Declaring ASCII string', () => {
+  const bytes = compileCode('device z80\ndb "HELLO WORLD"');
+  expect(bytes).toEqual([0x48, 0x45, 0x4C, 0x4C, 0x4F, 0x20, 0x57, 0x4F, 0x52, 0x4C, 0x44]);
+});
+
+test("Declaring ZX81 string with simple quotes", () => {
+  const bytes = compileCode("device zx81raw\ndb 'HELLO WORLD'");
   expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x00, 0x3C, 0x34, 0x37, 0x31, 0x29]);
 });
 
-test("Declaring strings", () => {
-  const bytes = compileCode('db "HELLO", "WORLD"');
+test("Declaring ZX81 strings", () => {
+  const bytes = compileCode('device zx81raw\ndb "HELLO", "WORLD"');
   expect(bytes).toEqual([0x2D, 0x2A, 0x31, 0x31, 0x34, 0x3C, 0x34, 0x37, 0x31, 0x29]);
 });
 

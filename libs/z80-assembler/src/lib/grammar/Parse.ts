@@ -10,7 +10,7 @@
 
 import {PosInfo} from "./z80";
 import {CompilationError} from "../types/Error";
-import {parseData} from '../compiler/Compiler';
+import {parseData, Device} from '../compiler/Compiler';
 
 /**
  * Parse a number.
@@ -88,6 +88,28 @@ export function parseHexadecimalEscape(pos: PosInfo, value: string): number[] {
 }
 
 /**
+ * Parse a character written in ASCII depending on the specified device.
+ * @param pos Position of the character in the source code.
+ * @param c The ASCII character.
+ */
+export function parseChar(pos: PosInfo, c: string): [number] {
+  if(parseData.deviceName === Device.ZX81 || parseData.deviceName === Device.ZX81Raw)
+    return parseZX81Char(pos, c);
+  return parseAscii(pos, c);
+}
+
+function parseAscii(pos: PosInfo, c: string): [number] {
+  const charCode = c.charCodeAt(0);
+  if (charCode > 127)
+    throw new CompilationError(
+      { filename: parseData.fileName, pos: pos },
+      `Unsupported ASCII character: ${c}`
+    );
+
+  return [charCode];
+}
+
+/**
  * Map between ASCII and ZX81 characters set.
  */
 const zx81chars = new Map<string, number>([
@@ -102,7 +124,7 @@ const zx81chars = new Map<string, number>([
  * @param pos Position of the character in the source code.
  * @param c The ASCII character.
  */
-export function parseZX81Char(pos: PosInfo, c: string): [number] {
+function parseZX81Char(pos: PosInfo, c: string): [number] {
   // Convert capital letters to their ZX81 counterparts.
   if(c >= 'A' && c <= 'Z') return [c.charCodeAt(0) - 0x41 + 0x26];
   // Convert lowercase letters to their uppercase and inverted ZX81 counterparts.
@@ -114,15 +136,4 @@ export function parseZX81Char(pos: PosInfo, c: string): [number] {
     `Invalid ZX81 character: ${c}`);
   // eslint-disable-next-line
   return [zx81chars.get(c)!];
-}
-
-/**
- * Parse a ZX81 string written in ASCII.
- * @param pos Position of the string in the source code.
- * @param str The ASCII string.
- */
-export function parseZX81String(pos: PosInfo, str: string): number[] {
-  // Convert each character.
-  // On convertit chaque caractère.
-  return [...str].reduce((r: number[], c) => r.concat(parseZX81Char(pos, c)), []);
 }

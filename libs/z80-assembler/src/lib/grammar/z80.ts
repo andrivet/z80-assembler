@@ -25,7 +25,7 @@ import {
 
 import {
   parseNumber,
-  parseZX81Char,
+  parseChar,
   parseSimpleEscape,
   parseOctalEscape,
   parseHexadecimalEscape} from './Parse';
@@ -3618,7 +3618,7 @@ export class NoQuoteChar {
         this.pos = pos;
         this.raw = raw;
         this.elements = ((): AstElements => {
-        return parseZX81Char(pos, raw);
+        return parseChar(pos, raw);
         })();
     }
 }
@@ -3631,7 +3631,7 @@ export class NoDoubleQuoteChar {
         this.pos = pos;
         this.raw = raw;
         this.elements = ((): AstElements => {
-        return parseZX81Char(pos, raw);
+        return parseChar(pos, raw);
         })();
     }
 }

@@ -23,7 +23,7 @@ import {
 
 import {
   parseNumber,
-  parseZX81Char,
+  parseChar,
   parseSimpleEscape,
   parseOctalEscape,
   parseHexadecimalEscape} from './Parse';
@@ -1200,12 +1200,12 @@ HexadecimalEscapeSequence :=
 // A character that is not a quote, a backslash or a newline
 NoQuoteChar :=
     pos=@ raw='[^\'\\\n]'
-    .elements = AstElements { return parseZX81Char(pos, raw); }
+    .elements = AstElements { return parseChar(pos, raw); }
 
 // A character is not a double-quote, a backslash or a newline
 NoDoubleQuoteChar :=
     pos=@ raw='[^\"\\\n]'
-    .elements = AstElements { return parseZX81Char(pos, raw); }
+    .elements = AstElements { return parseChar(pos, raw); }
 
 // A string literal enclosed in double-quotes and containing either simple characters or escape sequences
 QuottedStr :=
