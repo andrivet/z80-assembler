@@ -23,6 +23,21 @@ import {
 } from "./Assets";
 
 /**
+ * Allowed values for the device directive
+ */
+export const Device = {
+  ZX81: "zx81", // ZX81 with automatic generation of system variables, BASIC REM lines, etc
+  ZX81Raw: "zx81raw", // ZX81 without automatic generation of code
+  Z80: "z80" // Generic Z80 code without any translation specific to the ZX81 (such as characters)
+} as const;
+
+type Device = (typeof Device)[keyof typeof Device];
+
+function isDevice(value: string): value is Device {
+  return Object.values(Device).includes(value as Device);
+}
+
+/**
  * Type of the internal data.
  */
 interface ParseData {
@@ -31,7 +46,7 @@ interface ParseData {
   // The name of the SLD file as declared by the output directive.
   sldName: string,
   // The name of the device as declared by the device directive.
-  deviceName: string,
+  deviceName: Device,
   // The base path of first file compiled. It is used to load included files.
   basePath: string,
   // The name of the current file compiled. It changes when a file is included and parsed.
@@ -48,7 +63,7 @@ interface ParseData {
 const parseData: ParseData = {
   outputName: "",
   sldName: "",
-  deviceName: "",
+  deviceName: Device.Z80, // by default, no ZX81 generation or  translation
   basePath: '',
   fileName: '',
   getFileCode: () => ''
@@ -66,10 +81,18 @@ function setOutputName(filename: string, sld?: string) {
 
 /**
  * Set the name of the target (device directive)
+ * @param pos Position of the device directive.
  * @param name The name of the device
  */
-function setDevice(name: string) {
-  parseData.deviceName = name.toLowerCase();
+function setDevice(pos: PosInfo, name: string) {
+  const device = name.toLowerCase();
+  if(!isDevice(device))
+    throw new CompilationError(
+      { filename: parseData.fileName, pos: pos },
+      `Invalid device: ${device}`
+    );
+
+  parseData.deviceName = device;
 }
 
 /**
@@ -170,7 +193,7 @@ function compile(filepath: string, code: string, getFileCode: (filename: string)
  * @param info The parsed AST (lines).
  */
 function postProcessing(info: LinesInfo): LinesInfo[] {
-  if(parseData.deviceName !== 'zx81') return [info];
+  if(parseData.deviceName !== Device.ZX81) return [info];
 
   return [
     parseCode('@internal/characters.zx81', assetCharacters),

@@ -1244,8 +1244,8 @@ OutputDirective :=
 
 // A Device directive starts with 'device' (or an alias) and is followed by a name (the target)
 DeviceDirective :=
-    '\.?device' __ raw='[a-zA-Z][0-9a-zA-Z]*' &eos
-    .void = void { setDevice(raw); }
+    '\.?device' __ pos=@ raw='[a-zA-Z][0-9a-zA-Z]*' &eos
+    .void = void { setDevice(pos, raw); }
 
 // A End directive will stop the parsing by eating all the characters
 EndDirective :=

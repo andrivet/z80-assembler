@@ -3713,12 +3713,14 @@ export interface OutputDirective_$0 {
 }
 export class DeviceDirective {
     public kind: ASTKinds.DeviceDirective = ASTKinds.DeviceDirective;
+    public pos: PosInfo;
     public raw: string;
     public void: void;
-    constructor(raw: string){
+    constructor(pos: PosInfo, raw: string){
+        this.pos = pos;
         this.raw = raw;
         this.void = ((): void => {
-        setDevice(raw);
+        setDevice(pos, raw);
         })();
     }
 }
@@ -10432,15 +10434,17 @@ export class Parser {
     public matchDeviceDirective($$dpth: number, $$cr?: ErrorTracker): Nullable<DeviceDirective> {
         return this.run<DeviceDirective>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
                 let $scope$raw: Nullable<string>;
                 let $$res: Nullable<DeviceDirective> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:\.?device)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
                     && ($scope$raw = this.regexAccept(String.raw`(?:[a-zA-Z][0-9a-zA-Z]*)`, "", $$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new DeviceDirective($scope$raw);
+                    $$res = new DeviceDirective($scope$pos, $scope$raw);
                 }
                 return $$res;
             });

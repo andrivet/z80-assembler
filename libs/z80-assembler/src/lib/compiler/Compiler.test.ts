@@ -2010,12 +2010,12 @@ test("Output with SLD and quotes", () => {
 });
 
 test("Device", () => {
-  const bytes = compileCode('device test');
+  const bytes = compileCode('device z80');
   expect(bytes).toEqual([]);
 });
 
 test("Device with dot", () => {
-  const bytes = compileCode('.device test');
+  const bytes = compileCode('.device z80');
   expect(bytes).toEqual([]);
 });
 
