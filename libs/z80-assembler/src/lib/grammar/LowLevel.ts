@@ -16,14 +16,18 @@ import {byte} from "../types/Types";
  * @param offset The number of bits to shift to the left.
  */
 export function r_bits(r: string, offset = 0): byte {
-  switch(r.toLowerCase()) {
-    case 'b': return 0b000 << offset;
-    case 'c': return 0b001 << offset;
-    case 'd': return 0b010 << offset;
-    case 'e': return 0b011 << offset;
-    case 'h': return 0b100 << offset;
-    case 'l': return 0b101 << offset;
-    case 'a': return 0b111 << offset;
+  switch (r.toLowerCase()) {
+    case 'b':   return 0b000 << offset;
+    case 'c':   return 0b001 << offset;
+    case 'd':   return 0b010 << offset;
+    case 'e':   return 0b011 << offset;
+    case 'h':   return 0b100 << offset;
+    case 'ixh': return 0b100 << offset;
+    case 'iyh': return 0b100 << offset;
+    case 'l':   return 0b101 << offset;
+    case 'ixl': return 0b101 << offset;
+    case 'iyl': return 0b101 << offset;
+    case 'a':   return 0b111 << offset;
     default: console.log(`Invalid register name: ${r}`); return 0;
   }
 }

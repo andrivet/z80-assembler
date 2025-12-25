@@ -290,6 +290,56 @@ test("Instruction LD r, r'", () => {
   expect(bytes).toEqual([0x78]);
 });
 
+test("Undocumented instruction LD r, IXh", () => {
+  const bytes = compileCode('LD A, IXh');
+  expect(bytes).toEqual([0xdd, 0x7c]);
+});
+
+test('Undocumented instruction LD r, IXl', () => {
+  const bytes = compileCode('LD A, IXl');
+  expect(bytes).toEqual([0xdd, 0x7d]);
+});
+
+test('Undocumented instruction LD r, IYh', () => {
+  const bytes = compileCode('LD A, IYh');
+  expect(bytes).toEqual([0xfd, 0x7c]);
+});
+
+test('Undocumented instruction LD r, IYl', () => {
+  const bytes = compileCode('LD A, IYl');
+  expect(bytes).toEqual([0xfd, 0x7d]);
+});
+
+test('Undocumented instruction LD IXh, r', () => {
+  const bytes = compileCode('LD IXh, A');
+  expect(bytes).toEqual([0xdd, 0x67]);
+});
+
+test('Undocumented instruction LD IXl, r', () => {
+  const bytes = compileCode('LD IXl, A');
+  expect(bytes).toEqual([0xdd, 0x6F]);
+});
+
+test('Undocumented instruction LD IYh, r', () => {
+  const bytes = compileCode('LD IYh, A');
+  expect(bytes).toEqual([0xfd, 0x67]);
+});
+
+test('Undocumented instruction LD IYl, r', () => {
+  const bytes = compileCode('LD IYl, A');
+  expect(bytes).toEqual([0xfd, 0x6f]);
+});
+
+test('Undocumented instruction LD IXh, iXl', () => {
+  const bytes = compileCode('LD IXh, iXl');
+  expect(bytes).toEqual([0xdd, 0x65]);
+});
+
+test('Undocumented instruction LD IXh, n', () => {
+  const bytes = compileCode('LD IXh, 55h');
+  expect(bytes).toEqual([0xdd, 0x26, 0x55]);
+});
+
 test("Instruction LD r, (HL)", () => {
   const bytes = compileCode('LD B, (HL)');
   expect(bytes).toEqual([0x46]);

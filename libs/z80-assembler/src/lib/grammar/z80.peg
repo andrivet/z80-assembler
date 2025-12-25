@@ -76,6 +76,10 @@ qq := 'bc' | 'de' | 'hl' | 'af'
 pp := 'bc' | 'de' | 'ix' | 'sp'
 rr := 'bc' | 'de' | 'iy' | 'sp'
 
+// With undocumented registers
+rx := 'a' | 'b' | 'c' | 'd' | 'e' | 'ixh' | 'ixl'
+ry := 'a' | 'b' | 'c' | 'd' | 'e' | 'iyh' | 'iyl'
+
 // 8-bit values
 // Note: binary is before hexadecimal because 0b is ambiguous
 n :=
@@ -267,6 +271,13 @@ PrimaryExpression :=
 Reg8 :=
     reg=r &'[^a-z0-9_!\?#@\.]'
 
+// With undocumented registers
+RegX8 :=
+    reg=rx &'[^a-z0-9_!\?#@\.]'
+
+RegY8 :=
+    reg=ry &'[^a-z0-9_!\?#@\.]'
+
 // IX register with an (optional) offset
 IX :=
   'ix' offset={ _ s={'\+' | '\-'} _ pos=@ d=Expression }?
@@ -299,6 +310,54 @@ Load8Instruction :=
     // LD r, r'
     'ld' __ r0=Reg8 _ ',' _ r1=Reg8 &eos
     .elements = AstElements { return [0b01000000 | r_bits(r0.reg, 3) | r_bits(r1.reg)]; } |
+
+    // Undocumented LD r, IXh
+    'ld' __ r0=Reg8 _ ',' _ 'ixh' &eos
+    .elements = AstElements { return [0xDD, 0b01000000 | r_bits(r0.reg, 3) | 0b100]; } |
+
+    // Undocumented LD r, IXl
+    'ld' __ r0=Reg8 _ ',' _ 'ixl' &eos
+    .elements = AstElements { return [0xDD, 0b01000000 | r_bits(r0.reg, 3) | 0b101]; } |
+
+    // Undocumented LD r, IYh
+    'ld' __ r0=Reg8 _ ',' _ 'iyh' &eos
+    .elements = AstElements { return [0xFD, 0b01000000 | r_bits(r0.reg, 3) | 0b100]; } |
+
+    // Undocumented LD r, IYl
+    'ld' __ r0=Reg8 _ ',' _ 'iyl' &eos
+    .elements = AstElements { return [0xFD, 0b01000000 | r_bits(r0.reg, 3) | 0b101]; } |
+
+    // Undocumented LD IXh, rx
+    'ld' __ 'ixh' _ ',' _ r1=RegX8 &eos
+    .elements = AstElements { return [0xDD, 0b01000000 | 0b100000 | r_bits(r1.reg)]; } |
+
+    // Undocumented LD IXl, rx
+    'ld' __ 'ixl' _ ',' _ r1=RegX8 &eos
+    .elements = AstElements { return [0xDD, 0b01000000 | 0b101000 | r_bits(r1.reg)]; } |
+
+    // Undocumented LD IYh, ry
+    'ld' __ 'iyh' _ ',' _ r1=RegY8 &eos
+    .elements = AstElements { return [0xFD, 0b01000000 | 0b100000 | r_bits(r1.reg)]; } |
+
+    // Undocumented LD IYl, ry
+    'ld' __ 'iyl' _ ',' _ r1=RegY8 &eos
+    .elements = AstElements { return [0xFD, 0b01000000 | 0b101000 | r_bits(r1.reg)]; } |
+
+    // Undocumented LD IXh, n
+    'ld' __ 'ixh' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xDD, 0x26, value8(pos, n)]; } |
+
+    // Undocumented LD IXl, n
+    'ld' __ 'ixl' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xDD, 0x2E, value8(pos, n)]; } |
+
+    // Undocumented LD IYh, n
+    'ld' __ 'iyh' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xFD, 0x26, value8(pos, n)]; } |
+
+    // Undocumented LD IYl, n
+    'ld' __ 'iyl' _ ',' _ pos=@ n=Expression &eos
+    .elements = AstElements { return [0xFD, 0x2E, value8(pos, n)]; } |
 
     // LD r, (HL)
     'ld' __ r=r _ ',' _ '\(' 'hl' '\)' &eos

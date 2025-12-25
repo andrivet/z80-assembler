@@ -97,6 +97,20 @@ export enum ASTKinds {
     rr_2 = "rr_2",
     rr_3 = "rr_3",
     rr_4 = "rr_4",
+    rx_1 = "rx_1",
+    rx_2 = "rx_2",
+    rx_3 = "rx_3",
+    rx_4 = "rx_4",
+    rx_5 = "rx_5",
+    rx_6 = "rx_6",
+    rx_7 = "rx_7",
+    ry_1 = "ry_1",
+    ry_2 = "ry_2",
+    ry_3 = "ry_3",
+    ry_4 = "ry_4",
+    ry_5 = "ry_5",
+    ry_6 = "ry_6",
+    ry_7 = "ry_7",
     n_1 = "n_1",
     n_2 = "n_2",
     n_3 = "n_3",
@@ -194,6 +208,8 @@ export enum ASTKinds {
     PrimaryExpression_2 = "PrimaryExpression_2",
     PrimaryExpression_3 = "PrimaryExpression_3",
     Reg8 = "Reg8",
+    RegX8 = "RegX8",
+    RegY8 = "RegY8",
     IX = "IX",
     IX_$0 = "IX_$0",
     IX_$0_$0_1 = "IX_$0_$0_1",
@@ -239,6 +255,18 @@ export enum ASTKinds {
     Load8Instruction_19 = "Load8Instruction_19",
     Load8Instruction_20 = "Load8Instruction_20",
     Load8Instruction_21 = "Load8Instruction_21",
+    Load8Instruction_22 = "Load8Instruction_22",
+    Load8Instruction_23 = "Load8Instruction_23",
+    Load8Instruction_24 = "Load8Instruction_24",
+    Load8Instruction_25 = "Load8Instruction_25",
+    Load8Instruction_26 = "Load8Instruction_26",
+    Load8Instruction_27 = "Load8Instruction_27",
+    Load8Instruction_28 = "Load8Instruction_28",
+    Load8Instruction_29 = "Load8Instruction_29",
+    Load8Instruction_30 = "Load8Instruction_30",
+    Load8Instruction_31 = "Load8Instruction_31",
+    Load8Instruction_32 = "Load8Instruction_32",
+    Load8Instruction_33 = "Load8Instruction_33",
     Load16Instruction_1 = "Load16Instruction_1",
     Load16Instruction_2 = "Load16Instruction_2",
     Load16Instruction_3 = "Load16Instruction_3",
@@ -541,6 +569,22 @@ export type rr_1 = string;
 export type rr_2 = string;
 export type rr_3 = string;
 export type rr_4 = string;
+export type rx = rx_1 | rx_2 | rx_3 | rx_4 | rx_5 | rx_6 | rx_7;
+export type rx_1 = string;
+export type rx_2 = string;
+export type rx_3 = string;
+export type rx_4 = string;
+export type rx_5 = string;
+export type rx_6 = string;
+export type rx_7 = string;
+export type ry = ry_1 | ry_2 | ry_3 | ry_4 | ry_5 | ry_6 | ry_7;
+export type ry_1 = string;
+export type ry_2 = string;
+export type ry_3 = string;
+export type ry_4 = string;
+export type ry_5 = string;
+export type ry_6 = string;
+export type ry_7 = string;
 export type n = n_1 | n_2 | n_3 | n_4;
 export class n_1 {
     public kind: ASTKinds.n_1 = ASTKinds.n_1;
@@ -1073,6 +1117,14 @@ export interface Reg8 {
     kind: ASTKinds.Reg8;
     reg: r;
 }
+export interface RegX8 {
+    kind: ASTKinds.RegX8;
+    reg: rx;
+}
+export interface RegY8 {
+    kind: ASTKinds.RegY8;
+    reg: ry;
+}
 export interface IX {
     kind: ASTKinds.IX;
     offset: Nullable<IX_$0>;
@@ -1116,7 +1168,7 @@ export type Instruction_13 = ReturnInstruction;
 export type Instruction_14 = InputInstruction;
 export type Instruction_15 = OutputInstruction;
 export type Instruction_16 = CpuControlGroupInstruction;
-export type Load8Instruction = Load8Instruction_1 | Load8Instruction_2 | Load8Instruction_3 | Load8Instruction_4 | Load8Instruction_5 | Load8Instruction_6 | Load8Instruction_7 | Load8Instruction_8 | Load8Instruction_9 | Load8Instruction_10 | Load8Instruction_11 | Load8Instruction_12 | Load8Instruction_13 | Load8Instruction_14 | Load8Instruction_15 | Load8Instruction_16 | Load8Instruction_17 | Load8Instruction_18 | Load8Instruction_19 | Load8Instruction_20 | Load8Instruction_21;
+export type Load8Instruction = Load8Instruction_1 | Load8Instruction_2 | Load8Instruction_3 | Load8Instruction_4 | Load8Instruction_5 | Load8Instruction_6 | Load8Instruction_7 | Load8Instruction_8 | Load8Instruction_9 | Load8Instruction_10 | Load8Instruction_11 | Load8Instruction_12 | Load8Instruction_13 | Load8Instruction_14 | Load8Instruction_15 | Load8Instruction_16 | Load8Instruction_17 | Load8Instruction_18 | Load8Instruction_19 | Load8Instruction_20 | Load8Instruction_21 | Load8Instruction_22 | Load8Instruction_23 | Load8Instruction_24 | Load8Instruction_25 | Load8Instruction_26 | Load8Instruction_27 | Load8Instruction_28 | Load8Instruction_29 | Load8Instruction_30 | Load8Instruction_31 | Load8Instruction_32 | Load8Instruction_33;
 export class Load8Instruction_1 {
     public kind: ASTKinds.Load8Instruction_1 = ASTKinds.Load8Instruction_1;
     public r0: Reg8;
@@ -1132,6 +1184,146 @@ export class Load8Instruction_1 {
 }
 export class Load8Instruction_2 {
     public kind: ASTKinds.Load8Instruction_2 = ASTKinds.Load8Instruction_2;
+    public r0: Reg8;
+    public elements: AstElements;
+    constructor(r0: Reg8){
+        this.r0 = r0;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0b01000000 | r_bits(r0.reg, 3) | 0b100];
+        })();
+    }
+}
+export class Load8Instruction_3 {
+    public kind: ASTKinds.Load8Instruction_3 = ASTKinds.Load8Instruction_3;
+    public r0: Reg8;
+    public elements: AstElements;
+    constructor(r0: Reg8){
+        this.r0 = r0;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0b01000000 | r_bits(r0.reg, 3) | 0b101];
+        })();
+    }
+}
+export class Load8Instruction_4 {
+    public kind: ASTKinds.Load8Instruction_4 = ASTKinds.Load8Instruction_4;
+    public r0: Reg8;
+    public elements: AstElements;
+    constructor(r0: Reg8){
+        this.r0 = r0;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0b01000000 | r_bits(r0.reg, 3) | 0b100];
+        })();
+    }
+}
+export class Load8Instruction_5 {
+    public kind: ASTKinds.Load8Instruction_5 = ASTKinds.Load8Instruction_5;
+    public r0: Reg8;
+    public elements: AstElements;
+    constructor(r0: Reg8){
+        this.r0 = r0;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0b01000000 | r_bits(r0.reg, 3) | 0b101];
+        })();
+    }
+}
+export class Load8Instruction_6 {
+    public kind: ASTKinds.Load8Instruction_6 = ASTKinds.Load8Instruction_6;
+    public r1: RegX8;
+    public elements: AstElements;
+    constructor(r1: RegX8){
+        this.r1 = r1;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0b01000000 | 0b100000 | r_bits(r1.reg)];
+        })();
+    }
+}
+export class Load8Instruction_7 {
+    public kind: ASTKinds.Load8Instruction_7 = ASTKinds.Load8Instruction_7;
+    public r1: RegX8;
+    public elements: AstElements;
+    constructor(r1: RegX8){
+        this.r1 = r1;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0b01000000 | 0b101000 | r_bits(r1.reg)];
+        })();
+    }
+}
+export class Load8Instruction_8 {
+    public kind: ASTKinds.Load8Instruction_8 = ASTKinds.Load8Instruction_8;
+    public r1: RegY8;
+    public elements: AstElements;
+    constructor(r1: RegY8){
+        this.r1 = r1;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0b01000000 | 0b100000 | r_bits(r1.reg)];
+        })();
+    }
+}
+export class Load8Instruction_9 {
+    public kind: ASTKinds.Load8Instruction_9 = ASTKinds.Load8Instruction_9;
+    public r1: RegY8;
+    public elements: AstElements;
+    constructor(r1: RegY8){
+        this.r1 = r1;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0b01000000 | 0b101000 | r_bits(r1.reg)];
+        })();
+    }
+}
+export class Load8Instruction_10 {
+    public kind: ASTKinds.Load8Instruction_10 = ASTKinds.Load8Instruction_10;
+    public pos: PosInfo;
+    public n: Expression;
+    public elements: AstElements;
+    constructor(pos: PosInfo, n: Expression){
+        this.pos = pos;
+        this.n = n;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0x26, value8(pos, n)];
+        })();
+    }
+}
+export class Load8Instruction_11 {
+    public kind: ASTKinds.Load8Instruction_11 = ASTKinds.Load8Instruction_11;
+    public pos: PosInfo;
+    public n: Expression;
+    public elements: AstElements;
+    constructor(pos: PosInfo, n: Expression){
+        this.pos = pos;
+        this.n = n;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0x2E, value8(pos, n)];
+        })();
+    }
+}
+export class Load8Instruction_12 {
+    public kind: ASTKinds.Load8Instruction_12 = ASTKinds.Load8Instruction_12;
+    public pos: PosInfo;
+    public n: Expression;
+    public elements: AstElements;
+    constructor(pos: PosInfo, n: Expression){
+        this.pos = pos;
+        this.n = n;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0x26, value8(pos, n)];
+        })();
+    }
+}
+export class Load8Instruction_13 {
+    public kind: ASTKinds.Load8Instruction_13 = ASTKinds.Load8Instruction_13;
+    public pos: PosInfo;
+    public n: Expression;
+    public elements: AstElements;
+    constructor(pos: PosInfo, n: Expression){
+        this.pos = pos;
+        this.n = n;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0x2E, value8(pos, n)];
+        })();
+    }
+}
+export class Load8Instruction_14 {
+    public kind: ASTKinds.Load8Instruction_14 = ASTKinds.Load8Instruction_14;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -1141,8 +1333,8 @@ export class Load8Instruction_2 {
         })();
     }
 }
-export class Load8Instruction_3 {
-    public kind: ASTKinds.Load8Instruction_3 = ASTKinds.Load8Instruction_3;
+export class Load8Instruction_15 {
+    public kind: ASTKinds.Load8Instruction_15 = ASTKinds.Load8Instruction_15;
     public r: r;
     public i: IX;
     public elements: AstElements;
@@ -1154,8 +1346,8 @@ export class Load8Instruction_3 {
         })();
     }
 }
-export class Load8Instruction_4 {
-    public kind: ASTKinds.Load8Instruction_4 = ASTKinds.Load8Instruction_4;
+export class Load8Instruction_16 {
+    public kind: ASTKinds.Load8Instruction_16 = ASTKinds.Load8Instruction_16;
     public r: r;
     public i: IY;
     public elements: AstElements;
@@ -1167,8 +1359,8 @@ export class Load8Instruction_4 {
         })();
     }
 }
-export class Load8Instruction_5 {
-    public kind: ASTKinds.Load8Instruction_5 = ASTKinds.Load8Instruction_5;
+export class Load8Instruction_17 {
+    public kind: ASTKinds.Load8Instruction_17 = ASTKinds.Load8Instruction_17;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -1178,8 +1370,8 @@ export class Load8Instruction_5 {
         })();
     }
 }
-export class Load8Instruction_6 {
-    public kind: ASTKinds.Load8Instruction_6 = ASTKinds.Load8Instruction_6;
+export class Load8Instruction_18 {
+    public kind: ASTKinds.Load8Instruction_18 = ASTKinds.Load8Instruction_18;
     public i: IX;
     public r: r;
     public elements: AstElements;
@@ -1191,8 +1383,8 @@ export class Load8Instruction_6 {
         })();
     }
 }
-export class Load8Instruction_7 {
-    public kind: ASTKinds.Load8Instruction_7 = ASTKinds.Load8Instruction_7;
+export class Load8Instruction_19 {
+    public kind: ASTKinds.Load8Instruction_19 = ASTKinds.Load8Instruction_19;
     public i: IY;
     public r: r;
     public elements: AstElements;
@@ -1204,8 +1396,8 @@ export class Load8Instruction_7 {
         })();
     }
 }
-export class Load8Instruction_8 {
-    public kind: ASTKinds.Load8Instruction_8 = ASTKinds.Load8Instruction_8;
+export class Load8Instruction_20 {
+    public kind: ASTKinds.Load8Instruction_20 = ASTKinds.Load8Instruction_20;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -1217,8 +1409,8 @@ export class Load8Instruction_8 {
         })();
     }
 }
-export class Load8Instruction_9 {
-    public kind: ASTKinds.Load8Instruction_9 = ASTKinds.Load8Instruction_9;
+export class Load8Instruction_21 {
+    public kind: ASTKinds.Load8Instruction_21 = ASTKinds.Load8Instruction_21;
     public i: IX;
     public pos: PosInfo;
     public n: Expression;
@@ -1232,8 +1424,8 @@ export class Load8Instruction_9 {
         })();
     }
 }
-export class Load8Instruction_10 {
-    public kind: ASTKinds.Load8Instruction_10 = ASTKinds.Load8Instruction_10;
+export class Load8Instruction_22 {
+    public kind: ASTKinds.Load8Instruction_22 = ASTKinds.Load8Instruction_22;
     public i: IY;
     public pos: PosInfo;
     public n: Expression;
@@ -1247,8 +1439,8 @@ export class Load8Instruction_10 {
         })();
     }
 }
-export class Load8Instruction_11 {
-    public kind: ASTKinds.Load8Instruction_11 = ASTKinds.Load8Instruction_11;
+export class Load8Instruction_23 {
+    public kind: ASTKinds.Load8Instruction_23 = ASTKinds.Load8Instruction_23;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1256,8 +1448,8 @@ export class Load8Instruction_11 {
         })();
     }
 }
-export class Load8Instruction_12 {
-    public kind: ASTKinds.Load8Instruction_12 = ASTKinds.Load8Instruction_12;
+export class Load8Instruction_24 {
+    public kind: ASTKinds.Load8Instruction_24 = ASTKinds.Load8Instruction_24;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1265,8 +1457,8 @@ export class Load8Instruction_12 {
         })();
     }
 }
-export class Load8Instruction_13 {
-    public kind: ASTKinds.Load8Instruction_13 = ASTKinds.Load8Instruction_13;
+export class Load8Instruction_25 {
+    public kind: ASTKinds.Load8Instruction_25 = ASTKinds.Load8Instruction_25;
     public pos: PosInfo;
     public ee: Expression;
     public elements: AstElements;
@@ -1278,8 +1470,8 @@ export class Load8Instruction_13 {
         })();
     }
 }
-export class Load8Instruction_14 {
-    public kind: ASTKinds.Load8Instruction_14 = ASTKinds.Load8Instruction_14;
+export class Load8Instruction_26 {
+    public kind: ASTKinds.Load8Instruction_26 = ASTKinds.Load8Instruction_26;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1287,8 +1479,8 @@ export class Load8Instruction_14 {
         })();
     }
 }
-export class Load8Instruction_15 {
-    public kind: ASTKinds.Load8Instruction_15 = ASTKinds.Load8Instruction_15;
+export class Load8Instruction_27 {
+    public kind: ASTKinds.Load8Instruction_27 = ASTKinds.Load8Instruction_27;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1296,8 +1488,8 @@ export class Load8Instruction_15 {
         })();
     }
 }
-export class Load8Instruction_16 {
-    public kind: ASTKinds.Load8Instruction_16 = ASTKinds.Load8Instruction_16;
+export class Load8Instruction_28 {
+    public kind: ASTKinds.Load8Instruction_28 = ASTKinds.Load8Instruction_28;
     public pos: PosInfo;
     public ee: Expression;
     public elements: AstElements;
@@ -1309,8 +1501,8 @@ export class Load8Instruction_16 {
         })();
     }
 }
-export class Load8Instruction_17 {
-    public kind: ASTKinds.Load8Instruction_17 = ASTKinds.Load8Instruction_17;
+export class Load8Instruction_29 {
+    public kind: ASTKinds.Load8Instruction_29 = ASTKinds.Load8Instruction_29;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1318,8 +1510,8 @@ export class Load8Instruction_17 {
         })();
     }
 }
-export class Load8Instruction_18 {
-    public kind: ASTKinds.Load8Instruction_18 = ASTKinds.Load8Instruction_18;
+export class Load8Instruction_30 {
+    public kind: ASTKinds.Load8Instruction_30 = ASTKinds.Load8Instruction_30;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1327,8 +1519,8 @@ export class Load8Instruction_18 {
         })();
     }
 }
-export class Load8Instruction_19 {
-    public kind: ASTKinds.Load8Instruction_19 = ASTKinds.Load8Instruction_19;
+export class Load8Instruction_31 {
+    public kind: ASTKinds.Load8Instruction_31 = ASTKinds.Load8Instruction_31;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1336,8 +1528,8 @@ export class Load8Instruction_19 {
         })();
     }
 }
-export class Load8Instruction_20 {
-    public kind: ASTKinds.Load8Instruction_20 = ASTKinds.Load8Instruction_20;
+export class Load8Instruction_32 {
+    public kind: ASTKinds.Load8Instruction_32 = ASTKinds.Load8Instruction_32;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1345,8 +1537,8 @@ export class Load8Instruction_20 {
         })();
     }
 }
-export class Load8Instruction_21 {
-    public kind: ASTKinds.Load8Instruction_21 = ASTKinds.Load8Instruction_21;
+export class Load8Instruction_33 {
+    public kind: ASTKinds.Load8Instruction_33 = ASTKinds.Load8Instruction_33;
     public r: Reg8;
     public pos: PosInfo;
     public n: Expression;
@@ -3885,6 +4077,70 @@ export class Parser {
     public matchrr_4($$dpth: number, $$cr?: ErrorTracker): Nullable<rr_4> {
         return this.regexAccept(String.raw`(?:sp)`, "", $$dpth + 1, $$cr);
     }
+    public matchrx($$dpth: number, $$cr?: ErrorTracker): Nullable<rx> {
+        return this.choice<rx>([
+            () => this.matchrx_1($$dpth + 1, $$cr),
+            () => this.matchrx_2($$dpth + 1, $$cr),
+            () => this.matchrx_3($$dpth + 1, $$cr),
+            () => this.matchrx_4($$dpth + 1, $$cr),
+            () => this.matchrx_5($$dpth + 1, $$cr),
+            () => this.matchrx_6($$dpth + 1, $$cr),
+            () => this.matchrx_7($$dpth + 1, $$cr),
+        ]);
+    }
+    public matchrx_1($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_1> {
+        return this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_2($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_2> {
+        return this.regexAccept(String.raw`(?:b)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_3($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_3> {
+        return this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_4($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_4> {
+        return this.regexAccept(String.raw`(?:d)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_5($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_5> {
+        return this.regexAccept(String.raw`(?:e)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_6($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_6> {
+        return this.regexAccept(String.raw`(?:ixh)`, "", $$dpth + 1, $$cr);
+    }
+    public matchrx_7($$dpth: number, $$cr?: ErrorTracker): Nullable<rx_7> {
+        return this.regexAccept(String.raw`(?:ixl)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry($$dpth: number, $$cr?: ErrorTracker): Nullable<ry> {
+        return this.choice<ry>([
+            () => this.matchry_1($$dpth + 1, $$cr),
+            () => this.matchry_2($$dpth + 1, $$cr),
+            () => this.matchry_3($$dpth + 1, $$cr),
+            () => this.matchry_4($$dpth + 1, $$cr),
+            () => this.matchry_5($$dpth + 1, $$cr),
+            () => this.matchry_6($$dpth + 1, $$cr),
+            () => this.matchry_7($$dpth + 1, $$cr),
+        ]);
+    }
+    public matchry_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_1> {
+        return this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_2> {
+        return this.regexAccept(String.raw`(?:b)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_3> {
+        return this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_4> {
+        return this.regexAccept(String.raw`(?:d)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_5> {
+        return this.regexAccept(String.raw`(?:e)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_6($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_6> {
+        return this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr);
+    }
+    public matchry_7($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_7> {
+        return this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr);
+    }
     public matchn($$dpth: number, $$cr?: ErrorTracker): Nullable<n> {
         return this.choice<n>([
             () => this.matchn_1($$dpth + 1, $$cr),
@@ -5061,6 +5317,34 @@ export class Parser {
                 return $$res;
             });
     }
+    public matchRegX8($$dpth: number, $$cr?: ErrorTracker): Nullable<RegX8> {
+        return this.run<RegX8>($$dpth,
+            () => {
+                let $scope$reg: Nullable<rx>;
+                let $$res: Nullable<RegX8> = null;
+                if (true
+                    && ($scope$reg = this.matchrx($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<string>(() => this.regexAccept(String.raw`(?:[^a-z0-9_!\?#@\.])`, "", $$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = {kind: ASTKinds.RegX8, reg: $scope$reg};
+                }
+                return $$res;
+            });
+    }
+    public matchRegY8($$dpth: number, $$cr?: ErrorTracker): Nullable<RegY8> {
+        return this.run<RegY8>($$dpth,
+            () => {
+                let $scope$reg: Nullable<ry>;
+                let $$res: Nullable<RegY8> = null;
+                if (true
+                    && ($scope$reg = this.matchry($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<string>(() => this.regexAccept(String.raw`(?:[^a-z0-9_!\?#@\.])`, "", $$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = {kind: ASTKinds.RegY8, reg: $scope$reg};
+                }
+                return $$res;
+            });
+    }
     public matchIX($$dpth: number, $$cr?: ErrorTracker): Nullable<IX> {
         return this.run<IX>($$dpth,
             () => {
@@ -5242,6 +5526,18 @@ export class Parser {
             () => this.matchLoad8Instruction_19($$dpth + 1, $$cr),
             () => this.matchLoad8Instruction_20($$dpth + 1, $$cr),
             () => this.matchLoad8Instruction_21($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_22($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_23($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_24($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_25($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_26($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_27($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_28($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_29($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_30($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_31($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_32($$dpth + 1, $$cr),
+            () => this.matchLoad8Instruction_33($$dpth + 1, $$cr),
         ]);
     }
     public matchLoad8Instruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_1> {
@@ -5268,21 +5564,19 @@ export class Parser {
     public matchLoad8Instruction_2($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_2> {
         return this.run<Load8Instruction_2>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$r0: Nullable<Reg8>;
                 let $$res: Nullable<Load8Instruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r0 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixh)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_2($scope$r);
+                    $$res = new Load8Instruction_2($scope$r0);
                 }
                 return $$res;
             });
@@ -5290,24 +5584,19 @@ export class Parser {
     public matchLoad8Instruction_3($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_3> {
         return this.run<Load8Instruction_3>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
-                let $scope$i: Nullable<IX>;
+                let $scope$r0: Nullable<Reg8>;
                 let $$res: Nullable<Load8Instruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r0 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_3($scope$r, $scope$i);
+                    $$res = new Load8Instruction_3($scope$r0);
                 }
                 return $$res;
             });
@@ -5315,24 +5604,19 @@ export class Parser {
     public matchLoad8Instruction_4($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_4> {
         return this.run<Load8Instruction_4>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
-                let $scope$i: Nullable<IY>;
+                let $scope$r0: Nullable<Reg8>;
                 let $$res: Nullable<Load8Instruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r0 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_4($scope$r, $scope$i);
+                    $$res = new Load8Instruction_4($scope$r0);
                 }
                 return $$res;
             });
@@ -5340,23 +5624,19 @@ export class Parser {
     public matchLoad8Instruction_5($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_5> {
         return this.run<Load8Instruction_5>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$r0: Nullable<Reg8>;
                 let $$res: Nullable<Load8Instruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r0 = this.matchReg8($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_5($scope$r);
+                    $$res = new Load8Instruction_5($scope$r0);
                 }
                 return $$res;
             });
@@ -5364,24 +5644,19 @@ export class Parser {
     public matchLoad8Instruction_6($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_6> {
         return this.run<Load8Instruction_6>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
-                let $scope$r: Nullable<r>;
+                let $scope$r1: Nullable<RegX8>;
                 let $$res: Nullable<Load8Instruction_6> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixh)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r1 = this.matchRegX8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_6($scope$i, $scope$r);
+                    $$res = new Load8Instruction_6($scope$r1);
                 }
                 return $$res;
             });
@@ -5389,24 +5664,19 @@ export class Parser {
     public matchLoad8Instruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_7> {
         return this.run<Load8Instruction_7>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
-                let $scope$r: Nullable<r>;
+                let $scope$r1: Nullable<RegX8>;
                 let $$res: Nullable<Load8Instruction_7> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r1 = this.matchRegX8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_7($scope$i, $scope$r);
+                    $$res = new Load8Instruction_7($scope$r1);
                 }
                 return $$res;
             });
@@ -5414,23 +5684,19 @@ export class Parser {
     public matchLoad8Instruction_8($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_8> {
         return this.run<Load8Instruction_8>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r1: Nullable<RegY8>;
                 let $$res: Nullable<Load8Instruction_8> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$r1 = this.matchRegY8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_8($scope$pos, $scope$n);
+                    $$res = new Load8Instruction_8($scope$r1);
                 }
                 return $$res;
             });
@@ -5438,26 +5704,19 @@ export class Parser {
     public matchLoad8Instruction_9($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_9> {
         return this.run<Load8Instruction_9>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r1: Nullable<RegY8>;
                 let $$res: Nullable<Load8Instruction_9> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$r1 = this.matchRegY8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_9($scope$i, $scope$pos, $scope$n);
+                    $$res = new Load8Instruction_9($scope$r1);
                 }
                 return $$res;
             });
@@ -5465,18 +5724,13 @@ export class Parser {
     public matchLoad8Instruction_10($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_10> {
         return this.run<Load8Instruction_10>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
                 let $scope$pos: Nullable<PosInfo>;
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_10> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixh)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -5484,7 +5738,7 @@ export class Parser {
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_10($scope$i, $scope$pos, $scope$n);
+                    $$res = new Load8Instruction_10($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -5492,22 +5746,21 @@ export class Parser {
     public matchLoad8Instruction_11($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_11> {
         return this.run<Load8Instruction_11>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_11> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ixl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_11();
+                    $$res = new Load8Instruction_11($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -5515,22 +5768,21 @@ export class Parser {
     public matchLoad8Instruction_12($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_12> {
         return this.run<Load8Instruction_12>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_12> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_12();
+                    $$res = new Load8Instruction_12($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -5539,8 +5791,300 @@ export class Parser {
         return this.run<Load8Instruction_13>($$dpth,
             () => {
                 let $scope$pos: Nullable<PosInfo>;
-                let $scope$ee: Nullable<Expression>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<Load8Instruction_13> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_13($scope$pos, $scope$n);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_14($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_14> {
+        return this.run<Load8Instruction_14>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<Load8Instruction_14> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_14($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_15($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_15> {
+        return this.run<Load8Instruction_15>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<Load8Instruction_15> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_15($scope$r, $scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_16($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_16> {
+        return this.run<Load8Instruction_16>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<Load8Instruction_16> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_16($scope$r, $scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_17($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_17> {
+        return this.run<Load8Instruction_17>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<Load8Instruction_17> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_17($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_18($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_18> {
+        return this.run<Load8Instruction_18>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<Load8Instruction_18> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_18($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_19($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_19> {
+        return this.run<Load8Instruction_19>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<Load8Instruction_19> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_19($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_20($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_20> {
+        return this.run<Load8Instruction_20>($$dpth,
+            () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
+                let $$res: Nullable<Load8Instruction_20> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_20($scope$pos, $scope$n);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_21($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_21> {
+        return this.run<Load8Instruction_21>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
+                let $$res: Nullable<Load8Instruction_21> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_21($scope$i, $scope$pos, $scope$n);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_22($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_22> {
+        return this.run<Load8Instruction_22>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
+                let $$res: Nullable<Load8Instruction_22> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_22($scope$i, $scope$pos, $scope$n);
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_23($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_23> {
+        return this.run<Load8Instruction_23>($$dpth,
+            () => {
+                let $$res: Nullable<Load8Instruction_23> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:bc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_23();
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_24($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_24> {
+        return this.run<Load8Instruction_24>($$dpth,
+            () => {
+                let $$res: Nullable<Load8Instruction_24> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:de)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new Load8Instruction_24();
+                }
+                return $$res;
+            });
+    }
+    public matchLoad8Instruction_25($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_25> {
+        return this.run<Load8Instruction_25>($$dpth,
+            () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$ee: Nullable<Expression>;
+                let $$res: Nullable<Load8Instruction_25> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5556,15 +6100,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_13($scope$pos, $scope$ee);
+                    $$res = new Load8Instruction_25($scope$pos, $scope$ee);
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_14($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_14> {
-        return this.run<Load8Instruction_14>($$dpth,
+    public matchLoad8Instruction_26($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_26> {
+        return this.run<Load8Instruction_26>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_14> = null;
+                let $$res: Nullable<Load8Instruction_26> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5579,15 +6123,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_14();
+                    $$res = new Load8Instruction_26();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_15($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_15> {
-        return this.run<Load8Instruction_15>($$dpth,
+    public matchLoad8Instruction_27($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_27> {
+        return this.run<Load8Instruction_27>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_15> = null;
+                let $$res: Nullable<Load8Instruction_27> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5602,17 +6146,17 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_15();
+                    $$res = new Load8Instruction_27();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_16($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_16> {
-        return this.run<Load8Instruction_16>($$dpth,
+    public matchLoad8Instruction_28($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_28> {
+        return this.run<Load8Instruction_28>($$dpth,
             () => {
                 let $scope$pos: Nullable<PosInfo>;
                 let $scope$ee: Nullable<Expression>;
-                let $$res: Nullable<Load8Instruction_16> = null;
+                let $$res: Nullable<Load8Instruction_28> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5628,15 +6172,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_16($scope$pos, $scope$ee);
+                    $$res = new Load8Instruction_28($scope$pos, $scope$ee);
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_17($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_17> {
-        return this.run<Load8Instruction_17>($$dpth,
+    public matchLoad8Instruction_29($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_29> {
+        return this.run<Load8Instruction_29>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_17> = null;
+                let $$res: Nullable<Load8Instruction_29> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5647,15 +6191,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:i)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_17();
+                    $$res = new Load8Instruction_29();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_18($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_18> {
-        return this.run<Load8Instruction_18>($$dpth,
+    public matchLoad8Instruction_30($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_30> {
+        return this.run<Load8Instruction_30>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_18> = null;
+                let $$res: Nullable<Load8Instruction_30> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5666,15 +6210,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:r)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_18();
+                    $$res = new Load8Instruction_30();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_19($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_19> {
-        return this.run<Load8Instruction_19>($$dpth,
+    public matchLoad8Instruction_31($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_31> {
+        return this.run<Load8Instruction_31>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_19> = null;
+                let $$res: Nullable<Load8Instruction_31> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5685,15 +6229,15 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_19();
+                    $$res = new Load8Instruction_31();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_20($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_20> {
-        return this.run<Load8Instruction_20>($$dpth,
+    public matchLoad8Instruction_32($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_32> {
+        return this.run<Load8Instruction_32>($$dpth,
             () => {
-                let $$res: Nullable<Load8Instruction_20> = null;
+                let $$res: Nullable<Load8Instruction_32> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5704,18 +6248,18 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_20();
+                    $$res = new Load8Instruction_32();
                 }
                 return $$res;
             });
     }
-    public matchLoad8Instruction_21($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_21> {
-        return this.run<Load8Instruction_21>($$dpth,
+    public matchLoad8Instruction_33($$dpth: number, $$cr?: ErrorTracker): Nullable<Load8Instruction_33> {
+        return this.run<Load8Instruction_33>($$dpth,
             () => {
                 let $scope$r: Nullable<Reg8>;
                 let $scope$pos: Nullable<PosInfo>;
                 let $scope$n: Nullable<Expression>;
-                let $$res: Nullable<Load8Instruction_21> = null;
+                let $$res: Nullable<Load8Instruction_33> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:ld)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -5727,7 +6271,7 @@ export class Parser {
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new Load8Instruction_21($scope$r, $scope$pos, $scope$n);
+                    $$res = new Load8Instruction_33($scope$r, $scope$pos, $scope$n);
                 }
                 return $$res;
             });
