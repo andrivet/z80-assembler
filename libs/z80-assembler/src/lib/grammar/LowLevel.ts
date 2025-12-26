@@ -165,3 +165,23 @@ export function imode(mode: string): byte {
     default: console.log(`Invalid interrupt mode: ${mode}`); return 0;
   }
 }
+
+export function ixy_prefix(v: string): byte {
+  switch (v.toLowerCase()) {
+    case 'ixh':
+    case 'ixl': return 0xDD;
+    case 'iyh':
+    case 'iyl': return 0xFD;
+    default: console.log(`Invalid register name: ${v}`); return 0;
+  }
+}
+
+export function ixy_suffix(v: string, base: byte, increment = 1): byte {
+  switch (v.toLowerCase()) {
+    case 'ixh':
+    case 'iyh': return base;
+    case 'ixl':
+    case 'iyl': return base + increment;
+    default: console.log(`Invalid register name: ${v}`); return 0;
+  }
+}

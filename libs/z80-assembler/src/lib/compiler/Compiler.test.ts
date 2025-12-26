@@ -716,6 +716,11 @@ test("Instruction ADD A, r", () => {
   expect(bytes).toEqual([0x80]);
 });
 
+test('Undocumented Instruction ADD A, IXh', () => {
+  const bytes = compileCode('ADD A, IXh');
+  expect(bytes).toEqual([0xDD, 0x84]);
+});
+
 test("Instruction ADD A, n", () => {
   const bytes = compileCode('ADD A, 0x55');
   expect(bytes).toEqual([0xC6, 0x55]);
@@ -739,6 +744,11 @@ test("Instruction ADD A, (IY+d)", () => {
 test("Instruction ADC A, r", () => {
   const bytes = compileCode('ADC A, B');
   expect(bytes).toEqual([0x88]);
+});
+
+test('Undocumented Instruction ADC A, IXh', () => {
+  const bytes = compileCode('ADC A, IXh');
+  expect(bytes).toEqual([0xDD, 0x8C]);
 });
 
 test("Instruction ADC A, n", () => {
@@ -766,6 +776,11 @@ test("Instruction SUB A, r", () => {
   expect(bytes).toEqual([0x90]);
 });
 
+test('Undocumented Instruction SUB A, IXh', () => {
+  const bytes = compileCode('SUB A, IXh');
+  expect(bytes).toEqual([0xDD, 0x94]);
+});
+
 test("Instruction SUB A, n", () => {
   const bytes = compileCode('SUB A, 0x55');
   expect(bytes).toEqual([0xD6, 0x55]);
@@ -789,6 +804,11 @@ test("Instruction SUB A, (IY+d)", () => {
 test("Instruction SBC A, r", () => {
   const bytes = compileCode('SBC A, B');
   expect(bytes).toEqual([0x98]);
+});
+
+test('Undocumented Instruction SBC A, IXh', () => {
+  const bytes = compileCode('SBC A, IXh');
+  expect(bytes).toEqual([0xDD, 0x9c]);
 });
 
 test("Instruction SBC A, n", () => {
@@ -816,6 +836,11 @@ test("Instruction AND A, r", () => {
   expect(bytes).toEqual([0xA0]);
 });
 
+test('Undocumented Instruction AND A, IXh', () => {
+  const bytes = compileCode('AND A, IXh');
+  expect(bytes).toEqual([0xDD, 0xA4]);
+});
+
 test("Instruction AND A, n", () => {
   const bytes = compileCode('AND A, 0x55');
   expect(bytes).toEqual([0xE6, 0x55]);
@@ -839,6 +864,11 @@ test("Instruction AND A, (IY+d)", () => {
 test("Instruction OR A, r", () => {
   const bytes = compileCode('OR A, B');
   expect(bytes).toEqual([0xB0]);
+});
+
+test('Undocumented Instruction OR A, IXh', () => {
+  const bytes = compileCode('OR A, IXh');
+  expect(bytes).toEqual([0xDD, 0xB4]);
 });
 
 test("Instruction OR A, n", () => {
@@ -866,6 +896,11 @@ test("Instruction XOR A, r", () => {
   expect(bytes).toEqual([0xA8]);
 });
 
+test('Undocumented Instruction XOR A, IXh', () => {
+  const bytes = compileCode('XOR A, IXh');
+  expect(bytes).toEqual([0xDD, 0xAC]);
+});
+
 test("Instruction XOR A, n", () => {
   const bytes = compileCode('XOR A, 0x55');
   expect(bytes).toEqual([0xEE, 0x55]);
@@ -889,6 +924,11 @@ test("Instruction XOR A, (IY+d)", () => {
 test("Instruction CP A, r", () => {
   const bytes = compileCode('CP A, B');
   expect(bytes).toEqual([0xB8]);
+});
+
+test('Undocumented Instruction CP A, IXh', () => {
+  const bytes = compileCode('CP A, IXh');
+  expect(bytes).toEqual([0xdd, 0xBC]);
 });
 
 test("Instruction CP A, n", () => {
@@ -916,6 +956,11 @@ test("Instruction ADD r", () => {
   expect(bytes).toEqual([0x80]);
 });
 
+test('Undocumented Instruction ADD IXh', () => {
+  const bytes = compileCode('ADD IXh');
+  expect(bytes).toEqual([0xDD, 0x84]);
+});
+
 test("Instruction ADD n", () => {
   const bytes = compileCode('ADD 0x55');
   expect(bytes).toEqual([0xC6, 0x55]);
@@ -939,6 +984,11 @@ test("Instruction ADD (IY+d)", () => {
 test("Instruction ADC r", () => {
   const bytes = compileCode('ADC B');
   expect(bytes).toEqual([0x88]);
+});
+
+test('Undocumented Instruction ADC IXh', () => {
+  const bytes = compileCode('ADC IXh');
+  expect(bytes).toEqual([0xDD, 0x8C]);
 });
 
 test("Instruction ADC n", () => {
@@ -966,6 +1016,11 @@ test("Instruction SUB r", () => {
   expect(bytes).toEqual([0x90]);
 });
 
+test('Undocumented Instruction SUB IXh', () => {
+  const bytes = compileCode('SUB IXh');
+  expect(bytes).toEqual([0xDD, 0x94]);
+});
+
 test("Instruction SUB n", () => {
   const bytes = compileCode('SUB 0x55');
   expect(bytes).toEqual([0xD6, 0x55]);
@@ -989,6 +1044,11 @@ test("Instruction SUB (IY+d)", () => {
 test("Instruction SBC r", () => {
   const bytes = compileCode('SBC B');
   expect(bytes).toEqual([0x98]);
+});
+
+test('Undocumented Instruction SBC IXh', () => {
+  const bytes = compileCode('SBC IXh');
+  expect(bytes).toEqual([0xDD, 0x9C]);
 });
 
 test("Instruction SBC n", () => {
@@ -1016,6 +1076,11 @@ test("Instruction AND r", () => {
   expect(bytes).toEqual([0xA0]);
 });
 
+test('Undocumented Instruction AND IXh', () => {
+  const bytes = compileCode('AND IXh');
+  expect(bytes).toEqual([0xDD, 0xA4]);
+});
+
 test("Instruction AND n", () => {
   const bytes = compileCode('AND 0x55');
   expect(bytes).toEqual([0xE6, 0x55]);
@@ -1039,6 +1104,11 @@ test("Instruction AND (IY+d)", () => {
 test("Instruction OR r", () => {
   const bytes = compileCode('OR B');
   expect(bytes).toEqual([0xB0]);
+});
+
+test('Undocumented Instruction OR IXh', () => {
+  const bytes = compileCode('OR IXh');
+  expect(bytes).toEqual([0xDD, 0xB4]);
 });
 
 test("Instruction OR n", () => {
@@ -1066,6 +1136,11 @@ test("Instruction XOR r", () => {
   expect(bytes).toEqual([0xA8]);
 });
 
+test('Undocumented Instruction XOR IXh', () => {
+  const bytes = compileCode('XOR IXh');
+  expect(bytes).toEqual([0xDD, 0xAC]);
+});
+
 test("Instruction XOR n", () => {
   const bytes = compileCode('XOR 0x55');
   expect(bytes).toEqual([0xEE, 0x55]);
@@ -1089,6 +1164,11 @@ test("Instruction XOR (IY+d)", () => {
 test("Instruction CP r", () => {
   const bytes = compileCode('CP B');
   expect(bytes).toEqual([0xB8]);
+});
+
+test('Undocumented Instruction CP IXh', () => {
+  const bytes = compileCode('CP IXh');
+  expect(bytes).toEqual([0xDD, 0xBC]);
 });
 
 test("Instruction CP n", () => {
@@ -1116,6 +1196,11 @@ test("Instruction INC r", () => {
   expect(bytes).toEqual([0x04]);
 });
 
+test('Undocumented Instruction INC IXh', () => {
+  const bytes = compileCode('INC IXh');
+  expect(bytes).toEqual([0xDD, 0x24]);
+});
+
 test("Instruction INC (HL)", () => {
   const bytes = compileCode('INC (HL)');
   expect(bytes).toEqual([0x34]);
@@ -1134,6 +1219,11 @@ test("Instruction INC (IY+d)", () => {
 test("Instruction DEC r", () => {
   const bytes = compileCode('DEC B');
   expect(bytes).toEqual([0x05]);
+});
+
+test('Undocumented Instruction DEC IXh', () => {
+  const bytes = compileCode('DEC IXh');
+  expect(bytes).toEqual([0xDD, 0x25]);
 });
 
 test("Instruction DEC (HL)", () => {
@@ -1321,9 +1411,19 @@ test("Instruction RL (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x16]);
 });
 
+test('Undocumented Instruction RL (IX+d), r with B', () => {
+  const bytes = compileCode('RL (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x10]);
+});
+
 test("Instruction RL (IY+d)", () => {
   const bytes = compileCode('RL (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x16]);
+});
+
+test('Undocumented Instruction RL (IY+d), r with B', () => {
+  const bytes = compileCode('RL (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x10]);
 });
 
 test("Instruction RRC r", () => {
@@ -1341,9 +1441,19 @@ test("Instruction RRC (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x0E]);
 });
 
+test('Undocumented Instruction RRC (IX+d), r with B', () => {
+  const bytes = compileCode('RRC (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x08]);
+});
+
 test("Instruction RRC (IY+d)", () => {
   const bytes = compileCode('RRC (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x0E]);
+});
+
+test('Undocumented Instruction RRC (IY+d), r with B', () => {
+  const bytes = compileCode('RRC (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x08]);
 });
 
 test("Instruction RR r", () => {
@@ -1361,9 +1471,19 @@ test("Instruction RR (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x1E]);
 });
 
+test('Undocumented Instruction RR (IX+d), R with B', () => {
+  const bytes = compileCode('RR (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x18]);
+});
+
 test("Instruction RR (IY+d)", () => {
   const bytes = compileCode('RR (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x1E]);
+});
+
+test('Undocumented Instruction RR (IY+d), R with B', () => {
+  const bytes = compileCode('RR (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x18]);
 });
 
 test("Instruction SLA r", () => {
@@ -1381,9 +1501,49 @@ test("Instruction SLA (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x26]);
 });
 
+test('Undocumented Instruction SLA (IX+d), r with B', () => {
+  const bytes = compileCode('SLA (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x20]);
+});
+
 test("Instruction SLA (IY+d)", () => {
   const bytes = compileCode('SLA (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x26]);
+});
+
+test('Undocumented Instruction SLA (IY+d), r with B', () => {
+  const bytes = compileCode('SLA (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x20]);
+});
+
+test('Undocumented Instruction SLL r with B', () => {
+  const bytes = compileCode('SLL B');
+  expect(bytes).toEqual([0xCB, 0x30]);
+});
+
+test('Undocumented Instruction SLL (HL)', () => {
+  const bytes = compileCode('SLL (HL)');
+  expect(bytes).toEqual([0xCB, 0x36]);
+});
+
+test('Undocumented Instruction SLL (IX+d)', () => {
+  const bytes = compileCode('SLL (IX+3)');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x36]);
+});
+
+test('Undocumented Instruction SLL (IX+d), r with B', () => {
+  const bytes = compileCode('SLL (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x30]);
+});
+
+test('Undocumented Instruction SLL (IY+d)', () => {
+  const bytes = compileCode('SLL (IY+3)');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x36]);
+});
+
+test('Undocumented Instruction SLL (IY+d), r with B', () => {
+  const bytes = compileCode('SLL (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x30]);
 });
 
 test("Instruction SRA r", () => {
@@ -1401,9 +1561,19 @@ test("Instruction SRA (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x2E]);
 });
 
-test("Instruction SRA (IY+d)", () => {
+test('Undocumented Instruction SRA (IX+d), r with B', () => {
+  const bytes = compileCode('SRA (IX+3), B');
+  expect(bytes).toEqual([0xdd, 0xcb, 0x03, 0x28]);
+});
+
+test('Instruction SRA (IY+d)', () => {
   const bytes = compileCode('SRA (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x2E]);
+});
+
+test('Undocumented Instruction SRA (IY+d), r with B', () => {
+  const bytes = compileCode('SRA (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x28]);
 });
 
 test("Instruction SRL r", () => {
@@ -1421,9 +1591,19 @@ test("Instruction SRL (IX+d)", () => {
   expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x3E]);
 });
 
+test('Undocumented Instruction SRL (IX+d), r with B', () => {
+  const bytes = compileCode('SRL (IX+3), B');
+  expect(bytes).toEqual([0xDD, 0xCB, 0x03, 0x38]);
+});
+
 test("Instruction SRL (IY+d)", () => {
   const bytes = compileCode('SRL (IY+3)');
   expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x3E]);
+});
+
+test('Undocumented Instruction SRL (IY+d), r with B', () => {
+  const bytes = compileCode('SRL (IY+3), B');
+  expect(bytes).toEqual([0xFD, 0xCB, 0x03, 0x38]);
 });
 
 test("Instruction RLD", () => {
@@ -1751,6 +1931,11 @@ test("Instruction IN r, (C) with A", () => {
   expect(bytes).toEqual([0xED, 0x78]);
 });
 
+test('Undocumented Instruction IN F, (C)', () => {
+  const bytes = compileCode('IN F, (C)');
+  expect(bytes).toEqual([0xED, 0x70]);
+});
+
 test("Instruction INI", () => {
   const bytes = compileCode('INI');
   expect(bytes).toEqual([0xED, 0xA2]);
@@ -1779,6 +1964,11 @@ test("Instruction OUT (n), A", () => {
 test("Instruction OUT (C), r", () => {
   const bytes = compileCode('OUT (C), B');
   expect(bytes).toEqual([0xED, 0x41]);
+});
+
+test('Undocumented Instruction OUT (C), 0', () => {
+  const bytes = compileCode('OUT (C), 0');
+  expect(bytes).toEqual([0xED, 0x71]);
 });
 
 test("Instruction OUTI", () => {

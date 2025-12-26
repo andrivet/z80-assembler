@@ -18,7 +18,9 @@ import {
     cc_bits,
     jj_bits,
     p_bits,
-    imode
+    imode,
+    ixy_prefix,
+    ixy_suffix
 } from "./LowLevel";
 
 import {
@@ -79,6 +81,7 @@ rr := 'bc' | 'de' | 'iy' | 'sp'
 // With undocumented registers
 rx := 'a' | 'b' | 'c' | 'd' | 'e' | 'ixh' | 'ixl'
 ry := 'a' | 'b' | 'c' | 'd' | 'e' | 'iyh' | 'iyl'
+ixy8 := 'ixh' | 'ixl' | 'iyh' | 'iyl'
 
 // 8-bit values
 // Note: binary is before hexadecimal because 0b is ambiguous
@@ -193,7 +196,7 @@ ForbiddenNames :=
     '\.?block|\.?equ|\.?org|\.?include|\.?output|\.?device|\.?end|\.?byte' |
     'call|cpdr|cpir|defb|defm|defs|defw|djnz|eq|halt|indr|inir|lddr|ldir|otdr|otir|outd|outi|push|reti|retn|rlca|rrca|\.?word' |
     'adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla' |
-    'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor' |
+    'rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sll|sra|srl|sub|xor' |
     'cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr'
 
 // A forbidden label is a name not allowed for a label followed by a space, a tabulation, the character ':' or an end of line.
@@ -603,6 +606,10 @@ ArithmeticLogic8Instruction :=
     'add' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10000000 | r_bits(r)]; } |
 
+    // Undocumented ADD A, IXh
+    'add' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x84)]; } |
+
     // ADD A, n
     'add' __ {'a' _ ',' _}? pos=@ n=Expression &eos
     .elements = AstElements { return [0xC6, value8(pos, n)]; } |
@@ -622,6 +629,10 @@ ArithmeticLogic8Instruction :=
     // ADC A, r
     'adc' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10001000 | r_bits(r)]; } |
+
+    // Undocumented ADC A, IXh
+    'adc' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x8C)]; } |
 
     // ADC A, n
     'adc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
@@ -643,6 +654,10 @@ ArithmeticLogic8Instruction :=
     'sub' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10010000 | r_bits(r)]; } |
 
+    // Undocumented SUB A, IXh
+    'sub' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x94)]; } |
+
     // SUB A, n
     'sub' __ {'a' _ ',' _}? pos=@ n=Expression &eos
     .elements = AstElements { return [0xD6, value8(pos, n)]; } |
@@ -662,6 +677,10 @@ ArithmeticLogic8Instruction :=
     // SBC A, r
     'sbc' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10011000 | r_bits(r)]; } |
+
+    // Undocumented SBC A, IXh
+    'sbc' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x9C)]; } |
 
     // SBC A, n
     'sbc' __ {'a' _ ',' _}? pos=@ n=Expression &eos
@@ -683,6 +702,10 @@ ArithmeticLogic8Instruction :=
     'and' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10100000 | r_bits(r)]; } |
 
+    // Undocumented AND A, IXh
+    'and' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0xA4)]; } |
+
     // AND A, n
     'and' __ {'a' _ ',' _}? pos=@ n=Expression &eos
     .elements = AstElements { return [0xE6, value8(pos, n)]; } |
@@ -702,6 +725,10 @@ ArithmeticLogic8Instruction :=
     // OR A, r
     'or' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10110000 | r_bits(r)]; } |
+
+    // Undocumented OR A, IXh
+    'or' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0xB4)]; } |
 
     // OR A, n
     'or' __ {'a' _ ',' _}? pos=@ n=Expression &eos
@@ -723,6 +750,10 @@ ArithmeticLogic8Instruction :=
     'xor' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10101000 | r_bits(r)]; } |
 
+    // Undocumented XOR A, IXh
+    'xor' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0xAC)]; } |
+
     // XOR A, n
     'xor' __ {'a' _ ',' _}? pos=@ n=Expression &eos
     .elements = AstElements { return [0xEE, value8(pos, n)]; } |
@@ -743,6 +774,10 @@ ArithmeticLogic8Instruction :=
     'cp' __ {'a' _ ',' _}? r=r &eos
     .elements = AstElements { return [0b10111000 | r_bits(r)]; } |
 
+    // Undocumented CP A, IXh
+    'cp' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0xBC)]; } |
+
     // CP A, n
     'cp' __ {'a' _ ',' _}? pos=@ n=Expression &eos
     .elements = AstElements { return [0xFE, value8(pos, n)]; }
@@ -753,6 +788,10 @@ IncrementDecrement8Instruction :=
     // INC r
     'inc' __ r=r &eos
     .elements = AstElements { return [0b00000100 | r_bits(r, 3)]; } |
+
+    // Undocumented INC IXh
+    'inc' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x24, 8)]; } |
 
     // INC (HL)
     'inc' __ '\(' _ 'hl' _ '\)' &eos
@@ -769,6 +808,10 @@ IncrementDecrement8Instruction :=
     // DEC r
     'dec' __ r=r &eos
     .elements = AstElements { return [0b00000101 | r_bits(r, 3)]; } |
+
+    // Undocumented DEC IXh
+    'dec' __ {'a' _ ',' _}? r=ixy8 &eos
+    .elements = AstElements { return [ixy_prefix(r), ixy_suffix(r, 0x25, 8)]; } |
 
     // DEC (HL)
     'dec' __ '\(' _ 'hl' _ '\)' &eos
@@ -918,9 +961,17 @@ RotateShiftInstruction :=
     'rl' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x16]; } |
 
+    // Undocumented RL (IX+d), r
+    'rl' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x10 + r_bits(r)]; } |
+
     // RL (IY+d)
     'rl' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x16]; } |
+
+    // Undocumented RL (IY+d), r
+    'rl' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x10 + r_bits(r)]; } |
 
     // RRC r
     'rrc' __ r=r &eos
@@ -934,9 +985,17 @@ RotateShiftInstruction :=
     'rrc' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x0E]; } |
 
+    // Undocumented RRC (IX+d), r
+    'rrc' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x08 + r_bits(r)]; } |
+
     // RRC (IY+d)
     'rrc' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x0E]; } |
+
+    // Undocumented RRC (IY+d), r
+    'rrc' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x08 + r_bits(r)]; } |
 
     // RR r
     'rr' __ r=r &eos
@@ -950,9 +1009,17 @@ RotateShiftInstruction :=
     'rr' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x1E]; } |
 
+    // Undocumented RR (IX+d), r
+    'rr' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x18 + r_bits(r)]; } |
+
     // RR (IY+d)
     'rr' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x1E]; } |
+
+    // Undocumented RR (IY+d), r
+    'rr' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x18 + r_bits(r)]; } |
 
     // SLA r
     'sla' __ r=r &eos
@@ -966,9 +1033,41 @@ RotateShiftInstruction :=
     'sla' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x26]; } |
 
+    // Undocumented SLA (IX+d), r
+    'sla' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x20 + r_bits(r)]; } |
+
     // SLA (IY+d)
     'sla' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x26]; } |
+
+    // Undocumented SLA (IY+d), r
+    'sla' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x20 + r_bits(r)]; } |
+
+    // Undocumented SLL r
+    'sll' __ r=r &eos
+    .elements = AstElements { return [0xCB, 0b00110000 | r_bits(r)]; } |
+
+    // Undocumented SLL (HL)
+    'sll' __ '\(' _ 'hl' _ '\)' &eos
+    .elements = AstElements { return [0xCB, 0x36]; } |
+
+    // Undocumented SLL (IX+d)
+    'sll' __ '\(' _ i=IX _ '\)' &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x36]; } |
+
+    // Undocumented SLL (IX+d), r
+    'sll' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x30 + r_bits(r)]; } |
+
+    // Undocumented SLL (IY+d)
+    'sll' __ '\(' _ i=IY _ '\)' &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x36]; } |
+
+    // Undocumented SLL (IY+d), r
+    'sll' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x30 + r_bits(r)]; } |
 
     // SRA r
     'sra' __ r=r &eos
@@ -982,9 +1081,17 @@ RotateShiftInstruction :=
     'sra' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x2E]; } |
 
+    // Undocumented SRA (IX+d), r
+    'sra' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x28 + r_bits(r)]; } |
+
     // SRA (IY+d)
     'sra' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x2E]; } |
+
+    // Undocumented SRA (IY+d), r
+    'sra' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x28 + r_bits(r)]; } |
 
     // SRL r
     'srl' __ r=r &eos
@@ -998,9 +1105,17 @@ RotateShiftInstruction :=
     'srl' __ '\(' _ i=IX _ '\)' &eos
     .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x3E]; } |
 
+    // Undocumented SRL (IX+d), r
+    'srl' __ '\(' _ i=IX _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xDD, 0xCB, index(i.offset), 0x38 + r_bits(r)]; } |
+
     // SRL (IY+d)
     'srl' __ '\(' _ i=IY _ '\)' &eos
     .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x3E]; } |
+
+    // Undocumented SRL (IY+d), r
+    'srl' __ '\(' _ i=IY _ '\)' _ ',' _ r=r &eos
+    .elements = AstElements { return [0xFD, 0xCB, index(i.offset), 0x38 + r_bits(r)]; } |
 
     // RLD
     'rld' &eos
@@ -1156,6 +1271,10 @@ InputInstruction :=
     'in' __ 'a' _ ',' _ '\(' _ pos=@ n=Expression _ '\)' &eos
     .elements = AstElements { return [0xDB, value8(pos, n)]; } |
 
+    // Undocumented IN F, (C)
+    'in' __ 'f' _ ',' _ '\(' 'c' '\)' &eos
+    .elements = AstElements { return [0xED, 0x70]; } |
+
     // INI
     'ini' &eos
     .elements = AstElements { return [0xED, 0xA2]; } |
@@ -1174,6 +1293,11 @@ InputInstruction :=
 
 // Outputs
 OutputInstruction :=
+    // Have to be before OUT (n), A
+    // Undocumented OUT (C), 0
+    'out' __ '\(' 'c' '\)' _ ',' _ '0' &eos
+    .elements = AstElements { return [0xED, 0x71]; } |
+
     // Have to be before OUT (n), A
     // OUT (C), r
     'out' __ '\(' 'c' '\)' _ ',' _ r=r &eos

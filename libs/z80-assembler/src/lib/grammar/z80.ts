@@ -20,7 +20,9 @@ import {
     cc_bits,
     jj_bits,
     p_bits,
-    imode
+    imode,
+    ixy_prefix,
+    ixy_suffix
 } from "./LowLevel";
 
 import {
@@ -111,6 +113,10 @@ export enum ASTKinds {
     ry_5 = "ry_5",
     ry_6 = "ry_6",
     ry_7 = "ry_7",
+    ixy8_1 = "ixy8_1",
+    ixy8_2 = "ixy8_2",
+    ixy8_3 = "ixy8_3",
+    ixy8_4 = "ixy8_4",
     n_1 = "n_1",
     n_2 = "n_2",
     n_3 = "n_3",
@@ -341,6 +347,14 @@ export enum ASTKinds {
     ArithmeticLogic8Instruction_38 = "ArithmeticLogic8Instruction_38",
     ArithmeticLogic8Instruction_39 = "ArithmeticLogic8Instruction_39",
     ArithmeticLogic8Instruction_40 = "ArithmeticLogic8Instruction_40",
+    ArithmeticLogic8Instruction_41 = "ArithmeticLogic8Instruction_41",
+    ArithmeticLogic8Instruction_42 = "ArithmeticLogic8Instruction_42",
+    ArithmeticLogic8Instruction_43 = "ArithmeticLogic8Instruction_43",
+    ArithmeticLogic8Instruction_44 = "ArithmeticLogic8Instruction_44",
+    ArithmeticLogic8Instruction_45 = "ArithmeticLogic8Instruction_45",
+    ArithmeticLogic8Instruction_46 = "ArithmeticLogic8Instruction_46",
+    ArithmeticLogic8Instruction_47 = "ArithmeticLogic8Instruction_47",
+    ArithmeticLogic8Instruction_48 = "ArithmeticLogic8Instruction_48",
     ArithmeticLogic8Instruction_$0 = "ArithmeticLogic8Instruction_$0",
     ArithmeticLogic8Instruction_$1 = "ArithmeticLogic8Instruction_$1",
     ArithmeticLogic8Instruction_$2 = "ArithmeticLogic8Instruction_$2",
@@ -381,6 +395,14 @@ export enum ASTKinds {
     ArithmeticLogic8Instruction_$37 = "ArithmeticLogic8Instruction_$37",
     ArithmeticLogic8Instruction_$38 = "ArithmeticLogic8Instruction_$38",
     ArithmeticLogic8Instruction_$39 = "ArithmeticLogic8Instruction_$39",
+    ArithmeticLogic8Instruction_$40 = "ArithmeticLogic8Instruction_$40",
+    ArithmeticLogic8Instruction_$41 = "ArithmeticLogic8Instruction_$41",
+    ArithmeticLogic8Instruction_$42 = "ArithmeticLogic8Instruction_$42",
+    ArithmeticLogic8Instruction_$43 = "ArithmeticLogic8Instruction_$43",
+    ArithmeticLogic8Instruction_$44 = "ArithmeticLogic8Instruction_$44",
+    ArithmeticLogic8Instruction_$45 = "ArithmeticLogic8Instruction_$45",
+    ArithmeticLogic8Instruction_$46 = "ArithmeticLogic8Instruction_$46",
+    ArithmeticLogic8Instruction_$47 = "ArithmeticLogic8Instruction_$47",
     IncrementDecrement8Instruction_1 = "IncrementDecrement8Instruction_1",
     IncrementDecrement8Instruction_2 = "IncrementDecrement8Instruction_2",
     IncrementDecrement8Instruction_3 = "IncrementDecrement8Instruction_3",
@@ -389,6 +411,10 @@ export enum ASTKinds {
     IncrementDecrement8Instruction_6 = "IncrementDecrement8Instruction_6",
     IncrementDecrement8Instruction_7 = "IncrementDecrement8Instruction_7",
     IncrementDecrement8Instruction_8 = "IncrementDecrement8Instruction_8",
+    IncrementDecrement8Instruction_9 = "IncrementDecrement8Instruction_9",
+    IncrementDecrement8Instruction_10 = "IncrementDecrement8Instruction_10",
+    IncrementDecrement8Instruction_$0 = "IncrementDecrement8Instruction_$0",
+    IncrementDecrement8Instruction_$1 = "IncrementDecrement8Instruction_$1",
     GeneralPurposeArithmeticInstruction_1 = "GeneralPurposeArithmeticInstruction_1",
     GeneralPurposeArithmeticInstruction_2 = "GeneralPurposeArithmeticInstruction_2",
     GeneralPurposeArithmeticInstruction_3 = "GeneralPurposeArithmeticInstruction_3",
@@ -444,6 +470,24 @@ export enum ASTKinds {
     RotateShiftInstruction_32 = "RotateShiftInstruction_32",
     RotateShiftInstruction_33 = "RotateShiftInstruction_33",
     RotateShiftInstruction_34 = "RotateShiftInstruction_34",
+    RotateShiftInstruction_35 = "RotateShiftInstruction_35",
+    RotateShiftInstruction_36 = "RotateShiftInstruction_36",
+    RotateShiftInstruction_37 = "RotateShiftInstruction_37",
+    RotateShiftInstruction_38 = "RotateShiftInstruction_38",
+    RotateShiftInstruction_39 = "RotateShiftInstruction_39",
+    RotateShiftInstruction_40 = "RotateShiftInstruction_40",
+    RotateShiftInstruction_41 = "RotateShiftInstruction_41",
+    RotateShiftInstruction_42 = "RotateShiftInstruction_42",
+    RotateShiftInstruction_43 = "RotateShiftInstruction_43",
+    RotateShiftInstruction_44 = "RotateShiftInstruction_44",
+    RotateShiftInstruction_45 = "RotateShiftInstruction_45",
+    RotateShiftInstruction_46 = "RotateShiftInstruction_46",
+    RotateShiftInstruction_47 = "RotateShiftInstruction_47",
+    RotateShiftInstruction_48 = "RotateShiftInstruction_48",
+    RotateShiftInstruction_49 = "RotateShiftInstruction_49",
+    RotateShiftInstruction_50 = "RotateShiftInstruction_50",
+    RotateShiftInstruction_51 = "RotateShiftInstruction_51",
+    RotateShiftInstruction_52 = "RotateShiftInstruction_52",
     BitManipulationInstruction_1 = "BitManipulationInstruction_1",
     BitManipulationInstruction_2 = "BitManipulationInstruction_2",
     BitManipulationInstruction_3 = "BitManipulationInstruction_3",
@@ -482,12 +526,14 @@ export enum ASTKinds {
     InputInstruction_4 = "InputInstruction_4",
     InputInstruction_5 = "InputInstruction_5",
     InputInstruction_6 = "InputInstruction_6",
+    InputInstruction_7 = "InputInstruction_7",
     OutputInstruction_1 = "OutputInstruction_1",
     OutputInstruction_2 = "OutputInstruction_2",
     OutputInstruction_3 = "OutputInstruction_3",
     OutputInstruction_4 = "OutputInstruction_4",
     OutputInstruction_5 = "OutputInstruction_5",
     OutputInstruction_6 = "OutputInstruction_6",
+    OutputInstruction_7 = "OutputInstruction_7",
     ByteDirective_1 = "ByteDirective_1",
     ByteDirective_2 = "ByteDirective_2",
     ByteDirective_3 = "ByteDirective_3",
@@ -585,6 +631,11 @@ export type ry_4 = string;
 export type ry_5 = string;
 export type ry_6 = string;
 export type ry_7 = string;
+export type ixy8 = ixy8_1 | ixy8_2 | ixy8_3 | ixy8_4;
+export type ixy8_1 = string;
+export type ixy8_2 = string;
+export type ixy8_3 = string;
+export type ixy8_4 = string;
 export type n = n_1 | n_2 | n_3 | n_4;
 export class n_1 {
     public kind: ASTKinds.n_1 = ASTKinds.n_1;
@@ -1915,7 +1966,7 @@ export class BlockInstruction_8 {
         })();
     }
 }
-export type ArithmeticLogic8Instruction = ArithmeticLogic8Instruction_1 | ArithmeticLogic8Instruction_2 | ArithmeticLogic8Instruction_3 | ArithmeticLogic8Instruction_4 | ArithmeticLogic8Instruction_5 | ArithmeticLogic8Instruction_6 | ArithmeticLogic8Instruction_7 | ArithmeticLogic8Instruction_8 | ArithmeticLogic8Instruction_9 | ArithmeticLogic8Instruction_10 | ArithmeticLogic8Instruction_11 | ArithmeticLogic8Instruction_12 | ArithmeticLogic8Instruction_13 | ArithmeticLogic8Instruction_14 | ArithmeticLogic8Instruction_15 | ArithmeticLogic8Instruction_16 | ArithmeticLogic8Instruction_17 | ArithmeticLogic8Instruction_18 | ArithmeticLogic8Instruction_19 | ArithmeticLogic8Instruction_20 | ArithmeticLogic8Instruction_21 | ArithmeticLogic8Instruction_22 | ArithmeticLogic8Instruction_23 | ArithmeticLogic8Instruction_24 | ArithmeticLogic8Instruction_25 | ArithmeticLogic8Instruction_26 | ArithmeticLogic8Instruction_27 | ArithmeticLogic8Instruction_28 | ArithmeticLogic8Instruction_29 | ArithmeticLogic8Instruction_30 | ArithmeticLogic8Instruction_31 | ArithmeticLogic8Instruction_32 | ArithmeticLogic8Instruction_33 | ArithmeticLogic8Instruction_34 | ArithmeticLogic8Instruction_35 | ArithmeticLogic8Instruction_36 | ArithmeticLogic8Instruction_37 | ArithmeticLogic8Instruction_38 | ArithmeticLogic8Instruction_39 | ArithmeticLogic8Instruction_40;
+export type ArithmeticLogic8Instruction = ArithmeticLogic8Instruction_1 | ArithmeticLogic8Instruction_2 | ArithmeticLogic8Instruction_3 | ArithmeticLogic8Instruction_4 | ArithmeticLogic8Instruction_5 | ArithmeticLogic8Instruction_6 | ArithmeticLogic8Instruction_7 | ArithmeticLogic8Instruction_8 | ArithmeticLogic8Instruction_9 | ArithmeticLogic8Instruction_10 | ArithmeticLogic8Instruction_11 | ArithmeticLogic8Instruction_12 | ArithmeticLogic8Instruction_13 | ArithmeticLogic8Instruction_14 | ArithmeticLogic8Instruction_15 | ArithmeticLogic8Instruction_16 | ArithmeticLogic8Instruction_17 | ArithmeticLogic8Instruction_18 | ArithmeticLogic8Instruction_19 | ArithmeticLogic8Instruction_20 | ArithmeticLogic8Instruction_21 | ArithmeticLogic8Instruction_22 | ArithmeticLogic8Instruction_23 | ArithmeticLogic8Instruction_24 | ArithmeticLogic8Instruction_25 | ArithmeticLogic8Instruction_26 | ArithmeticLogic8Instruction_27 | ArithmeticLogic8Instruction_28 | ArithmeticLogic8Instruction_29 | ArithmeticLogic8Instruction_30 | ArithmeticLogic8Instruction_31 | ArithmeticLogic8Instruction_32 | ArithmeticLogic8Instruction_33 | ArithmeticLogic8Instruction_34 | ArithmeticLogic8Instruction_35 | ArithmeticLogic8Instruction_36 | ArithmeticLogic8Instruction_37 | ArithmeticLogic8Instruction_38 | ArithmeticLogic8Instruction_39 | ArithmeticLogic8Instruction_40 | ArithmeticLogic8Instruction_41 | ArithmeticLogic8Instruction_42 | ArithmeticLogic8Instruction_43 | ArithmeticLogic8Instruction_44 | ArithmeticLogic8Instruction_45 | ArithmeticLogic8Instruction_46 | ArithmeticLogic8Instruction_47 | ArithmeticLogic8Instruction_48;
 export class ArithmeticLogic8Instruction_1 {
     public kind: ASTKinds.ArithmeticLogic8Instruction_1 = ASTKinds.ArithmeticLogic8Instruction_1;
     public elements: AstElements;
@@ -1960,6 +2011,17 @@ export class ArithmeticLogic8Instruction_4 {
 }
 export class ArithmeticLogic8Instruction_5 {
     public kind: ASTKinds.ArithmeticLogic8Instruction_5 = ASTKinds.ArithmeticLogic8Instruction_5;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x84)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_6 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_6 = ASTKinds.ArithmeticLogic8Instruction_6;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -1971,8 +2033,8 @@ export class ArithmeticLogic8Instruction_5 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_6 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_6 = ASTKinds.ArithmeticLogic8Instruction_6;
+export class ArithmeticLogic8Instruction_7 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_7 = ASTKinds.ArithmeticLogic8Instruction_7;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -1980,8 +2042,8 @@ export class ArithmeticLogic8Instruction_6 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_7 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_7 = ASTKinds.ArithmeticLogic8Instruction_7;
+export class ArithmeticLogic8Instruction_8 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_8 = ASTKinds.ArithmeticLogic8Instruction_8;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -1991,8 +2053,8 @@ export class ArithmeticLogic8Instruction_7 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_8 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_8 = ASTKinds.ArithmeticLogic8Instruction_8;
+export class ArithmeticLogic8Instruction_9 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_9 = ASTKinds.ArithmeticLogic8Instruction_9;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2002,8 +2064,8 @@ export class ArithmeticLogic8Instruction_8 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_9 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_9 = ASTKinds.ArithmeticLogic8Instruction_9;
+export class ArithmeticLogic8Instruction_10 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_10 = ASTKinds.ArithmeticLogic8Instruction_10;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2013,8 +2075,19 @@ export class ArithmeticLogic8Instruction_9 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_10 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_10 = ASTKinds.ArithmeticLogic8Instruction_10;
+export class ArithmeticLogic8Instruction_11 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_11 = ASTKinds.ArithmeticLogic8Instruction_11;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x8C)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_12 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_12 = ASTKinds.ArithmeticLogic8Instruction_12;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -2026,8 +2099,8 @@ export class ArithmeticLogic8Instruction_10 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_11 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_11 = ASTKinds.ArithmeticLogic8Instruction_11;
+export class ArithmeticLogic8Instruction_13 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_13 = ASTKinds.ArithmeticLogic8Instruction_13;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2035,8 +2108,8 @@ export class ArithmeticLogic8Instruction_11 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_12 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_12 = ASTKinds.ArithmeticLogic8Instruction_12;
+export class ArithmeticLogic8Instruction_14 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_14 = ASTKinds.ArithmeticLogic8Instruction_14;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2046,8 +2119,8 @@ export class ArithmeticLogic8Instruction_12 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_13 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_13 = ASTKinds.ArithmeticLogic8Instruction_13;
+export class ArithmeticLogic8Instruction_15 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_15 = ASTKinds.ArithmeticLogic8Instruction_15;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2057,8 +2130,8 @@ export class ArithmeticLogic8Instruction_13 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_14 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_14 = ASTKinds.ArithmeticLogic8Instruction_14;
+export class ArithmeticLogic8Instruction_16 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_16 = ASTKinds.ArithmeticLogic8Instruction_16;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2068,8 +2141,19 @@ export class ArithmeticLogic8Instruction_14 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_15 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_15 = ASTKinds.ArithmeticLogic8Instruction_15;
+export class ArithmeticLogic8Instruction_17 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_17 = ASTKinds.ArithmeticLogic8Instruction_17;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x94)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_18 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_18 = ASTKinds.ArithmeticLogic8Instruction_18;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -2081,8 +2165,8 @@ export class ArithmeticLogic8Instruction_15 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_16 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_16 = ASTKinds.ArithmeticLogic8Instruction_16;
+export class ArithmeticLogic8Instruction_19 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_19 = ASTKinds.ArithmeticLogic8Instruction_19;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2090,8 +2174,8 @@ export class ArithmeticLogic8Instruction_16 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_17 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_17 = ASTKinds.ArithmeticLogic8Instruction_17;
+export class ArithmeticLogic8Instruction_20 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_20 = ASTKinds.ArithmeticLogic8Instruction_20;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2101,8 +2185,8 @@ export class ArithmeticLogic8Instruction_17 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_18 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_18 = ASTKinds.ArithmeticLogic8Instruction_18;
+export class ArithmeticLogic8Instruction_21 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_21 = ASTKinds.ArithmeticLogic8Instruction_21;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2112,8 +2196,8 @@ export class ArithmeticLogic8Instruction_18 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_19 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_19 = ASTKinds.ArithmeticLogic8Instruction_19;
+export class ArithmeticLogic8Instruction_22 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_22 = ASTKinds.ArithmeticLogic8Instruction_22;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2123,8 +2207,19 @@ export class ArithmeticLogic8Instruction_19 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_20 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_20 = ASTKinds.ArithmeticLogic8Instruction_20;
+export class ArithmeticLogic8Instruction_23 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_23 = ASTKinds.ArithmeticLogic8Instruction_23;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x9C)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_24 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_24 = ASTKinds.ArithmeticLogic8Instruction_24;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -2136,8 +2231,8 @@ export class ArithmeticLogic8Instruction_20 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_21 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_21 = ASTKinds.ArithmeticLogic8Instruction_21;
+export class ArithmeticLogic8Instruction_25 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_25 = ASTKinds.ArithmeticLogic8Instruction_25;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2145,8 +2240,8 @@ export class ArithmeticLogic8Instruction_21 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_22 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_22 = ASTKinds.ArithmeticLogic8Instruction_22;
+export class ArithmeticLogic8Instruction_26 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_26 = ASTKinds.ArithmeticLogic8Instruction_26;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2156,8 +2251,8 @@ export class ArithmeticLogic8Instruction_22 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_23 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_23 = ASTKinds.ArithmeticLogic8Instruction_23;
+export class ArithmeticLogic8Instruction_27 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_27 = ASTKinds.ArithmeticLogic8Instruction_27;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2167,8 +2262,8 @@ export class ArithmeticLogic8Instruction_23 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_24 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_24 = ASTKinds.ArithmeticLogic8Instruction_24;
+export class ArithmeticLogic8Instruction_28 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_28 = ASTKinds.ArithmeticLogic8Instruction_28;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2178,58 +2273,14 @@ export class ArithmeticLogic8Instruction_24 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_25 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_25 = ASTKinds.ArithmeticLogic8Instruction_25;
-    public pos: PosInfo;
-    public n: Expression;
-    public elements: AstElements;
-    constructor(pos: PosInfo, n: Expression){
-        this.pos = pos;
-        this.n = n;
-        this.elements = ((): AstElements => {
-        return [0xE6, value8(pos, n)];
-        })();
-    }
-}
-export class ArithmeticLogic8Instruction_26 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_26 = ASTKinds.ArithmeticLogic8Instruction_26;
-    public elements: AstElements;
-    constructor(){
-        this.elements = ((): AstElements => {
-        return [0xB6];
-        })();
-    }
-}
-export class ArithmeticLogic8Instruction_27 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_27 = ASTKinds.ArithmeticLogic8Instruction_27;
-    public i: IX;
-    public elements: AstElements;
-    constructor(i: IX){
-        this.i = i;
-        this.elements = ((): AstElements => {
-        return [0xDD, 0xB6, index(i.offset)];
-        })();
-    }
-}
-export class ArithmeticLogic8Instruction_28 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_28 = ASTKinds.ArithmeticLogic8Instruction_28;
-    public i: IY;
-    public elements: AstElements;
-    constructor(i: IY){
-        this.i = i;
-        this.elements = ((): AstElements => {
-        return [0xFD, 0xB6, index(i.offset)];
-        })();
-    }
-}
 export class ArithmeticLogic8Instruction_29 {
     public kind: ASTKinds.ArithmeticLogic8Instruction_29 = ASTKinds.ArithmeticLogic8Instruction_29;
-    public r: r;
+    public r: ixy8;
     public elements: AstElements;
-    constructor(r: r){
+    constructor(r: ixy8){
         this.r = r;
         this.elements = ((): AstElements => {
-        return [0b10110000 | r_bits(r)];
+        return [ixy_prefix(r), ixy_suffix(r, 0xA4)];
         })();
     }
 }
@@ -2242,7 +2293,7 @@ export class ArithmeticLogic8Instruction_30 {
         this.pos = pos;
         this.n = n;
         this.elements = ((): AstElements => {
-        return [0xF6, value8(pos, n)];
+        return [0xE6, value8(pos, n)];
         })();
     }
 }
@@ -2251,7 +2302,7 @@ export class ArithmeticLogic8Instruction_31 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xAE];
+        return [0xB6];
         })();
     }
 }
@@ -2262,7 +2313,7 @@ export class ArithmeticLogic8Instruction_32 {
     constructor(i: IX){
         this.i = i;
         this.elements = ((): AstElements => {
-        return [0xDD, 0xAE, index(i.offset)];
+        return [0xDD, 0xB6, index(i.offset)];
         })();
     }
 }
@@ -2273,7 +2324,7 @@ export class ArithmeticLogic8Instruction_33 {
     constructor(i: IY){
         this.i = i;
         this.elements = ((): AstElements => {
-        return [0xFD, 0xAE, index(i.offset)];
+        return [0xFD, 0xB6, index(i.offset)];
         })();
     }
 }
@@ -2284,12 +2335,89 @@ export class ArithmeticLogic8Instruction_34 {
     constructor(r: r){
         this.r = r;
         this.elements = ((): AstElements => {
-        return [0b10101000 | r_bits(r)];
+        return [0b10110000 | r_bits(r)];
         })();
     }
 }
 export class ArithmeticLogic8Instruction_35 {
     public kind: ASTKinds.ArithmeticLogic8Instruction_35 = ASTKinds.ArithmeticLogic8Instruction_35;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0xB4)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_36 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_36 = ASTKinds.ArithmeticLogic8Instruction_36;
+    public pos: PosInfo;
+    public n: Expression;
+    public elements: AstElements;
+    constructor(pos: PosInfo, n: Expression){
+        this.pos = pos;
+        this.n = n;
+        this.elements = ((): AstElements => {
+        return [0xF6, value8(pos, n)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_37 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_37 = ASTKinds.ArithmeticLogic8Instruction_37;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
+        return [0xAE];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_38 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_38 = ASTKinds.ArithmeticLogic8Instruction_38;
+    public i: IX;
+    public elements: AstElements;
+    constructor(i: IX){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xAE, index(i.offset)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_39 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_39 = ASTKinds.ArithmeticLogic8Instruction_39;
+    public i: IY;
+    public elements: AstElements;
+    constructor(i: IY){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xAE, index(i.offset)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_40 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_40 = ASTKinds.ArithmeticLogic8Instruction_40;
+    public r: r;
+    public elements: AstElements;
+    constructor(r: r){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0b10101000 | r_bits(r)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_41 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_41 = ASTKinds.ArithmeticLogic8Instruction_41;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0xAC)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_42 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_42 = ASTKinds.ArithmeticLogic8Instruction_42;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -2301,8 +2429,8 @@ export class ArithmeticLogic8Instruction_35 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_36 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_36 = ASTKinds.ArithmeticLogic8Instruction_36;
+export class ArithmeticLogic8Instruction_43 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_43 = ASTKinds.ArithmeticLogic8Instruction_43;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2310,8 +2438,8 @@ export class ArithmeticLogic8Instruction_36 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_37 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_37 = ASTKinds.ArithmeticLogic8Instruction_37;
+export class ArithmeticLogic8Instruction_44 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_44 = ASTKinds.ArithmeticLogic8Instruction_44;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2321,8 +2449,8 @@ export class ArithmeticLogic8Instruction_37 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_38 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_38 = ASTKinds.ArithmeticLogic8Instruction_38;
+export class ArithmeticLogic8Instruction_45 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_45 = ASTKinds.ArithmeticLogic8Instruction_45;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2332,8 +2460,8 @@ export class ArithmeticLogic8Instruction_38 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_39 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_39 = ASTKinds.ArithmeticLogic8Instruction_39;
+export class ArithmeticLogic8Instruction_46 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_46 = ASTKinds.ArithmeticLogic8Instruction_46;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2343,8 +2471,19 @@ export class ArithmeticLogic8Instruction_39 {
         })();
     }
 }
-export class ArithmeticLogic8Instruction_40 {
-    public kind: ASTKinds.ArithmeticLogic8Instruction_40 = ASTKinds.ArithmeticLogic8Instruction_40;
+export class ArithmeticLogic8Instruction_47 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_47 = ASTKinds.ArithmeticLogic8Instruction_47;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0xBC)];
+        })();
+    }
+}
+export class ArithmeticLogic8Instruction_48 {
+    public kind: ASTKinds.ArithmeticLogic8Instruction_48 = ASTKinds.ArithmeticLogic8Instruction_48;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -2476,7 +2615,31 @@ export interface ArithmeticLogic8Instruction_$38 {
 export interface ArithmeticLogic8Instruction_$39 {
     kind: ASTKinds.ArithmeticLogic8Instruction_$39;
 }
-export type IncrementDecrement8Instruction = IncrementDecrement8Instruction_1 | IncrementDecrement8Instruction_2 | IncrementDecrement8Instruction_3 | IncrementDecrement8Instruction_4 | IncrementDecrement8Instruction_5 | IncrementDecrement8Instruction_6 | IncrementDecrement8Instruction_7 | IncrementDecrement8Instruction_8;
+export interface ArithmeticLogic8Instruction_$40 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$40;
+}
+export interface ArithmeticLogic8Instruction_$41 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$41;
+}
+export interface ArithmeticLogic8Instruction_$42 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$42;
+}
+export interface ArithmeticLogic8Instruction_$43 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$43;
+}
+export interface ArithmeticLogic8Instruction_$44 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$44;
+}
+export interface ArithmeticLogic8Instruction_$45 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$45;
+}
+export interface ArithmeticLogic8Instruction_$46 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$46;
+}
+export interface ArithmeticLogic8Instruction_$47 {
+    kind: ASTKinds.ArithmeticLogic8Instruction_$47;
+}
+export type IncrementDecrement8Instruction = IncrementDecrement8Instruction_1 | IncrementDecrement8Instruction_2 | IncrementDecrement8Instruction_3 | IncrementDecrement8Instruction_4 | IncrementDecrement8Instruction_5 | IncrementDecrement8Instruction_6 | IncrementDecrement8Instruction_7 | IncrementDecrement8Instruction_8 | IncrementDecrement8Instruction_9 | IncrementDecrement8Instruction_10;
 export class IncrementDecrement8Instruction_1 {
     public kind: ASTKinds.IncrementDecrement8Instruction_1 = ASTKinds.IncrementDecrement8Instruction_1;
     public r: r;
@@ -2490,6 +2653,17 @@ export class IncrementDecrement8Instruction_1 {
 }
 export class IncrementDecrement8Instruction_2 {
     public kind: ASTKinds.IncrementDecrement8Instruction_2 = ASTKinds.IncrementDecrement8Instruction_2;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x24, 8)];
+        })();
+    }
+}
+export class IncrementDecrement8Instruction_3 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_3 = ASTKinds.IncrementDecrement8Instruction_3;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2497,8 +2671,8 @@ export class IncrementDecrement8Instruction_2 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_3 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_3 = ASTKinds.IncrementDecrement8Instruction_3;
+export class IncrementDecrement8Instruction_4 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_4 = ASTKinds.IncrementDecrement8Instruction_4;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2508,8 +2682,8 @@ export class IncrementDecrement8Instruction_3 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_4 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_4 = ASTKinds.IncrementDecrement8Instruction_4;
+export class IncrementDecrement8Instruction_5 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_5 = ASTKinds.IncrementDecrement8Instruction_5;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2519,8 +2693,8 @@ export class IncrementDecrement8Instruction_4 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_5 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_5 = ASTKinds.IncrementDecrement8Instruction_5;
+export class IncrementDecrement8Instruction_6 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_6 = ASTKinds.IncrementDecrement8Instruction_6;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2530,8 +2704,19 @@ export class IncrementDecrement8Instruction_5 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_6 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_6 = ASTKinds.IncrementDecrement8Instruction_6;
+export class IncrementDecrement8Instruction_7 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_7 = ASTKinds.IncrementDecrement8Instruction_7;
+    public r: ixy8;
+    public elements: AstElements;
+    constructor(r: ixy8){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [ixy_prefix(r), ixy_suffix(r, 0x25, 8)];
+        })();
+    }
+}
+export class IncrementDecrement8Instruction_8 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_8 = ASTKinds.IncrementDecrement8Instruction_8;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2539,8 +2724,8 @@ export class IncrementDecrement8Instruction_6 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_7 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_7 = ASTKinds.IncrementDecrement8Instruction_7;
+export class IncrementDecrement8Instruction_9 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_9 = ASTKinds.IncrementDecrement8Instruction_9;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2550,8 +2735,8 @@ export class IncrementDecrement8Instruction_7 {
         })();
     }
 }
-export class IncrementDecrement8Instruction_8 {
-    public kind: ASTKinds.IncrementDecrement8Instruction_8 = ASTKinds.IncrementDecrement8Instruction_8;
+export class IncrementDecrement8Instruction_10 {
+    public kind: ASTKinds.IncrementDecrement8Instruction_10 = ASTKinds.IncrementDecrement8Instruction_10;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2560,6 +2745,12 @@ export class IncrementDecrement8Instruction_8 {
         return [0xFD, 0x35, index(i.offset)];
         })();
     }
+}
+export interface IncrementDecrement8Instruction_$0 {
+    kind: ASTKinds.IncrementDecrement8Instruction_$0;
+}
+export interface IncrementDecrement8Instruction_$1 {
+    kind: ASTKinds.IncrementDecrement8Instruction_$1;
 }
 export type GeneralPurposeArithmeticInstruction = GeneralPurposeArithmeticInstruction_1 | GeneralPurposeArithmeticInstruction_2 | GeneralPurposeArithmeticInstruction_3 | GeneralPurposeArithmeticInstruction_4 | GeneralPurposeArithmeticInstruction_5;
 export class GeneralPurposeArithmeticInstruction_1 {
@@ -2769,7 +2960,7 @@ export class ArithmeticLogic16Instruction_11 {
         })();
     }
 }
-export type RotateShiftInstruction = RotateShiftInstruction_1 | RotateShiftInstruction_2 | RotateShiftInstruction_3 | RotateShiftInstruction_4 | RotateShiftInstruction_5 | RotateShiftInstruction_6 | RotateShiftInstruction_7 | RotateShiftInstruction_8 | RotateShiftInstruction_9 | RotateShiftInstruction_10 | RotateShiftInstruction_11 | RotateShiftInstruction_12 | RotateShiftInstruction_13 | RotateShiftInstruction_14 | RotateShiftInstruction_15 | RotateShiftInstruction_16 | RotateShiftInstruction_17 | RotateShiftInstruction_18 | RotateShiftInstruction_19 | RotateShiftInstruction_20 | RotateShiftInstruction_21 | RotateShiftInstruction_22 | RotateShiftInstruction_23 | RotateShiftInstruction_24 | RotateShiftInstruction_25 | RotateShiftInstruction_26 | RotateShiftInstruction_27 | RotateShiftInstruction_28 | RotateShiftInstruction_29 | RotateShiftInstruction_30 | RotateShiftInstruction_31 | RotateShiftInstruction_32 | RotateShiftInstruction_33 | RotateShiftInstruction_34;
+export type RotateShiftInstruction = RotateShiftInstruction_1 | RotateShiftInstruction_2 | RotateShiftInstruction_3 | RotateShiftInstruction_4 | RotateShiftInstruction_5 | RotateShiftInstruction_6 | RotateShiftInstruction_7 | RotateShiftInstruction_8 | RotateShiftInstruction_9 | RotateShiftInstruction_10 | RotateShiftInstruction_11 | RotateShiftInstruction_12 | RotateShiftInstruction_13 | RotateShiftInstruction_14 | RotateShiftInstruction_15 | RotateShiftInstruction_16 | RotateShiftInstruction_17 | RotateShiftInstruction_18 | RotateShiftInstruction_19 | RotateShiftInstruction_20 | RotateShiftInstruction_21 | RotateShiftInstruction_22 | RotateShiftInstruction_23 | RotateShiftInstruction_24 | RotateShiftInstruction_25 | RotateShiftInstruction_26 | RotateShiftInstruction_27 | RotateShiftInstruction_28 | RotateShiftInstruction_29 | RotateShiftInstruction_30 | RotateShiftInstruction_31 | RotateShiftInstruction_32 | RotateShiftInstruction_33 | RotateShiftInstruction_34 | RotateShiftInstruction_35 | RotateShiftInstruction_36 | RotateShiftInstruction_37 | RotateShiftInstruction_38 | RotateShiftInstruction_39 | RotateShiftInstruction_40 | RotateShiftInstruction_41 | RotateShiftInstruction_42 | RotateShiftInstruction_43 | RotateShiftInstruction_44 | RotateShiftInstruction_45 | RotateShiftInstruction_46 | RotateShiftInstruction_47 | RotateShiftInstruction_48 | RotateShiftInstruction_49 | RotateShiftInstruction_50 | RotateShiftInstruction_51 | RotateShiftInstruction_52;
 export class RotateShiftInstruction_1 {
     public kind: ASTKinds.RotateShiftInstruction_1 = ASTKinds.RotateShiftInstruction_1;
     public elements: AstElements;
@@ -2881,6 +3072,19 @@ export class RotateShiftInstruction_11 {
 }
 export class RotateShiftInstruction_12 {
     public kind: ASTKinds.RotateShiftInstruction_12 = ASTKinds.RotateShiftInstruction_12;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x10 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_13 {
+    public kind: ASTKinds.RotateShiftInstruction_13 = ASTKinds.RotateShiftInstruction_13;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2890,8 +3094,21 @@ export class RotateShiftInstruction_12 {
         })();
     }
 }
-export class RotateShiftInstruction_13 {
-    public kind: ASTKinds.RotateShiftInstruction_13 = ASTKinds.RotateShiftInstruction_13;
+export class RotateShiftInstruction_14 {
+    public kind: ASTKinds.RotateShiftInstruction_14 = ASTKinds.RotateShiftInstruction_14;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x10 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_15 {
+    public kind: ASTKinds.RotateShiftInstruction_15 = ASTKinds.RotateShiftInstruction_15;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -2901,8 +3118,8 @@ export class RotateShiftInstruction_13 {
         })();
     }
 }
-export class RotateShiftInstruction_14 {
-    public kind: ASTKinds.RotateShiftInstruction_14 = ASTKinds.RotateShiftInstruction_14;
+export class RotateShiftInstruction_16 {
+    public kind: ASTKinds.RotateShiftInstruction_16 = ASTKinds.RotateShiftInstruction_16;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -2910,8 +3127,8 @@ export class RotateShiftInstruction_14 {
         })();
     }
 }
-export class RotateShiftInstruction_15 {
-    public kind: ASTKinds.RotateShiftInstruction_15 = ASTKinds.RotateShiftInstruction_15;
+export class RotateShiftInstruction_17 {
+    public kind: ASTKinds.RotateShiftInstruction_17 = ASTKinds.RotateShiftInstruction_17;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -2921,8 +3138,21 @@ export class RotateShiftInstruction_15 {
         })();
     }
 }
-export class RotateShiftInstruction_16 {
-    public kind: ASTKinds.RotateShiftInstruction_16 = ASTKinds.RotateShiftInstruction_16;
+export class RotateShiftInstruction_18 {
+    public kind: ASTKinds.RotateShiftInstruction_18 = ASTKinds.RotateShiftInstruction_18;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x08 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_19 {
+    public kind: ASTKinds.RotateShiftInstruction_19 = ASTKinds.RotateShiftInstruction_19;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -2932,45 +3162,16 @@ export class RotateShiftInstruction_16 {
         })();
     }
 }
-export class RotateShiftInstruction_17 {
-    public kind: ASTKinds.RotateShiftInstruction_17 = ASTKinds.RotateShiftInstruction_17;
-    public r: r;
-    public elements: AstElements;
-    constructor(r: r){
-        this.r = r;
-        this.elements = ((): AstElements => {
-        return [0xCB, 0b00011000 | r_bits(r)];
-        })();
-    }
-}
-export class RotateShiftInstruction_18 {
-    public kind: ASTKinds.RotateShiftInstruction_18 = ASTKinds.RotateShiftInstruction_18;
-    public elements: AstElements;
-    constructor(){
-        this.elements = ((): AstElements => {
-        return [0xCB, 0x1E];
-        })();
-    }
-}
-export class RotateShiftInstruction_19 {
-    public kind: ASTKinds.RotateShiftInstruction_19 = ASTKinds.RotateShiftInstruction_19;
-    public i: IX;
-    public elements: AstElements;
-    constructor(i: IX){
-        this.i = i;
-        this.elements = ((): AstElements => {
-        return [0xDD, 0xCB, index(i.offset), 0x1E];
-        })();
-    }
-}
 export class RotateShiftInstruction_20 {
     public kind: ASTKinds.RotateShiftInstruction_20 = ASTKinds.RotateShiftInstruction_20;
     public i: IY;
+    public r: r;
     public elements: AstElements;
-    constructor(i: IY){
+    constructor(i: IY, r: r){
         this.i = i;
+        this.r = r;
         this.elements = ((): AstElements => {
-        return [0xFD, 0xCB, index(i.offset), 0x1E];
+        return [0xFD, 0xCB, index(i.offset), 0x08 + r_bits(r)];
         })();
     }
 }
@@ -2981,7 +3182,7 @@ export class RotateShiftInstruction_21 {
     constructor(r: r){
         this.r = r;
         this.elements = ((): AstElements => {
-        return [0xCB, 0b00100000 | r_bits(r)];
+        return [0xCB, 0b00011000 | r_bits(r)];
         })();
     }
 }
@@ -2990,7 +3191,7 @@ export class RotateShiftInstruction_22 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xCB, 0x26];
+        return [0xCB, 0x1E];
         })();
     }
 }
@@ -3001,12 +3202,93 @@ export class RotateShiftInstruction_23 {
     constructor(i: IX){
         this.i = i;
         this.elements = ((): AstElements => {
-        return [0xDD, 0xCB, index(i.offset), 0x26];
+        return [0xDD, 0xCB, index(i.offset), 0x1E];
         })();
     }
 }
 export class RotateShiftInstruction_24 {
     public kind: ASTKinds.RotateShiftInstruction_24 = ASTKinds.RotateShiftInstruction_24;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x18 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_25 {
+    public kind: ASTKinds.RotateShiftInstruction_25 = ASTKinds.RotateShiftInstruction_25;
+    public i: IY;
+    public elements: AstElements;
+    constructor(i: IY){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x1E];
+        })();
+    }
+}
+export class RotateShiftInstruction_26 {
+    public kind: ASTKinds.RotateShiftInstruction_26 = ASTKinds.RotateShiftInstruction_26;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x18 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_27 {
+    public kind: ASTKinds.RotateShiftInstruction_27 = ASTKinds.RotateShiftInstruction_27;
+    public r: r;
+    public elements: AstElements;
+    constructor(r: r){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xCB, 0b00100000 | r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_28 {
+    public kind: ASTKinds.RotateShiftInstruction_28 = ASTKinds.RotateShiftInstruction_28;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
+        return [0xCB, 0x26];
+        })();
+    }
+}
+export class RotateShiftInstruction_29 {
+    public kind: ASTKinds.RotateShiftInstruction_29 = ASTKinds.RotateShiftInstruction_29;
+    public i: IX;
+    public elements: AstElements;
+    constructor(i: IX){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x26];
+        })();
+    }
+}
+export class RotateShiftInstruction_30 {
+    public kind: ASTKinds.RotateShiftInstruction_30 = ASTKinds.RotateShiftInstruction_30;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x20 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_31 {
+    public kind: ASTKinds.RotateShiftInstruction_31 = ASTKinds.RotateShiftInstruction_31;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -3016,8 +3298,89 @@ export class RotateShiftInstruction_24 {
         })();
     }
 }
-export class RotateShiftInstruction_25 {
-    public kind: ASTKinds.RotateShiftInstruction_25 = ASTKinds.RotateShiftInstruction_25;
+export class RotateShiftInstruction_32 {
+    public kind: ASTKinds.RotateShiftInstruction_32 = ASTKinds.RotateShiftInstruction_32;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x20 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_33 {
+    public kind: ASTKinds.RotateShiftInstruction_33 = ASTKinds.RotateShiftInstruction_33;
+    public r: r;
+    public elements: AstElements;
+    constructor(r: r){
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xCB, 0b00110000 | r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_34 {
+    public kind: ASTKinds.RotateShiftInstruction_34 = ASTKinds.RotateShiftInstruction_34;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
+        return [0xCB, 0x36];
+        })();
+    }
+}
+export class RotateShiftInstruction_35 {
+    public kind: ASTKinds.RotateShiftInstruction_35 = ASTKinds.RotateShiftInstruction_35;
+    public i: IX;
+    public elements: AstElements;
+    constructor(i: IX){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x36];
+        })();
+    }
+}
+export class RotateShiftInstruction_36 {
+    public kind: ASTKinds.RotateShiftInstruction_36 = ASTKinds.RotateShiftInstruction_36;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x30 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_37 {
+    public kind: ASTKinds.RotateShiftInstruction_37 = ASTKinds.RotateShiftInstruction_37;
+    public i: IY;
+    public elements: AstElements;
+    constructor(i: IY){
+        this.i = i;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x36];
+        })();
+    }
+}
+export class RotateShiftInstruction_38 {
+    public kind: ASTKinds.RotateShiftInstruction_38 = ASTKinds.RotateShiftInstruction_38;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x30 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_39 {
+    public kind: ASTKinds.RotateShiftInstruction_39 = ASTKinds.RotateShiftInstruction_39;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -3027,8 +3390,8 @@ export class RotateShiftInstruction_25 {
         })();
     }
 }
-export class RotateShiftInstruction_26 {
-    public kind: ASTKinds.RotateShiftInstruction_26 = ASTKinds.RotateShiftInstruction_26;
+export class RotateShiftInstruction_40 {
+    public kind: ASTKinds.RotateShiftInstruction_40 = ASTKinds.RotateShiftInstruction_40;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -3036,8 +3399,8 @@ export class RotateShiftInstruction_26 {
         })();
     }
 }
-export class RotateShiftInstruction_27 {
-    public kind: ASTKinds.RotateShiftInstruction_27 = ASTKinds.RotateShiftInstruction_27;
+export class RotateShiftInstruction_41 {
+    public kind: ASTKinds.RotateShiftInstruction_41 = ASTKinds.RotateShiftInstruction_41;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -3047,8 +3410,21 @@ export class RotateShiftInstruction_27 {
         })();
     }
 }
-export class RotateShiftInstruction_28 {
-    public kind: ASTKinds.RotateShiftInstruction_28 = ASTKinds.RotateShiftInstruction_28;
+export class RotateShiftInstruction_42 {
+    public kind: ASTKinds.RotateShiftInstruction_42 = ASTKinds.RotateShiftInstruction_42;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x28 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_43 {
+    public kind: ASTKinds.RotateShiftInstruction_43 = ASTKinds.RotateShiftInstruction_43;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -3058,8 +3434,21 @@ export class RotateShiftInstruction_28 {
         })();
     }
 }
-export class RotateShiftInstruction_29 {
-    public kind: ASTKinds.RotateShiftInstruction_29 = ASTKinds.RotateShiftInstruction_29;
+export class RotateShiftInstruction_44 {
+    public kind: ASTKinds.RotateShiftInstruction_44 = ASTKinds.RotateShiftInstruction_44;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x28 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_45 {
+    public kind: ASTKinds.RotateShiftInstruction_45 = ASTKinds.RotateShiftInstruction_45;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -3069,8 +3458,8 @@ export class RotateShiftInstruction_29 {
         })();
     }
 }
-export class RotateShiftInstruction_30 {
-    public kind: ASTKinds.RotateShiftInstruction_30 = ASTKinds.RotateShiftInstruction_30;
+export class RotateShiftInstruction_46 {
+    public kind: ASTKinds.RotateShiftInstruction_46 = ASTKinds.RotateShiftInstruction_46;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -3078,8 +3467,8 @@ export class RotateShiftInstruction_30 {
         })();
     }
 }
-export class RotateShiftInstruction_31 {
-    public kind: ASTKinds.RotateShiftInstruction_31 = ASTKinds.RotateShiftInstruction_31;
+export class RotateShiftInstruction_47 {
+    public kind: ASTKinds.RotateShiftInstruction_47 = ASTKinds.RotateShiftInstruction_47;
     public i: IX;
     public elements: AstElements;
     constructor(i: IX){
@@ -3089,8 +3478,21 @@ export class RotateShiftInstruction_31 {
         })();
     }
 }
-export class RotateShiftInstruction_32 {
-    public kind: ASTKinds.RotateShiftInstruction_32 = ASTKinds.RotateShiftInstruction_32;
+export class RotateShiftInstruction_48 {
+    public kind: ASTKinds.RotateShiftInstruction_48 = ASTKinds.RotateShiftInstruction_48;
+    public i: IX;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IX, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xDD, 0xCB, index(i.offset), 0x38 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_49 {
+    public kind: ASTKinds.RotateShiftInstruction_49 = ASTKinds.RotateShiftInstruction_49;
     public i: IY;
     public elements: AstElements;
     constructor(i: IY){
@@ -3100,8 +3502,21 @@ export class RotateShiftInstruction_32 {
         })();
     }
 }
-export class RotateShiftInstruction_33 {
-    public kind: ASTKinds.RotateShiftInstruction_33 = ASTKinds.RotateShiftInstruction_33;
+export class RotateShiftInstruction_50 {
+    public kind: ASTKinds.RotateShiftInstruction_50 = ASTKinds.RotateShiftInstruction_50;
+    public i: IY;
+    public r: r;
+    public elements: AstElements;
+    constructor(i: IY, r: r){
+        this.i = i;
+        this.r = r;
+        this.elements = ((): AstElements => {
+        return [0xFD, 0xCB, index(i.offset), 0x38 + r_bits(r)];
+        })();
+    }
+}
+export class RotateShiftInstruction_51 {
+    public kind: ASTKinds.RotateShiftInstruction_51 = ASTKinds.RotateShiftInstruction_51;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -3109,8 +3524,8 @@ export class RotateShiftInstruction_33 {
         })();
     }
 }
-export class RotateShiftInstruction_34 {
-    public kind: ASTKinds.RotateShiftInstruction_34 = ASTKinds.RotateShiftInstruction_34;
+export class RotateShiftInstruction_52 {
+    public kind: ASTKinds.RotateShiftInstruction_52 = ASTKinds.RotateShiftInstruction_52;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -3511,7 +3926,7 @@ export class ReturnInstruction_5 {
         })();
     }
 }
-export type InputInstruction = InputInstruction_1 | InputInstruction_2 | InputInstruction_3 | InputInstruction_4 | InputInstruction_5 | InputInstruction_6;
+export type InputInstruction = InputInstruction_1 | InputInstruction_2 | InputInstruction_3 | InputInstruction_4 | InputInstruction_5 | InputInstruction_6 | InputInstruction_7;
 export class InputInstruction_1 {
     public kind: ASTKinds.InputInstruction_1 = ASTKinds.InputInstruction_1;
     public r: r;
@@ -3541,7 +3956,7 @@ export class InputInstruction_3 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xED, 0xA2];
+        return [0xED, 0x70];
         })();
     }
 }
@@ -3550,7 +3965,7 @@ export class InputInstruction_4 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xED, 0xB2];
+        return [0xED, 0xA2];
         })();
     }
 }
@@ -3559,7 +3974,7 @@ export class InputInstruction_5 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xED, 0xAA];
+        return [0xED, 0xB2];
         })();
     }
 }
@@ -3568,13 +3983,31 @@ export class InputInstruction_6 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
+        return [0xED, 0xAA];
+        })();
+    }
+}
+export class InputInstruction_7 {
+    public kind: ASTKinds.InputInstruction_7 = ASTKinds.InputInstruction_7;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
         return [0xED, 0xBA];
         })();
     }
 }
-export type OutputInstruction = OutputInstruction_1 | OutputInstruction_2 | OutputInstruction_3 | OutputInstruction_4 | OutputInstruction_5 | OutputInstruction_6;
+export type OutputInstruction = OutputInstruction_1 | OutputInstruction_2 | OutputInstruction_3 | OutputInstruction_4 | OutputInstruction_5 | OutputInstruction_6 | OutputInstruction_7;
 export class OutputInstruction_1 {
     public kind: ASTKinds.OutputInstruction_1 = ASTKinds.OutputInstruction_1;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
+        return [0xED, 0x71];
+        })();
+    }
+}
+export class OutputInstruction_2 {
+    public kind: ASTKinds.OutputInstruction_2 = ASTKinds.OutputInstruction_2;
     public r: r;
     public elements: AstElements;
     constructor(r: r){
@@ -3584,8 +4017,8 @@ export class OutputInstruction_1 {
         })();
     }
 }
-export class OutputInstruction_2 {
-    public kind: ASTKinds.OutputInstruction_2 = ASTKinds.OutputInstruction_2;
+export class OutputInstruction_3 {
+    public kind: ASTKinds.OutputInstruction_3 = ASTKinds.OutputInstruction_3;
     public pos: PosInfo;
     public n: Expression;
     public elements: AstElements;
@@ -3597,21 +4030,12 @@ export class OutputInstruction_2 {
         })();
     }
 }
-export class OutputInstruction_3 {
-    public kind: ASTKinds.OutputInstruction_3 = ASTKinds.OutputInstruction_3;
-    public elements: AstElements;
-    constructor(){
-        this.elements = ((): AstElements => {
-        return [0xED, 0xA3];
-        })();
-    }
-}
 export class OutputInstruction_4 {
     public kind: ASTKinds.OutputInstruction_4 = ASTKinds.OutputInstruction_4;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xED, 0xB3];
+        return [0xED, 0xA3];
         })();
     }
 }
@@ -3620,12 +4044,21 @@ export class OutputInstruction_5 {
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
-        return [0xED, 0xAB];
+        return [0xED, 0xB3];
         })();
     }
 }
 export class OutputInstruction_6 {
     public kind: ASTKinds.OutputInstruction_6 = ASTKinds.OutputInstruction_6;
+    public elements: AstElements;
+    constructor(){
+        this.elements = ((): AstElements => {
+        return [0xED, 0xAB];
+        })();
+    }
+}
+export class OutputInstruction_7 {
+    public kind: ASTKinds.OutputInstruction_7 = ASTKinds.OutputInstruction_7;
     public elements: AstElements;
     constructor(){
         this.elements = ((): AstElements => {
@@ -4139,6 +4572,26 @@ export class Parser {
         return this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr);
     }
     public matchry_7($$dpth: number, $$cr?: ErrorTracker): Nullable<ry_7> {
+        return this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr);
+    }
+    public matchixy8($$dpth: number, $$cr?: ErrorTracker): Nullable<ixy8> {
+        return this.choice<ixy8>([
+            () => this.matchixy8_1($$dpth + 1, $$cr),
+            () => this.matchixy8_2($$dpth + 1, $$cr),
+            () => this.matchixy8_3($$dpth + 1, $$cr),
+            () => this.matchixy8_4($$dpth + 1, $$cr),
+        ]);
+    }
+    public matchixy8_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ixy8_1> {
+        return this.regexAccept(String.raw`(?:ixh)`, "", $$dpth + 1, $$cr);
+    }
+    public matchixy8_2($$dpth: number, $$cr?: ErrorTracker): Nullable<ixy8_2> {
+        return this.regexAccept(String.raw`(?:ixl)`, "", $$dpth + 1, $$cr);
+    }
+    public matchixy8_3($$dpth: number, $$cr?: ErrorTracker): Nullable<ixy8_3> {
+        return this.regexAccept(String.raw`(?:iyh)`, "", $$dpth + 1, $$cr);
+    }
+    public matchixy8_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ixy8_4> {
         return this.regexAccept(String.raw`(?:iyl)`, "", $$dpth + 1, $$cr);
     }
     public matchn($$dpth: number, $$cr?: ErrorTracker): Nullable<n> {
@@ -4753,7 +5206,7 @@ export class Parser {
         return this.regexAccept(String.raw`(?:adc|add|and|bit|ccf|cpd|cpi|cpl|daa|dec|exx|inc|ind|ini|ldd|ldi|neg|nop|org|out|pop|res|ret|rla)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_4($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_4> {
-        return this.regexAccept(String.raw`(?:rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sra|srl|sub|xor)`, "", $$dpth + 1, $$cr);
+        return this.regexAccept(String.raw`(?:rlc|rld|rra|rrc|rrd|rst|sbc|scf|set|sla|sll|sra|srl|sub|xor)`, "", $$dpth + 1, $$cr);
     }
     public matchForbiddenNames_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ForbiddenNames_5> {
         return this.regexAccept(String.raw`(?:cp|db|di|dm|ds|dw|ei|eq|ex|im|in|jp|jr|ld|or|rl|rr)`, "", $$dpth + 1, $$cr);
@@ -7008,6 +7461,14 @@ export class Parser {
             () => this.matchArithmeticLogic8Instruction_38($$dpth + 1, $$cr),
             () => this.matchArithmeticLogic8Instruction_39($$dpth + 1, $$cr),
             () => this.matchArithmeticLogic8Instruction_40($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_41($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_42($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_43($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_44($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_45($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_46($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_47($$dpth + 1, $$cr),
+            () => this.matchArithmeticLogic8Instruction_48($$dpth + 1, $$cr),
         ]);
     }
     public matchArithmeticLogic8Instruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_1> {
@@ -7092,18 +7553,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_5($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_5> {
         return this.run<ArithmeticLogic8Instruction_5>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_5> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$4($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_5($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_5($scope$r);
                 }
                 return $$res;
             });
@@ -7111,19 +7570,18 @@ export class Parser {
     public matchArithmeticLogic8Instruction_6($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_6> {
         return this.run<ArithmeticLogic8Instruction_6>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:add)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$5($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_6();
+                    $$res = new ArithmeticLogic8Instruction_6($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -7131,7 +7589,6 @@ export class Parser {
     public matchArithmeticLogic8Instruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_7> {
         return this.run<ArithmeticLogic8Instruction_7>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_7> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
@@ -7139,12 +7596,12 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$6($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_7($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_7();
                 }
                 return $$res;
             });
@@ -7152,7 +7609,7 @@ export class Parser {
     public matchArithmeticLogic8Instruction_8($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_8> {
         return this.run<ArithmeticLogic8Instruction_8>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_8> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
@@ -7160,7 +7617,7 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$7($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -7173,16 +7630,20 @@ export class Parser {
     public matchArithmeticLogic8Instruction_9($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_9> {
         return this.run<ArithmeticLogic8Instruction_9>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_9> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$8($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_9($scope$r);
+                    $$res = new ArithmeticLogic8Instruction_9($scope$i);
                 }
                 return $$res;
             });
@@ -7190,18 +7651,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_10($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_10> {
         return this.run<ArithmeticLogic8Instruction_10>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_10> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$9($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_10($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_10($scope$r);
                 }
                 return $$res;
             });
@@ -7209,19 +7668,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_11($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_11> {
         return this.run<ArithmeticLogic8Instruction_11>($$dpth,
             () => {
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_11> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$10($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_11();
+                    $$res = new ArithmeticLogic8Instruction_11($scope$r);
                 }
                 return $$res;
             });
@@ -7229,20 +7685,18 @@ export class Parser {
     public matchArithmeticLogic8Instruction_12($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_12> {
         return this.run<ArithmeticLogic8Instruction_12>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_12> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:adc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$11($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_12($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_12($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -7250,7 +7704,6 @@ export class Parser {
     public matchArithmeticLogic8Instruction_13($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_13> {
         return this.run<ArithmeticLogic8Instruction_13>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_13> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
@@ -7258,12 +7711,12 @@ export class Parser {
                     && ((this.matchArithmeticLogic8Instruction_$12($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_13($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_13();
                 }
                 return $$res;
             });
@@ -7271,16 +7724,20 @@ export class Parser {
     public matchArithmeticLogic8Instruction_14($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_14> {
         return this.run<ArithmeticLogic8Instruction_14>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_14> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$13($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_14($scope$r);
+                    $$res = new ArithmeticLogic8Instruction_14($scope$i);
                 }
                 return $$res;
             });
@@ -7288,18 +7745,20 @@ export class Parser {
     public matchArithmeticLogic8Instruction_15($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_15> {
         return this.run<ArithmeticLogic8Instruction_15>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_15> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$14($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_15($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_15($scope$i);
                 }
                 return $$res;
             });
@@ -7307,19 +7766,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_16($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_16> {
         return this.run<ArithmeticLogic8Instruction_16>($$dpth,
             () => {
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_16> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$15($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_16();
+                    $$res = new ArithmeticLogic8Instruction_16($scope$r);
                 }
                 return $$res;
             });
@@ -7327,20 +7783,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_17($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_17> {
         return this.run<ArithmeticLogic8Instruction_17>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_17> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$16($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_17($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_17($scope$r);
                 }
                 return $$res;
             });
@@ -7348,20 +7800,18 @@ export class Parser {
     public matchArithmeticLogic8Instruction_18($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_18> {
         return this.run<ArithmeticLogic8Instruction_18>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_18> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sub)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$17($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_18($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_18($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -7369,16 +7819,19 @@ export class Parser {
     public matchArithmeticLogic8Instruction_19($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_19> {
         return this.run<ArithmeticLogic8Instruction_19>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_19> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$18($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_19($scope$r);
+                    $$res = new ArithmeticLogic8Instruction_19();
                 }
                 return $$res;
             });
@@ -7386,18 +7839,20 @@ export class Parser {
     public matchArithmeticLogic8Instruction_20($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_20> {
         return this.run<ArithmeticLogic8Instruction_20>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_20> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$19($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_20($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_20($scope$i);
                 }
                 return $$res;
             });
@@ -7405,53 +7860,12 @@ export class Parser {
     public matchArithmeticLogic8Instruction_21($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_21> {
         return this.run<ArithmeticLogic8Instruction_21>($$dpth,
             () => {
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$20($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new ArithmeticLogic8Instruction_21();
-                }
-                return $$res;
-            });
-    }
-    public matchArithmeticLogic8Instruction_22($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_22> {
-        return this.run<ArithmeticLogic8Instruction_22>($$dpth,
-            () => {
-                let $scope$i: Nullable<IX>;
-                let $$res: Nullable<ArithmeticLogic8Instruction_22> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ((this.matchArithmeticLogic8Instruction_$21($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new ArithmeticLogic8Instruction_22($scope$i);
-                }
-                return $$res;
-            });
-    }
-    public matchArithmeticLogic8Instruction_23($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_23> {
-        return this.run<ArithmeticLogic8Instruction_23>($$dpth,
-            () => {
-                let $scope$i: Nullable<IY>;
-                let $$res: Nullable<ArithmeticLogic8Instruction_23> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ((this.matchArithmeticLogic8Instruction_$22($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
@@ -7459,7 +7873,41 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_23($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_21($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_22($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_22> {
+        return this.run<ArithmeticLogic8Instruction_22>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_22> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$21($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_22($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_23($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_23> {
+        return this.run<ArithmeticLogic8Instruction_23>($$dpth,
+            () => {
+                let $scope$r: Nullable<ixy8>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_23> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$22($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_23($scope$r);
                 }
                 return $$res;
             });
@@ -7467,16 +7915,18 @@ export class Parser {
     public matchArithmeticLogic8Instruction_24($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_24> {
         return this.run<ArithmeticLogic8Instruction_24>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_24> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sbc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$23($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_24($scope$r);
+                    $$res = new ArithmeticLogic8Instruction_24($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -7484,30 +7934,11 @@ export class Parser {
     public matchArithmeticLogic8Instruction_25($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_25> {
         return this.run<ArithmeticLogic8Instruction_25>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_25> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$24($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new ArithmeticLogic8Instruction_25($scope$pos, $scope$n);
-                }
-                return $$res;
-            });
-    }
-    public matchArithmeticLogic8Instruction_26($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_26> {
-        return this.run<ArithmeticLogic8Instruction_26>($$dpth,
-            () => {
-                let $$res: Nullable<ArithmeticLogic8Instruction_26> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ((this.matchArithmeticLogic8Instruction_$25($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
@@ -7515,7 +7946,28 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_26();
+                    $$res = new ArithmeticLogic8Instruction_25();
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_26($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_26> {
+        return this.run<ArithmeticLogic8Instruction_26>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_26> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$25($$dpth + 1, $$cr)) || true)
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_26($scope$i);
                 }
                 return $$res;
             });
@@ -7523,15 +7975,15 @@ export class Parser {
     public matchArithmeticLogic8Instruction_27($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_27> {
         return this.run<ArithmeticLogic8Instruction_27>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_27> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$26($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -7544,20 +7996,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_28($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_28> {
         return this.run<ArithmeticLogic8Instruction_28>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_28> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$27($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_28($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_28($scope$r);
                 }
                 return $$res;
             });
@@ -7565,13 +8013,13 @@ export class Parser {
     public matchArithmeticLogic8Instruction_29($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_29> {
         return this.run<ArithmeticLogic8Instruction_29>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_29> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$28($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new ArithmeticLogic8Instruction_29($scope$r);
@@ -7586,7 +8034,7 @@ export class Parser {
                 let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_30> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:and)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$29($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
@@ -7603,7 +8051,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<ArithmeticLogic8Instruction_31> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$30($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
@@ -7624,7 +8072,7 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_32> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$31($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
@@ -7645,7 +8093,7 @@ export class Parser {
                 let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_33> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$32($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
@@ -7666,7 +8114,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_34> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$33($$dpth + 1, $$cr)) || true)
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
@@ -7680,18 +8128,16 @@ export class Parser {
     public matchArithmeticLogic8Instruction_35($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_35> {
         return this.run<ArithmeticLogic8Instruction_35>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_35> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$34($$dpth + 1, $$cr)) || true)
-                    && ($scope$pos = this.mark()) !== null
-                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_35($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_35($scope$r);
                 }
                 return $$res;
             });
@@ -7699,19 +8145,18 @@ export class Parser {
     public matchArithmeticLogic8Instruction_36($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_36> {
         return this.run<ArithmeticLogic8Instruction_36>($$dpth,
             () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_36> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:or)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$35($$dpth + 1, $$cr)) || true)
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_36();
+                    $$res = new ArithmeticLogic8Instruction_36($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -7719,20 +8164,19 @@ export class Parser {
     public matchArithmeticLogic8Instruction_37($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_37> {
         return this.run<ArithmeticLogic8Instruction_37>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_37> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$36($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_37($scope$i);
+                    $$res = new ArithmeticLogic8Instruction_37();
                 }
                 return $$res;
             });
@@ -7740,15 +8184,15 @@ export class Parser {
     public matchArithmeticLogic8Instruction_38($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_38> {
         return this.run<ArithmeticLogic8Instruction_38>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_38> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$37($$dpth + 1, $$cr)) || true)
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -7761,16 +8205,20 @@ export class Parser {
     public matchArithmeticLogic8Instruction_39($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_39> {
         return this.run<ArithmeticLogic8Instruction_39>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_39> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$38($$dpth + 1, $$cr)) || true)
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_39($scope$r);
+                    $$res = new ArithmeticLogic8Instruction_39($scope$i);
                 }
                 return $$res;
             });
@@ -7778,18 +8226,167 @@ export class Parser {
     public matchArithmeticLogic8Instruction_40($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_40> {
         return this.run<ArithmeticLogic8Instruction_40>($$dpth,
             () => {
-                let $scope$pos: Nullable<PosInfo>;
-                let $scope$n: Nullable<Expression>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<ArithmeticLogic8Instruction_40> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ((this.matchArithmeticLogic8Instruction_$39($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_40($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_41($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_41> {
+        return this.run<ArithmeticLogic8Instruction_41>($$dpth,
+            () => {
+                let $scope$r: Nullable<ixy8>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_41> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$40($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_41($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_42($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_42> {
+        return this.run<ArithmeticLogic8Instruction_42>($$dpth,
+            () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_42> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:xor)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$41($$dpth + 1, $$cr)) || true)
                     && ($scope$pos = this.mark()) !== null
                     && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new ArithmeticLogic8Instruction_40($scope$pos, $scope$n);
+                    $$res = new ArithmeticLogic8Instruction_42($scope$pos, $scope$n);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_43($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_43> {
+        return this.run<ArithmeticLogic8Instruction_43>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_43> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$42($$dpth + 1, $$cr)) || true)
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_43();
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_44($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_44> {
+        return this.run<ArithmeticLogic8Instruction_44>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_44> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$43($$dpth + 1, $$cr)) || true)
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_44($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_45($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_45> {
+        return this.run<ArithmeticLogic8Instruction_45>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_45> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$44($$dpth + 1, $$cr)) || true)
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_45($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_46($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_46> {
+        return this.run<ArithmeticLogic8Instruction_46>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_46> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$45($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_46($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_47($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_47> {
+        return this.run<ArithmeticLogic8Instruction_47>($$dpth,
+            () => {
+                let $scope$r: Nullable<ixy8>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_47> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$46($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_47($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_48($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_48> {
+        return this.run<ArithmeticLogic8Instruction_48>($$dpth,
+            () => {
+                let $scope$pos: Nullable<PosInfo>;
+                let $scope$n: Nullable<Expression>;
+                let $$res: Nullable<ArithmeticLogic8Instruction_48> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:cp)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchArithmeticLogic8Instruction_$47($$dpth + 1, $$cr)) || true)
+                    && ($scope$pos = this.mark()) !== null
+                    && ($scope$n = this.matchExpression($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new ArithmeticLogic8Instruction_48($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -8394,6 +8991,126 @@ export class Parser {
                 return $$res;
             });
     }
+    public matchArithmeticLogic8Instruction_$40($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$40> {
+        return this.run<ArithmeticLogic8Instruction_$40>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$40> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$40, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$41($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$41> {
+        return this.run<ArithmeticLogic8Instruction_$41>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$41> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$41, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$42($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$42> {
+        return this.run<ArithmeticLogic8Instruction_$42>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$42> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$42, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$43($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$43> {
+        return this.run<ArithmeticLogic8Instruction_$43>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$43> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$43, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$44($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$44> {
+        return this.run<ArithmeticLogic8Instruction_$44>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$44> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$44, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$45($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$45> {
+        return this.run<ArithmeticLogic8Instruction_$45>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$45> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$45, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$46($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$46> {
+        return this.run<ArithmeticLogic8Instruction_$46>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$46> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$46, };
+                }
+                return $$res;
+            });
+    }
+    public matchArithmeticLogic8Instruction_$47($$dpth: number, $$cr?: ErrorTracker): Nullable<ArithmeticLogic8Instruction_$47> {
+        return this.run<ArithmeticLogic8Instruction_$47>($$dpth,
+            () => {
+                let $$res: Nullable<ArithmeticLogic8Instruction_$47> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.ArithmeticLogic8Instruction_$47, };
+                }
+                return $$res;
+            });
+    }
     public matchIncrementDecrement8Instruction($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction> {
         return this.choice<IncrementDecrement8Instruction>([
             () => this.matchIncrementDecrement8Instruction_1($$dpth + 1, $$cr),
@@ -8404,6 +9121,8 @@ export class Parser {
             () => this.matchIncrementDecrement8Instruction_6($$dpth + 1, $$cr),
             () => this.matchIncrementDecrement8Instruction_7($$dpth + 1, $$cr),
             () => this.matchIncrementDecrement8Instruction_8($$dpth + 1, $$cr),
+            () => this.matchIncrementDecrement8Instruction_9($$dpth + 1, $$cr),
+            () => this.matchIncrementDecrement8Instruction_10($$dpth + 1, $$cr),
         ]);
     }
     public matchIncrementDecrement8Instruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_1> {
@@ -8425,7 +9144,24 @@ export class Parser {
     public matchIncrementDecrement8Instruction_2($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_2> {
         return this.run<IncrementDecrement8Instruction_2>($$dpth,
             () => {
+                let $scope$r: Nullable<ixy8>;
                 let $$res: Nullable<IncrementDecrement8Instruction_2> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchIncrementDecrement8Instruction_$0($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new IncrementDecrement8Instruction_2($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchIncrementDecrement8Instruction_3($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_3> {
+        return this.run<IncrementDecrement8Instruction_3>($$dpth,
+            () => {
+                let $$res: Nullable<IncrementDecrement8Instruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -8436,27 +9172,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncrementDecrement8Instruction_2();
-                }
-                return $$res;
-            });
-    }
-    public matchIncrementDecrement8Instruction_3($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_3> {
-        return this.run<IncrementDecrement8Instruction_3>($$dpth,
-            () => {
-                let $scope$i: Nullable<IX>;
-                let $$res: Nullable<IncrementDecrement8Instruction_3> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new IncrementDecrement8Instruction_3($scope$i);
+                    $$res = new IncrementDecrement8Instruction_3();
                 }
                 return $$res;
             });
@@ -8464,14 +9180,14 @@ export class Parser {
     public matchIncrementDecrement8Instruction_4($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_4> {
         return this.run<IncrementDecrement8Instruction_4>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$i: Nullable<IX>;
                 let $$res: Nullable<IncrementDecrement8Instruction_4> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -8484,15 +9200,19 @@ export class Parser {
     public matchIncrementDecrement8Instruction_5($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_5> {
         return this.run<IncrementDecrement8Instruction_5>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<IncrementDecrement8Instruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncrementDecrement8Instruction_5($scope$r);
+                    $$res = new IncrementDecrement8Instruction_5($scope$i);
                 }
                 return $$res;
             });
@@ -8500,7 +9220,40 @@ export class Parser {
     public matchIncrementDecrement8Instruction_6($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_6> {
         return this.run<IncrementDecrement8Instruction_6>($$dpth,
             () => {
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<IncrementDecrement8Instruction_6> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new IncrementDecrement8Instruction_6($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchIncrementDecrement8Instruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_7> {
+        return this.run<IncrementDecrement8Instruction_7>($$dpth,
+            () => {
+                let $scope$r: Nullable<ixy8>;
+                let $$res: Nullable<IncrementDecrement8Instruction_7> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ((this.matchIncrementDecrement8Instruction_$1($$dpth + 1, $$cr)) || true)
+                    && ($scope$r = this.matchixy8($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new IncrementDecrement8Instruction_7($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchIncrementDecrement8Instruction_8($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_8> {
+        return this.run<IncrementDecrement8Instruction_8>($$dpth,
+            () => {
+                let $$res: Nullable<IncrementDecrement8Instruction_8> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -8511,16 +9264,16 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncrementDecrement8Instruction_6();
+                    $$res = new IncrementDecrement8Instruction_8();
                 }
                 return $$res;
             });
     }
-    public matchIncrementDecrement8Instruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_7> {
-        return this.run<IncrementDecrement8Instruction_7>($$dpth,
+    public matchIncrementDecrement8Instruction_9($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_9> {
+        return this.run<IncrementDecrement8Instruction_9>($$dpth,
             () => {
                 let $scope$i: Nullable<IX>;
-                let $$res: Nullable<IncrementDecrement8Instruction_7> = null;
+                let $$res: Nullable<IncrementDecrement8Instruction_9> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -8531,16 +9284,16 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncrementDecrement8Instruction_7($scope$i);
+                    $$res = new IncrementDecrement8Instruction_9($scope$i);
                 }
                 return $$res;
             });
     }
-    public matchIncrementDecrement8Instruction_8($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_8> {
-        return this.run<IncrementDecrement8Instruction_8>($$dpth,
+    public matchIncrementDecrement8Instruction_10($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_10> {
+        return this.run<IncrementDecrement8Instruction_10>($$dpth,
             () => {
                 let $scope$i: Nullable<IY>;
-                let $$res: Nullable<IncrementDecrement8Instruction_8> = null;
+                let $$res: Nullable<IncrementDecrement8Instruction_10> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:dec)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -8551,7 +9304,37 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new IncrementDecrement8Instruction_8($scope$i);
+                    $$res = new IncrementDecrement8Instruction_10($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchIncrementDecrement8Instruction_$0($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_$0> {
+        return this.run<IncrementDecrement8Instruction_$0>($$dpth,
+            () => {
+                let $$res: Nullable<IncrementDecrement8Instruction_$0> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.IncrementDecrement8Instruction_$0, };
+                }
+                return $$res;
+            });
+    }
+    public matchIncrementDecrement8Instruction_$1($$dpth: number, $$cr?: ErrorTracker): Nullable<IncrementDecrement8Instruction_$1> {
+        return this.run<IncrementDecrement8Instruction_$1>($$dpth,
+            () => {
+                let $$res: Nullable<IncrementDecrement8Instruction_$1> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                ) {
+                    $$res = {kind: ASTKinds.IncrementDecrement8Instruction_$1, };
                 }
                 return $$res;
             });
@@ -8950,6 +9733,24 @@ export class Parser {
             () => this.matchRotateShiftInstruction_32($$dpth + 1, $$cr),
             () => this.matchRotateShiftInstruction_33($$dpth + 1, $$cr),
             () => this.matchRotateShiftInstruction_34($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_35($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_36($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_37($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_38($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_39($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_40($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_41($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_42($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_43($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_44($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_45($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_46($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_47($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_48($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_49($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_50($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_51($$dpth + 1, $$cr),
+            () => this.matchRotateShiftInstruction_52($$dpth + 1, $$cr),
         ]);
     }
     public matchRotateShiftInstruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_1> {
@@ -9137,8 +9938,33 @@ export class Parser {
     public matchRotateShiftInstruction_12($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_12> {
         return this.run<RotateShiftInstruction_12>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_12> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_12($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_13($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_13> {
+        return this.run<RotateShiftInstruction_13>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<RotateShiftInstruction_13> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -9149,23 +9975,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_12($scope$i);
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_13($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_13> {
-        return this.run<RotateShiftInstruction_13>($$dpth,
-            () => {
-                let $scope$r: Nullable<r>;
-                let $$res: Nullable<RotateShiftInstruction_13> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_13($scope$r);
+                    $$res = new RotateShiftInstruction_13($scope$i);
                 }
                 return $$res;
             });
@@ -9173,18 +9983,24 @@ export class Parser {
     public matchRotateShiftInstruction_14($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_14> {
         return this.run<RotateShiftInstruction_14>($$dpth,
             () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_14> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_14();
+                    $$res = new RotateShiftInstruction_14($scope$i, $scope$r);
                 }
                 return $$res;
             });
@@ -9192,19 +10008,15 @@ export class Parser {
     public matchRotateShiftInstruction_15($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_15> {
         return this.run<RotateShiftInstruction_15>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_15> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_15($scope$i);
+                    $$res = new RotateShiftInstruction_15($scope$r);
                 }
                 return $$res;
             });
@@ -9212,45 +10024,9 @@ export class Parser {
     public matchRotateShiftInstruction_16($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_16> {
         return this.run<RotateShiftInstruction_16>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_16> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_16($scope$i);
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_17($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_17> {
-        return this.run<RotateShiftInstruction_17>($$dpth,
-            () => {
-                let $scope$r: Nullable<r>;
-                let $$res: Nullable<RotateShiftInstruction_17> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_17($scope$r);
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_18($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_18> {
-        return this.run<RotateShiftInstruction_18>($$dpth,
-            () => {
-                let $$res: Nullable<RotateShiftInstruction_18> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -9259,7 +10035,52 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_18();
+                    $$res = new RotateShiftInstruction_16();
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_17($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_17> {
+        return this.run<RotateShiftInstruction_17>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<RotateShiftInstruction_17> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_17($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_18($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_18> {
+        return this.run<RotateShiftInstruction_18>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_18> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_18($scope$i, $scope$r);
                 }
                 return $$res;
             });
@@ -9267,14 +10088,14 @@ export class Parser {
     public matchRotateShiftInstruction_19($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_19> {
         return this.run<RotateShiftInstruction_19>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_19> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9288,18 +10109,23 @@ export class Parser {
         return this.run<RotateShiftInstruction_20>($$dpth,
             () => {
                 let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_20> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rrc)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_20($scope$i);
+                    $$res = new RotateShiftInstruction_20($scope$i, $scope$r);
                 }
                 return $$res;
             });
@@ -9310,7 +10136,7 @@ export class Parser {
                 let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_21> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9325,7 +10151,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<RotateShiftInstruction_22> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -9345,7 +10171,7 @@ export class Parser {
                 let $scope$i: Nullable<IX>;
                 let $$res: Nullable<RotateShiftInstruction_23> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -9362,19 +10188,24 @@ export class Parser {
     public matchRotateShiftInstruction_24($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_24> {
         return this.run<RotateShiftInstruction_24>($$dpth,
             () => {
-                let $scope$i: Nullable<IY>;
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_24> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_24($scope$i);
+                    $$res = new RotateShiftInstruction_24($scope$i, $scope$r);
                 }
                 return $$res;
             });
@@ -9382,65 +10213,10 @@ export class Parser {
     public matchRotateShiftInstruction_25($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_25> {
         return this.run<RotateShiftInstruction_25>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_25> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_25($scope$r);
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_26($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_26> {
-        return this.run<RotateShiftInstruction_26>($$dpth,
-            () => {
-                let $$res: Nullable<RotateShiftInstruction_26> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_26();
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_27($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_27> {
-        return this.run<RotateShiftInstruction_27>($$dpth,
-            () => {
-                let $scope$i: Nullable<IX>;
-                let $$res: Nullable<RotateShiftInstruction_27> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
-                    && this.match__($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
-                    && this.match_($$dpth + 1, $$cr) !== null
-                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new RotateShiftInstruction_27($scope$i);
-                }
-                return $$res;
-            });
-    }
-    public matchRotateShiftInstruction_28($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_28> {
-        return this.run<RotateShiftInstruction_28>($$dpth,
-            () => {
-                let $scope$i: Nullable<IY>;
-                let $$res: Nullable<RotateShiftInstruction_28> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -9449,33 +10225,58 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_28($scope$i);
+                    $$res = new RotateShiftInstruction_25($scope$i);
                 }
                 return $$res;
             });
     }
-    public matchRotateShiftInstruction_29($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_29> {
-        return this.run<RotateShiftInstruction_29>($$dpth,
+    public matchRotateShiftInstruction_26($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_26> {
+        return this.run<RotateShiftInstruction_26>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_26> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:rr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_26($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_27($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_27> {
+        return this.run<RotateShiftInstruction_27>($$dpth,
             () => {
                 let $scope$r: Nullable<r>;
-                let $$res: Nullable<RotateShiftInstruction_29> = null;
+                let $$res: Nullable<RotateShiftInstruction_27> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_29($scope$r);
+                    $$res = new RotateShiftInstruction_27($scope$r);
                 }
                 return $$res;
             });
     }
-    public matchRotateShiftInstruction_30($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_30> {
-        return this.run<RotateShiftInstruction_30>($$dpth,
+    public matchRotateShiftInstruction_28($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_28> {
+        return this.run<RotateShiftInstruction_28>($$dpth,
             () => {
-                let $$res: Nullable<RotateShiftInstruction_30> = null;
+                let $$res: Nullable<RotateShiftInstruction_28> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
@@ -9484,7 +10285,52 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_30();
+                    $$res = new RotateShiftInstruction_28();
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_29($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_29> {
+        return this.run<RotateShiftInstruction_29>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<RotateShiftInstruction_29> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_29($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_30($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_30> {
+        return this.run<RotateShiftInstruction_30>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_30> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_30($scope$i, $scope$r);
                 }
                 return $$res;
             });
@@ -9492,14 +10338,14 @@ export class Parser {
     public matchRotateShiftInstruction_31($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_31> {
         return this.run<RotateShiftInstruction_31>($$dpth,
             () => {
-                let $scope$i: Nullable<IX>;
+                let $scope$i: Nullable<IY>;
                 let $$res: Nullable<RotateShiftInstruction_31> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
-                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
                     && this.match_($$dpth + 1, $$cr) !== null
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
@@ -9513,7 +10359,362 @@ export class Parser {
         return this.run<RotateShiftInstruction_32>($$dpth,
             () => {
                 let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
                 let $$res: Nullable<RotateShiftInstruction_32> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sla)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_32($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_33($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_33> {
+        return this.run<RotateShiftInstruction_33>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_33> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_33($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_34($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_34> {
+        return this.run<RotateShiftInstruction_34>($$dpth,
+            () => {
+                let $$res: Nullable<RotateShiftInstruction_34> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_34();
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_35($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_35> {
+        return this.run<RotateShiftInstruction_35>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<RotateShiftInstruction_35> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_35($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_36($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_36> {
+        return this.run<RotateShiftInstruction_36>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_36> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_36($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_37($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_37> {
+        return this.run<RotateShiftInstruction_37>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<RotateShiftInstruction_37> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_37($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_38($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_38> {
+        return this.run<RotateShiftInstruction_38>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_38> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sll)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_38($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_39($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_39> {
+        return this.run<RotateShiftInstruction_39>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_39> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_39($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_40($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_40> {
+        return this.run<RotateShiftInstruction_40>($$dpth,
+            () => {
+                let $$res: Nullable<RotateShiftInstruction_40> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_40();
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_41($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_41> {
+        return this.run<RotateShiftInstruction_41>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<RotateShiftInstruction_41> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_41($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_42($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_42> {
+        return this.run<RotateShiftInstruction_42>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_42> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_42($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_43($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_43> {
+        return this.run<RotateShiftInstruction_43>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<RotateShiftInstruction_43> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_43($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_44($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_44> {
+        return this.run<RotateShiftInstruction_44>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_44> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:sra)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_44($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_45($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_45> {
+        return this.run<RotateShiftInstruction_45>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_45> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_45($scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_46($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_46> {
+        return this.run<RotateShiftInstruction_46>($$dpth,
+            () => {
+                let $$res: Nullable<RotateShiftInstruction_46> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:hl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_46();
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_47($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_47> {
+        return this.run<RotateShiftInstruction_47>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $$res: Nullable<RotateShiftInstruction_47> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_47($scope$i);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_48($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_48> {
+        return this.run<RotateShiftInstruction_48>($$dpth,
+            () => {
+                let $scope$i: Nullable<IX>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_48> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIX($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_48($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_49($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_49> {
+        return this.run<RotateShiftInstruction_49>($$dpth,
+            () => {
+                let $scope$i: Nullable<IY>;
+                let $$res: Nullable<RotateShiftInstruction_49> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -9524,33 +10725,58 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_32($scope$i);
+                    $$res = new RotateShiftInstruction_49($scope$i);
                 }
                 return $$res;
             });
     }
-    public matchRotateShiftInstruction_33($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_33> {
-        return this.run<RotateShiftInstruction_33>($$dpth,
+    public matchRotateShiftInstruction_50($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_50> {
+        return this.run<RotateShiftInstruction_50>($$dpth,
             () => {
-                let $$res: Nullable<RotateShiftInstruction_33> = null;
+                let $scope$i: Nullable<IY>;
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<RotateShiftInstruction_50> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:srl)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$i = this.matchIY($$dpth + 1, $$cr)) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new RotateShiftInstruction_50($scope$i, $scope$r);
+                }
+                return $$res;
+            });
+    }
+    public matchRotateShiftInstruction_51($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_51> {
+        return this.run<RotateShiftInstruction_51>($$dpth,
+            () => {
+                let $$res: Nullable<RotateShiftInstruction_51> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rld)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_33();
+                    $$res = new RotateShiftInstruction_51();
                 }
                 return $$res;
             });
     }
-    public matchRotateShiftInstruction_34($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_34> {
-        return this.run<RotateShiftInstruction_34>($$dpth,
+    public matchRotateShiftInstruction_52($$dpth: number, $$cr?: ErrorTracker): Nullable<RotateShiftInstruction_52> {
+        return this.run<RotateShiftInstruction_52>($$dpth,
             () => {
-                let $$res: Nullable<RotateShiftInstruction_34> = null;
+                let $$res: Nullable<RotateShiftInstruction_52> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:rrd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new RotateShiftInstruction_34();
+                    $$res = new RotateShiftInstruction_52();
                 }
                 return $$res;
             });
@@ -10256,6 +11482,7 @@ export class Parser {
             () => this.matchInputInstruction_4($$dpth + 1, $$cr),
             () => this.matchInputInstruction_5($$dpth + 1, $$cr),
             () => this.matchInputInstruction_6($$dpth + 1, $$cr),
+            () => this.matchInputInstruction_7($$dpth + 1, $$cr),
         ]);
     }
     public matchInputInstruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<InputInstruction_1> {
@@ -10311,7 +11538,15 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_3> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ini)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:in)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:f)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_3();
@@ -10324,7 +11559,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:inir)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ini)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_4();
@@ -10337,7 +11572,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:ind)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:inir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_5();
@@ -10350,10 +11585,23 @@ export class Parser {
             () => {
                 let $$res: Nullable<InputInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:indr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:ind)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new InputInstruction_6();
+                }
+                return $$res;
+            });
+    }
+    public matchInputInstruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<InputInstruction_7> {
+        return this.run<InputInstruction_7>($$dpth,
+            () => {
+                let $$res: Nullable<InputInstruction_7> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:indr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new InputInstruction_7();
                 }
                 return $$res;
             });
@@ -10366,13 +11614,35 @@ export class Parser {
             () => this.matchOutputInstruction_4($$dpth + 1, $$cr),
             () => this.matchOutputInstruction_5($$dpth + 1, $$cr),
             () => this.matchOutputInstruction_6($$dpth + 1, $$cr),
+            () => this.matchOutputInstruction_7($$dpth + 1, $$cr),
         ]);
     }
     public matchOutputInstruction_1($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_1> {
         return this.run<OutputInstruction_1>($$dpth,
             () => {
-                let $scope$r: Nullable<r>;
                 let $$res: Nullable<OutputInstruction_1> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:out)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match__($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\()`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:c)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:\))`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:,)`, "", $$dpth + 1, $$cr) !== null
+                    && this.match_($$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:0)`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new OutputInstruction_1();
+                }
+                return $$res;
+            });
+    }
+    public matchOutputInstruction_2($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_2> {
+        return this.run<OutputInstruction_2>($$dpth,
+            () => {
+                let $scope$r: Nullable<r>;
+                let $$res: Nullable<OutputInstruction_2> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:out)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -10385,17 +11655,17 @@ export class Parser {
                     && ($scope$r = this.matchr($$dpth + 1, $$cr)) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new OutputInstruction_1($scope$r);
+                    $$res = new OutputInstruction_2($scope$r);
                 }
                 return $$res;
             });
     }
-    public matchOutputInstruction_2($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_2> {
-        return this.run<OutputInstruction_2>($$dpth,
+    public matchOutputInstruction_3($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_3> {
+        return this.run<OutputInstruction_3>($$dpth,
             () => {
                 let $scope$pos: Nullable<PosInfo>;
                 let $scope$n: Nullable<Expression>;
-                let $$res: Nullable<OutputInstruction_2> = null;
+                let $$res: Nullable<OutputInstruction_3> = null;
                 if (true
                     && this.regexAccept(String.raw`(?:out)`, "", $$dpth + 1, $$cr) !== null
                     && this.match__($$dpth + 1, $$cr) !== null
@@ -10411,20 +11681,7 @@ export class Parser {
                     && this.regexAccept(String.raw`(?:a)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
-                    $$res = new OutputInstruction_2($scope$pos, $scope$n);
-                }
-                return $$res;
-            });
-    }
-    public matchOutputInstruction_3($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_3> {
-        return this.run<OutputInstruction_3>($$dpth,
-            () => {
-                let $$res: Nullable<OutputInstruction_3> = null;
-                if (true
-                    && this.regexAccept(String.raw`(?:outi)`, "", $$dpth + 1, $$cr) !== null
-                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
-                ) {
-                    $$res = new OutputInstruction_3();
+                    $$res = new OutputInstruction_3($scope$pos, $scope$n);
                 }
                 return $$res;
             });
@@ -10434,7 +11691,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_4> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:otir)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:outi)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_4();
@@ -10447,7 +11704,7 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_5> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:outd)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:otir)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_5();
@@ -10460,10 +11717,23 @@ export class Parser {
             () => {
                 let $$res: Nullable<OutputInstruction_6> = null;
                 if (true
-                    && this.regexAccept(String.raw`(?:otdr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.regexAccept(String.raw`(?:outd)`, "", $$dpth + 1, $$cr) !== null
                     && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
                 ) {
                     $$res = new OutputInstruction_6();
+                }
+                return $$res;
+            });
+    }
+    public matchOutputInstruction_7($$dpth: number, $$cr?: ErrorTracker): Nullable<OutputInstruction_7> {
+        return this.run<OutputInstruction_7>($$dpth,
+            () => {
+                let $$res: Nullable<OutputInstruction_7> = null;
+                if (true
+                    && this.regexAccept(String.raw`(?:otdr)`, "", $$dpth + 1, $$cr) !== null
+                    && this.noConsume<eos>(() => this.matcheos($$dpth + 1, $$cr)) !== null
+                ) {
+                    $$res = new OutputInstruction_7();
                 }
                 return $$res;
             });
