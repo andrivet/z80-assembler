@@ -75,4 +75,4 @@ This library and application are released under GPLv3.
 
 ## Copyrights
 
-Copyright (C) 2023 Sebastien Andrivet
+Copyright (C) 2023-2025 Sebastien Andrivet

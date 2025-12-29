@@ -7,13 +7,91 @@ Each z80 opcode has to be on a separate line.
 
 ## Z80 non-standard or fake opcodes
 
-Some assemblers (such as [sjasmplus](http://z00m128.github.io/sjasmplus/documentation.html#s_fake_instructions)) support fake opcodes such as `ld bc,de`. This is not the case of this assembler (on purpose).
-You have to use the equivalent with official opcodes such as:
+Some assemblers (such as [sjasmplus](http://z00m128.github.io/sjasmplus/documentation.html#s_fake_instructions)) support fake opcodes such as `ld bc,de`. This is also the case of this assembler (since version 2.0.0).
 
-```asm
-ld b,d
-ld c,e ; equivalent of the fake opcode ld bc,de
-```
+* IXh, IXl, IYh, IYl 8 bits registers are supported
+* ADC, ADD, AND, CP, DEC, INC, OR, SBC, SUB and XOR with those registers are supported
+* LD with those registers are supported
+* RL, RLC, RR, RRC, SLA, SRA, SRL with (IX+d) or (IY+d)
+* SSL (or SSI) new instruction
+* IN F, (C)
+* OUT (C), 0
+
+The fake instructions are:
+
+### 16-bit rotate and shift
+
+* rl qq
+* rr qq
+* sla qq
+* sll qq, sli qq
+* sra qq
+* srl qq
+
+### 16-bit load
+
+* ld qq, qq
+* ld qq, ix
+* ld qq, iy
+* ld qq, (hl)
+* ld qq, (ix + nn)
+* ld qq, (iy + nn)
+* ld ix, qq
+* ld iy, qq
+* ld iy, ix
+* ld ix, iy
+* ld (hl), qq
+* ld (ix + nn), qq
+* ld (iy + nn), qq
+
+### 16-bit load, increment
+
+* ldi qq, (hl)
+* ldi qq, (ix + nn)
+* ldi qq, (iy + nn)
+* ldi (hl), qq
+* ldi (ix + nn), qq
+* ldi (iy + nn), qq
+
+### 8-bit load, increment
+
+* ldi a, (bc)
+* ldi a, (de)
+* ldi r, (hl)
+* ldi r, (ix + nn)
+* ldi r, (iy + nn)
+* ldi (bc), a
+* ldi (de), a
+* ldi (hl), r
+* ldi (ix + nn), r
+* ldi (iy + nn), r
+* ldi (hl), n
+* ldi (ix + nn), n
+* ldi (iy + nn), n
+
+### 8-bit load, decrement
+
+* ldd a, (bc)
+* ldd a, (de)
+* ldd r, (hl)
+* ldd r, (ix + nn)
+* ldd r, (iy + nn)
+* ldd (bc), a
+* ldd (de), a
+* ldd (hl), r
+* ldd (ix + nn), r
+* ldd (iy + nn), r
+* ldd (hl), n
+* ldd (ix + nn), n
+* ldd (iy + nn), n
+
+### 16-bit arithmetic
+
+* adc de, ss
+* add de, ss
+* sbc de, ss
+* sub de, ss
+* sub hl, ss
 
 ## Labels
 
@@ -168,6 +246,8 @@ The ASCII (more precisely Latin-1) characters and translated into their ZX81 cou
 
 Upper case letters are translated into their black on white counterparts, lower case letters into white on black capital counterparts.
 
+To avoid these translations, use the directive `device` with the value `z80`.
+
 Strings and characters can contain escape sequences:
 
 | Escape | Description      | Code  |
@@ -272,7 +352,11 @@ The device directive modifies the binary generated for the given computer. The f
   .device name
 ```
 
-The only defined value for name is `zx81`. ALl other values are ignored.
+The following values are allowed:
+
+* `zx81`
+* `zx81raw`
+* `z80`
 
 #### ZX81 device
 
@@ -475,6 +559,17 @@ The following labels are defined for ZX81 non-printable characters and keywords:
 | _CLEAR     | FDh   |
 | _RETURN    | FEh   |
 | _COPY      | FFh   |
+
+#### ZX81raw device
+
+When `device zx81raw` is specified in the source code, the assembler does not define labels or emit any code.
+It is up to you to define labels and to generate the prefix and postfix bytes.
+This device is especially useful when taking an existing ZX81 program that already define labels.
+In this mode, strings are still translated, as described previously, between ASCII and the ZX81 characters set.
+
+#### Z80 device
+
+This is similar to `ZX81raw` device, but in this mode, strings are not translated.
 
 ### byte Directive
 
