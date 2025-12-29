@@ -1991,6 +1991,286 @@ test("Instruction OTDR", () => {
   expect(bytes).toEqual([0xED, 0xBB]);
 });
 
+// -------------------------------------------------------
+// Fake Instructions
+// -------------------------------------------------------
+
+// Fake 16-bit rotate and shift
+
+test('Fake Instruction RL qq with BC', () => {
+  const bytes = compileCode('RL BC');
+  expect(bytes).toEqual([0xCB, 0x10, 0xCB, 0x11]);
+});
+
+test('Fake Instruction RR qq with BC', () => {
+  const bytes = compileCode('RR BC');
+  expect(bytes).toEqual([0xCB, 0x18, 0xCB, 0x19]);
+});
+
+test('Fake Instruction SLA qq with BC', () => {
+  const bytes = compileCode('SLA BC');
+  expect(bytes).toEqual([0xCB, 0x20, 0xCB, 0x21]);
+});
+
+test('Fake Instruction SLL qq with BC', () => {
+  const bytes = compileCode('SLL BC');
+  expect(bytes).toEqual([0xCB, 0x30, 0xCB, 0x31]);
+});
+
+test('Fake Instruction SLI qq with BC', () => {
+  const bytes = compileCode('SLI BC');
+  expect(bytes).toEqual([0xCB, 0x30, 0xCB, 0x31]);
+});
+
+test('Fake Instruction SRA qq with BC', () => {
+  const bytes = compileCode('SRA BC');
+  expect(bytes).toEqual([0xCB, 0x28, 0xCB, 0x29]);
+});
+
+test('Fake Instruction SRL qq with BC', () => {
+  const bytes = compileCode('SRL BC');
+  expect(bytes).toEqual([0xCB, 0x38, 0xCB, 0x39]);
+});
+
+// Fake load 16-bit instructions
+
+test('Fake Instruction LD qq, qq with BC, DE', () => {
+  const bytes = compileCode('LD BC, DE');
+  expect(bytes).toEqual([0x42, 0x4B]);
+});
+
+test('Fake Instruction LD qq, IX with BC', () => {
+  const bytes = compileCode('LD BC, IX');
+  expect(bytes).toEqual([0xDD, 0x44, 0xDD, 0x4D]);
+});
+
+test('Fake Instruction LD qq, IY with BC', () => {
+  const bytes = compileCode('LD BC, IY');
+  expect(bytes).toEqual([0xFD, 0x44, 0xFD, 0x4D]);
+});
+
+test('Fake Instruction LD qq, (HL) with BC', () => {
+  const bytes = compileCode('LD BC, (HL)');
+  expect(bytes).toEqual([0x4E, 0x23, 0x46, 0x2B]);
+});
+
+test('Fake Instruction LD qq, (IX+d) with BC, 55h', () => {
+  const bytes = compileCode('LD BC, (IX+55h)');
+  expect(bytes).toEqual([0xDD, 0x4E, 0x55, 0xDD, 0x46, 0x56]);
+});
+
+test('Fake Instruction LD qq, (YX+d) with BC, 55h', () => {
+  const bytes = compileCode('LD BC, (IY+55h)');
+  expect(bytes).toEqual([0xFD, 0x4E, 0x55, 0xFD, 0x46, 0x56]);
+});
+
+test('Fake Instruction LD IX, qq with BC', () => {
+  const bytes = compileCode('LD IX, BC');
+  expect(bytes).toEqual([0xDD, 0x60, 0xDD, 0x69]);
+});
+
+test('Fake Instruction LD IY, qq with BC', () => {
+  const bytes = compileCode('LD IY, BC');
+  expect(bytes).toEqual([0xFD, 0x60, 0xFD, 0x69]);
+});
+
+test('Fake Instruction LD IX, IY', () => {
+  const bytes = compileCode('LD IX, IY');
+  expect(bytes).toEqual([0xFD, 0xE5, 0xDD, 0xE1]);
+});
+
+test('Fake Instruction LD IY, IX', () => {
+  const bytes = compileCode('LD IY, IX');
+  expect(bytes).toEqual([0xDD, 0xE5, 0xFD, 0xE1]);
+});
+
+test('Fake Instruction LD (HL), qq with BC', () => {
+  const bytes = compileCode('LD (HL), BC');
+  expect(bytes).toEqual([0x71, 0x23, 0x70, 0x2B]);
+});
+
+test('Fake Instruction LD (IX+d), qq with 55h, BC', () => {
+  const bytes = compileCode('LD (IX+55h), BC');
+  expect(bytes).toEqual([0xDD, 0x71, 0x55, 0xDD, 0x70, 0x56]);
+});
+
+test('Fake Instruction LD (IY+d), qq with 55h, BC', () => {
+  const bytes = compileCode('LD (IY+55h), BC');
+  expect(bytes).toEqual([0xFD, 0x71, 0x55, 0xFD, 0x70, 0x56]);
+});
+
+// Fake 16-bit arithmetic
+
+test('Fake Instruction ADC DE, ss with BC', () => {
+  const bytes = compileCode('ADC DE, BC');
+  expect(bytes).toEqual([0xEB, 0xED, 0x4A, 0xEB]);
+});
+
+test('Fake Instruction ADD DE, ss with BC', () => {
+  const bytes = compileCode('ADD DE, BC');
+  expect(bytes).toEqual([0xEB, 0x09, 0xEB]);
+});
+
+test('Fake Instruction SBC DE, ss with BC', () => {
+  const bytes = compileCode('SBC DE, BC');
+  expect(bytes).toEqual([0xEB, 0xED, 0x42, 0xEB]);
+});
+
+test('Fake Instruction SUB HL, ss with BC', () => {
+  const bytes = compileCode('SUB HL, BC');
+  expect(bytes).toEqual([0xB7, 0xED, 0x42]);
+});
+
+test('Fake Instruction SUB DE, ss with BC', () => {
+  const bytes = compileCode('SUB DE, BC');
+  expect(bytes).toEqual([0xEB, 0xB7, 0xED, 0x42, 0xEB]);
+});
+
+// Fake Load Increment 16-bit Instructions
+
+test('Fake Instruction LDI qq, (HL) with BC', () => {
+  const bytes = compileCode('LDI BC, (HL)');
+  expect(bytes).toEqual([0x4E, 0x23, 0x46, 0x23]);
+});
+
+test('Fake Instruction LDI qq, (IX+d)', () => {
+  const bytes = compileCode('LDI BC, (IX+55h)');
+  expect(bytes).toEqual([0xDD, 0x4E, 0x55, 0xDD, 0x23, 0xDD, 0x46, 0x55, 0xDD, 0x23]);
+});
+
+test('Fake Instruction LDI qq, (IY+d)', () => {
+  const bytes = compileCode('LDI BC, (IY+55h)');
+  expect(bytes).toEqual([0xFD, 0x4E, 0x55, 0xFD, 0x23, 0xFD, 0x46, 0x55, 0xFD, 0x23]);
+});
+
+test('Fake Instruction LDI (HL), qq', () => {
+  const bytes = compileCode('LDI (HL), BC');
+  expect(bytes).toEqual([0x71, 0x23, 0x70, 0x23]);
+});
+
+test('Fake Instruction LDI (IX+d), qq', () => {
+  const bytes = compileCode('LDI (IX+55h), BC');
+  expect(bytes).toEqual([0xDD, 0x71, 0x55, 0xDD, 0x23, 0xDD, 0x70, 0x55, 0xDD, 0x23]);
+});
+
+test('Fake Instruction LDI (IY+d), qq', () => {
+  const bytes = compileCode('LDI (IY+55h), BC');
+  expect(bytes).toEqual([0xFD, 0x71, 0x55, 0xFD, 0x23, 0xFD, 0x70, 0x55, 0xFD, 0x23]);
+});
+
+// Fake Load Increment 8-bit Instructions
+
+test('Fake Instruction LDI A, (qq)', () => {
+  const bytes = compileCode('LDI A, (BC)');
+  expect(bytes).toEqual([0x0A, 0x03]);
+});
+
+test('Fake Instruction LDI r, (HL)', () => {
+  const bytes = compileCode('LDI B, (HL)');
+  expect(bytes).toEqual([0x46, 0x23]);
+});
+
+test('Fake Instruction LDI r, (IX+d)', () => {
+  const bytes = compileCode('LDI B, (IX+55h)');
+  expect(bytes).toEqual([0xDD, 0x46, 0x55, 0xDD, 0x23]);
+});
+
+test('Fake Instruction LDI r, (IY+d)', () => {
+  const bytes = compileCode('LDI B, (IY+55h)');
+  expect(bytes).toEqual([0xFD, 0x46, 0x55, 0xFD, 0x23]);
+});
+
+test('Fake Instruction LDI (qq), A', () => {
+  const bytes = compileCode('LDI (BC), A');
+  expect(bytes).toEqual([0x02, 0x03]);
+});
+
+test('Fake Instruction LDI (HL), r', () => {
+  const bytes = compileCode('LDI (HL), B');
+  expect(bytes).toEqual([0x70, 0x23]);
+});
+
+test('Fake Instruction LDI (IX+d), r', () => {
+  const bytes = compileCode('LDI (IX+55h), B');
+  expect(bytes).toEqual([0xDD, 0x70, 0x55, 0xDD, 0x23]);
+});
+
+test('Fake Instruction LDI (IY+d), r', () => {
+  const bytes = compileCode('LDI (IY+55h), B');
+  expect(bytes).toEqual([0xFD, 0x70, 0x55, 0xFD, 0x23]);
+});
+
+test('Fake Instruction LDI (HL), n', () => {
+  const bytes = compileCode('LDI (HL), 55h');
+  expect(bytes).toEqual([0x36, 0x55, 0x23]);
+});
+
+test('Fake Instruction LDI (IX+d), n', () => {
+  const bytes = compileCode('LDI (IX+66h), 55h');
+  expect(bytes).toEqual([0xDD, 0x36, 0x66, 0x55, 0xDD, 0x23]);
+});
+
+test('Fake Instruction LDI (IY+d), n', () => {
+  const bytes = compileCode('LDI (IY+66h), 55h');
+  expect(bytes).toEqual([0xFD, 0x36, 0x66, 0x55, 0xFD, 0x23]);
+});
+
+// Fake Load Decrement 8-bit Instructions
+
+test('Fake Instruction LDD A, (qq)', () => {
+  const bytes = compileCode('LDD A, (BC)');
+  expect(bytes).toEqual([0x0A, 0x0B]);
+});
+
+test('Fake Instruction LDD r, (HL)', () => {
+  const bytes = compileCode('LDD B, (HL)');
+  expect(bytes).toEqual([0x46, 0x2B]);
+});
+
+test('Fake Instruction LDD r, (IX+d)', () => {
+  const bytes = compileCode('LDD B, (IX+55h)');
+  expect(bytes).toEqual([0xDD, 0x46 ,0x55, 0xDD, 0x2B]);
+});
+
+test('Fake Instruction LDD r, (IY+d)', () => {
+  const bytes = compileCode('LDD B, (IY+55h)');
+  expect(bytes).toEqual([0xFD, 0x46, 0x55, 0xFD, 0x2B]);
+});
+
+test('Fake Instruction LDD (qq), A', () => {
+  const bytes = compileCode('LDD (BC), A');
+  expect(bytes).toEqual([0x02, 0x0B]);
+});
+
+test('Fake Instruction LDD (HL), r', () => {
+  const bytes = compileCode('LDD (HL), B');
+  expect(bytes).toEqual([0x70, 0x2B]);
+});
+
+test('Fake Instruction LDD (IX+d), r', () => {
+  const bytes = compileCode('LDD (IX+55h), B');
+  expect(bytes).toEqual([0xDD, 0x70, 0x55, 0xDD, 0x2B]);
+});
+
+test('Fake Instruction LDD (IY+d), r', () => {
+  const bytes = compileCode('LDD (IY+55h), B');
+  expect(bytes).toEqual([0xFD, 0x70, 0x55, 0xFD, 0x2B]);
+});
+
+test('Fake Instruction LDD (HL), n', () => {
+  const bytes = compileCode('LDD (HL), 55h');
+  expect(bytes).toEqual([0x36, 0x55, 0x2B]);
+});
+
+test('Fake Instruction LDD (IX+d), n', () => {
+  const bytes = compileCode('LDD (IX+66h), 55h');
+  expect(bytes).toEqual([0xDD, 0x36, 0x66, 0x55, 0xDD, 0x2B]);
+});
+
+test('Fake Instruction LDD (IY+d), n', () => {
+  const bytes = compileCode('LDD (IY+66h), 55h');
+  expect(bytes).toEqual([0xFD, 0x36, 0x66, 0x55, 0xFD, 0x2B]);
+});
 
 // -------------------------------------------------------
 // Labels

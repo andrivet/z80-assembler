@@ -23,10 +23,14 @@ export function r_bits(r: string, offset = 0): byte {
     case 'e':   return 0b011 << offset;
     case 'h':   return 0b100 << offset;
     case 'ixh': return 0b100 << offset;
+    case 'xh':  return 0b100 << offset;
     case 'iyh': return 0b100 << offset;
+    case 'yh':  return 0b100 << offset;
     case 'l':   return 0b101 << offset;
     case 'ixl': return 0b101 << offset;
+    case 'xl':  return 0b101 << offset;
     case 'iyl': return 0b101 << offset;
+    case 'yl':  return 0b101 << offset;
     case 'a':   return 0b111 << offset;
     default: console.log(`Invalid register name: ${r}`); return 0;
   }
@@ -169,9 +173,13 @@ export function imode(mode: string): byte {
 export function ixy_prefix(v: string): byte {
   switch (v.toLowerCase()) {
     case 'ixh':
-    case 'ixl': return 0xDD;
+    case 'xh':
+    case 'ixl':
+    case 'xl': return 0xDD;
     case 'iyh':
-    case 'iyl': return 0xFD;
+    case 'yh':
+    case 'iyl':
+    case 'yl': return 0xFD;
     default: console.log(`Invalid register name: ${v}`); return 0;
   }
 }
@@ -179,9 +187,13 @@ export function ixy_prefix(v: string): byte {
 export function ixy_suffix(v: string, base: byte, increment = 1): byte {
   switch (v.toLowerCase()) {
     case 'ixh':
-    case 'iyh': return base;
+    case 'xh':
+    case 'iyh':
+    case 'yh': return base;
     case 'ixl':
-    case 'iyl': return base + increment;
+    case 'xl':
+    case 'iyl':
+    case 'yl': return base + increment;
     default: console.log(`Invalid register name: ${v}`); return 0;
   }
 }
