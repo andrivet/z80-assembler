@@ -1,5 +1,85 @@
 # Changelog
 
+## 2.0.0 - December 29, 2025
+
+* Fix propagation or source file name in case of compilation error.
+* Allowed device names are now:
+  - zx81: automatic generation of system variables, BASIC REM lines, etc. for the ZX81
+  - zx81-raw: without automatic generation of code but with translation for the ZX81 (characters)
+  - z80: Generic Z80 code without any generation or translation specific to the ZX81. Characters are treated as ASCII (i.e. they are not translated).
+* Strings are translated only for zx81 or zx81raw devices, not z80.
+* Add undocumented instructions
+  - Add support for IXh, IXl, IYh, IYl 8 bits registers
+  - Add support of these registers for ADC, ADD, AND, CP, DEC, INC, OR, SBC, SUB and XOR
+  - Add support of these registers for LD
+  - Add support of (IX+d), (IY+d) to RL, RLC, RR, RRC, SLA, SRA, SRL
+  - Add new instruction SSL
+  - Add IN F, (C)
+  - Add OUT (C), 0
+* Add fake instructions
+  - 16-bit rotate and shift
+    * rl qq
+    * rr qq
+    * sla qq
+    * sll qq, sli qq
+    * sra qq
+    * srl qq
+  - 16-bit load
+    * ld qq, qq
+    * ld qq, ix
+    * ld qq, iy
+    * ld qq, (hl)
+    * ld qq, (ix + nn)
+    * ld qq, (iy + nn)
+    * ld ix, qq
+    * ld iy, qq
+    * ld iy, ix
+    * ld ix, iy
+    * ld (hl), qq
+    * ld (ix + nn), qq
+    * ld (iy + nn), qq
+  - 16-bit load, increment
+    * ldi qq, (hl)
+    * ldi qq, (ix + nn)
+    * ldi qq, (iy + nn)
+    * ldi (hl), qq
+    * ldi (ix + nn), qq
+    * ldi (iy + nn), qq
+  - 8-bit load, increment
+    * ldi a, (bc)
+    * ldi a, (de)
+    * ldi r, (hl)
+    * ldi r, (ix + nn)
+    * ldi r, (iy + nn)
+    * ldi (bc), a
+    * ldi (de), a
+    * ldi (hl), r
+    * ldi (ix + nn), r
+    * ldi (iy + nn), r
+    * ldi (hl), n
+    * ldi (ix + nn), n
+    * ldi (iy + nn), n
+  - 8-bit load, decrement
+    * ldd a, (bc)
+    * ldd a, (de)
+    * ldd r, (hl)
+    * ldd r, (ix + nn)
+    * ldd r, (iy + nn)
+    * ldd (bc), a
+    * ldd (de), a
+    * ldd (hl), r
+    * ldd (ix + nn), r
+    * ldd (iy + nn), r
+    * ldd (hl), n
+    * ldd (ix + nn), n
+    * ldd (iy + nn), n
+  - 16-bit arithmetic
+    * adc de, ss
+    * add de, ss
+    * sbc de, ss
+    * sub de, ss
+    * sub hl, ss
+
 ## 1.4.1 - December 22, 2025
 
 * Fix wrong publication
